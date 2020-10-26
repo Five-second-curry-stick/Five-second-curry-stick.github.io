@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>DL9 - 循环序列模型 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog! This article was writed to take note my study of Machine Learning on Cousera.部分借鉴于博客  1 数学符号     2 标准序列模型2.1 为什么不用标准神经网络 第一点，输入和输出对于不同的例子会有不同的长度 所以,它不是像每一个例子有相同的输入长度 Tx 或有最大的 Yy 值或许">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DL9 - 循环序列模型">
+<meta property="og:url" content="http://example.com/2019/09/10/DL9%20-%20%E5%BE%AA%E7%8E%AF%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog! This article was writed to take note my study of Machine Learning on Cousera.部分借鉴于博客  1 数学符号     2 标准序列模型2.1 为什么不用标准神经网络 第一点，输入和输出对于不同的例子会有不同的长度 所以,它不是像每一个例子有相同的输入长度 Tx 或有最大的 Yy 值或许">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/PdZVmk5CHTv1MNU.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/JpqcTQwvIMSehfW.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/8ZKOWVMdFP13kY7.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/qsn7OUMtj1hH9I5.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/NMOlHP7D1fA9zwB.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/8cWgAYV17NhGd4B.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/LUDN2STtQxB4kYj.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/2jxS4EwmAIbYVBK.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/PAQMTmUft2rEeJs.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/S8kArhJQ372tBbO.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/sIhYvrtu4plQ35y.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/I3VTo89q4K6peJA.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/5q71eE9nLuZANDa.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/ZKtSeqm6Q3PDCpA.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/tC3ySVFANG8uH2Z.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/en7kw5ESIAyoBCO.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/FnmlJG1NDczhQXV.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/DyLecoIdkmaMRE3.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/12/hqxm7n45iPDM9Gp.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/MYLpqUmN4gO9Hka.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/LBMgshFSu4bDa3z.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/MYTc3tpVQgJZB4d.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/xl6JrEHzTC2Su1V.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/q7GvwWseayzp3PH.png">
+<meta property="article:published_time" content="2019-09-10T00:43:50.000Z">
+<meta property="article:modified_time" content="2019-09-20T01:13:52.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="deeplearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/10/PdZVmk5CHTv1MNU.png">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DL9 - 循环序列模型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/10/DL9%20-%20%E5%BE%AA%E7%8E%AF%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time datetime="2019-09-10T00:43:50.000Z" itemprop="datePublished">2019-09-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DL9 - 循环序列模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Machine Learning on <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/nlp-sequence-models/lecture/0h7gT/why-sequence-models">Cousera</a>.<br>部分借鉴于<a target="_blank" rel="noopener" href="https://www.cnblogs.com/marsggbo/p/8485650.html#autoid-5-0-0">博客</a></p>
+<hr>
+<h3 id="1-数学符号"><a href="#1-数学符号" class="headerlink" title="1 数学符号"></a>1 数学符号</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/PdZVmk5CHTv1MNU.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="2-标准序列模型"><a href="#2-标准序列模型" class="headerlink" title="2 标准序列模型"></a>2 标准序列模型</h3><h4 id="2-1-为什么不用标准神经网络"><a href="#2-1-为什么不用标准神经网络" class="headerlink" title="2.1 为什么不用标准神经网络"></a>2.1 为什么不用标准神经网络</h4><blockquote>
+<p>第一点，输入和输出对于不同的例子会有不同的长度 所以,它不是像每一个例子有相同的输入长度 Tx 或有最大的 Yy 值<br />或许每一个句子都有一个最大长度。 也许你可以填充或用零填充每一个输入 到最大长度，<br />但是，这似乎始终不是一个好的表示方法 </p>
+</blockquote>
+<blockquote>
+<p>第二点更严重，那就是 像这样的朴素神经网络结构 它并不会共享那些从不同文本位置学到的特征。 尤其是神经网络学到了经常出现的词汇 如果它出现在了位置1， 就会有标识指出这是人名的一部分 因此，这并不好。 如果它自动计算出经常出现 在其他位置 xt 依然能够表明这可能是一个人名 这也许和你在卷积神经网络课程 中看到的过程很相似 你想要的从图像的一部分学到的模式 来快速生成图像的其他部分， 我们希望在序列数据可以实现相似的效果。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/JpqcTQwvIMSehfW.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-2-循环神经网络"><a href="#2-2-循环神经网络" class="headerlink" title="2.2 循环神经网络"></a>2.2 循环神经网络</h4><blockquote>
+<p>循环神经网络从左向右扫描数据 每一步，它所用的参数是共享的 所以会有一组参数, 我们将在下一页详细描述。 但是控制从x1到隐藏层的连接 是一组参数，我们用W_ax表示它们 这一组W_ax参数同时 也会被用于每一个步骤 我想我可以在那里写上W_ax 激活函数，各层间水平的链接是由 一组参数W_aa来控制 同样的W_aa也将被用于每一个步骤中 同样，W_ya控制输出预测 我将在下一张幻灯片中详细叙述 这些参数是如何运作的 那么，在循环神经网络中 当预测y3时意味着什么？</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/8ZKOWVMdFP13kY7.png"></p>
+</blockquote>
+</blockquote>
+<pre><code>这种神经网络结构的一个限制 那就是在一确定的时间内预测 
+只使用输入或使用输入序列中之前信息 但不使用序列中后面的信息 我们将在稍后的视频中讨论 
+双向递归神经网络或 BRNNs 但现在但现在 这种简单的单向神经网络体系结构 
+就足以解释这些关键概念了</code></pre>
+<h4 id="2-3-前向传递过程"><a href="#2-3-前向传递过程" class="headerlink" title="2.3 前向传递过程"></a>2.3 前向传递过程</h4><blockquote>
+<p>Waa 和 Wax是共享的，被用于每一个步骤</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/qsn7OUMtj1hH9I5.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/NMOlHP7D1fA9zwB.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-4-反向传递过程"><a href="#2-4-反向传递过程" class="headerlink" title="2.4 反向传递过程"></a>2.4 反向传递过程</h4><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/8cWgAYV17NhGd4B.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="3-不同类型的RNN"><a href="#3-不同类型的RNN" class="headerlink" title="3 不同类型的RNN"></a>3 不同类型的RNN</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/LUDN2STtQxB4kYj.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>(1)输入和输出的数量相同</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/2jxS4EwmAIbYVBK.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>(2)多对1：假設，您想要來解決情緒分級問題 這裡的 x 是一段文字 可能是電影評論說 “這部電影沒啥看頭” (There is nothing to like in this movie) 所以 x 是一個序列 而 y 或許是一個數字從 1 到 5 或者 0 或 1</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/PAQMTmUft2rEeJs.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>(3)1对多：一個一對多神經網路架構的例子是音樂產生器 實際上，您將自己建置一個這種網路 在這個課程程式練習裡，您將會有一個神經網路 輸出一些音符相對於一段音樂 而輸入 x 可能只是一個數字 告訴它您想要什麼類型的音樂， 或者是您想要音樂的第一個音符 如果您不想輸入東西 x 可以是空 (null) 輸入，也可以是零向量 這種神經網路架構裡，您的輸入 x 然後您的 RNN 輸出 第一個值，然後 在沒有任何輸入下做輸出 第二個值，然後繼續下去 第三個值，等等 直到您合成了這段音樂的最後一個音符</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/S8kArhJQ372tBbO.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>(4)编码和解码</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/sIhYvrtu4plQ35y.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="4-语言模型和序列生成"><a href="#4-语言模型和序列生成" class="headerlink" title="4 语言模型和序列生成"></a>4 语言模型和序列生成</h3><h4 id="4-1-什么是语言模型"><a href="#4-1-什么是语言模型" class="headerlink" title="4.1 什么是语言模型"></a>4.1 什么是语言模型</h4><p>案例：</p>
+<pre><code>假設我們要建構一個語音辨識系統 當你聽到以下句子: 「蘋果和梨子沙拉很好吃」 
+所以你聽到了甚麼 我是說「蘋果和一對沙拉很好吃」還是「蘋果和梨子沙拉很好吃」(注: 
+英文中一對(pair)和梨子(pear)同音)
+
+而語音辨識系統挑出第二句的方法 是透過語言模型 來告訴我們這兩句子各自的機率為何 例如, 
+一個語言模型可能會說第一句的 機率是3.2乘以10的-13次方 
+第二句的機率是5.7乘以10的-10次方 有了這些機率, 第二句是更為可能的 
+因為和第一句相比10的指數多3 所以系統會挑出第二句</code></pre>
+<blockquote>
+<p>語言模型做的事是給定特定句子 它能告訴你特定句子的機率為何 我說的機率是指, 如果你想拿起隨機一份報紙, 隨機打開一個電子郵件或一個網頁或 聽你的朋友說的下一件事 此特定句子, 比如說剛提到的蘋果和梨子沙拉 在這世界中被使用到機率為何 這是以下兩者的基礎要件: 剛提到的語音辨識系統 和機器翻譯系統 我們會期望它輸出最有可能出現的句子</p>
+</blockquote>
+<blockquote>
+<p>因此, 語言模型的基礎工作是輸入一個 我會將其寫成y^&lt;1&gt;, y^&lt;2&gt; 到 y^<Ty>的句子 語言模型做的是將句子表示為 y 而不是 x, 但語言模型做的事是預測 該特定字詞序列的機率</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/I3VTo89q4K6peJA.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="5-如何构建语言模型"><a href="#5-如何构建语言模型" class="headerlink" title="5 如何构建语言模型"></a>5 如何构建语言模型</h3><ul>
+<li>首先我们需要一个大型的语料库（Corpus)</li>
+<li>将每个单词字符化</li>
+<li>2个特殊的单词：EOS（ end of sentence 终止符）、UNknown（字典里没有收录的字词）</li>
+</ul>
+<blockquote>
+<p>之所以将真实值作为输入值很好理解,如果我们一直传错误的值，将永远也无法得到字与字之间的关系。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/5q71eE9nLuZANDa.png"> </p>
+</blockquote>
+</blockquote>
+<h3 id="6-新序列的采样"><a href="#6-新序列的采样" class="headerlink" title="6 新序列的采样"></a>6 新序列的采样</h3><blockquote>
+<p><img src="https://i.loli.net/2019/09/10/ZKtSeqm6Q3PDCpA.png"></p>
+</blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/tC3ySVFANG8uH2Z.png"></p>
+</blockquote>
+<h3 id="7-如何解决梯度消失的问题"><a href="#7-如何解决梯度消失的问题" class="headerlink" title="7 如何解决梯度消失的问题"></a>7 如何解决梯度消失的问题</h3><h4 id="7-1-梯度爆炸"><a href="#7-1-梯度爆炸" class="headerlink" title="7.1 梯度爆炸"></a>7.1 梯度爆炸</h4><blockquote>
+<p>你還記得我們也提到非常深層的神經網路 也有提到梯度爆炸的問題 當進行反向傳播時 梯度不僅可能呈現指數下降 當計算到越深層時, 也可能呈現指數上升 事實上, 當訓練RNN網路時, 儘管梯度消失是較為嚴重的問題 但梯度爆炸也是有可能發生 這可能使神經網路崩潰 因為指數項非常大的梯度可能會造成 參數也隨之變的非常大, 讓神經網路無法被使用 而梯度爆炸很容易被發現 因為你的參數可能會變成 NaN 或者是 顯示為非數字的情況 代表神經網路計算中出現數值溢位問題 如果你真的遇到了梯度爆炸 有可解決方法是運用梯度修剪(gradient clipping) 它代表的是 觀察你的梯度向量 如果它大於某個閾值 重新縮放梯度向量, 確保它不會太大 </p>
+</blockquote>
+<h4 id="7-2-梯度消失"><a href="#7-2-梯度消失" class="headerlink" title="7.2 梯度消失"></a>7.2 梯度消失</h4><blockquote>
+<p>這是一個非常深的網路 假設有100層或更多, 你會從左至右做正向傳播 然後再做反向傳播 我們曾說過, 如果這是很深的網路 那從輸出 y 得到的梯度 會非常難以做反向傳播 並進而難以影響前面幾層的權重 難以影響這裡的計算 </p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/en7kw5ESIAyoBCO.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="8-GRU-gated-recurrent-unit-门控循环单元"><a href="#8-GRU-gated-recurrent-unit-门控循环单元" class="headerlink" title="8. GRU(gated recurrent unit 门控循环单元)"></a>8. GRU(gated recurrent unit 门控循环单元)</h3><h4 id="8-1-门控单元的原理"><a href="#8-1-门控单元的原理" class="headerlink" title="8.1 门控单元的原理"></a>8.1 门控单元的原理</h4><blockquote>
+<p> (Gate Recurrent Unit) 一種修改 RNN 隱藏層的方式，使得它更能捕捉 長距離的連結， 對於梯度消失問題有很大幫助 </p>
+</blockquote>
+<blockquote>
+<p>对RNN的一个隐藏层可视化：</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/FnmlJG1NDczhQXV.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>您或許需要記住，貓 (cat) 是單數  來確定您理解為什麼使用 “was” 而不使用 “were” 所以 “cat was full” 或者 “cats were full” 當我們從左到右讀這一段句子 GRU 單元將會有一個新的變數稱為 c 代表細胞 (cell)  記憶細胞 而記憶細胞的作用是提供一點點記憶來記住，舉例 貓 (cat) 是單數還是複數 所以當它進入這個句子更後面時 它還可以在工作時考慮到 句子的主題 是否是單數還是複數 所以在時間 t 時，記憶細胞會有一些值 c<t></p>
+</blockquote>
+<blockquote>
+<p>gammaU、C、C候选值，可以是向量，gammaU不一定全是0/1，只是逐元素告訴 GRU 單元 哪一些位置，只是告訴您哪些 記憶細胞的維度需要在每個時間步驟中更新 所以您可以選擇保持一些位置不變 當更新其他位置時 舉個例子，或許您可以選擇一個位置來記住 貓是單數還是複數，或許使用 其他一些位置來記住您談的是有關於食物</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/DyLecoIdkmaMRE3.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/12/hqxm7n45iPDM9Gp.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="8-2-门控单元的优点"><a href="#8-2-门控单元的优点" class="headerlink" title="8.2 门控单元的优点"></a>8.2 门控单元的优点</h4><blockquote>
+<p>因為 gamma 可以相當接近 0 可能是 0.000001 甚至更小 它不太會有梯度消失的問題 因為您說 gamma 相當接近 0 這個基本上會讓 c<t><t> 等於 c<t-1><t> 而 c<t><t> 的值會相當程度的保留 即使經過了很多很多時間步驟 所以這個可以明顯地幫助解決梯度消失問題 而讓神經網路可以使用甚至更長的距離的依賴性 </p>
+</blockquote>
+<h4 id="8-3-完整版GRU"><a href="#8-3-完整版GRU" class="headerlink" title="8.3 完整版GRU"></a>8.3 完整版GRU</h4><blockquote>
+<p><img src="https://i.loli.net/2019/09/10/MYLpqUmN4gO9Hka.png"></p>
+</blockquote>
+<h3 id="9-LSTM-长短期记忆单元"><a href="#9-LSTM-长短期记忆单元" class="headerlink" title="9. LSTM 长短期记忆单元"></a>9. LSTM 长短期记忆单元</h3><blockquote>
+<p>LSTM 的一個新特性是 並非只用一個更新門閘來控制記憶過程 如這裡的兩個項 我們是用兩個不同來源的項 我們不再只用 Γᵤ 和 (1-Γᵤ) 而是在這裡用 Γᵤ 然後用遺忘門閘 Γf 那這個 Γf 門閘 用到了 sigmoid S型函數<br />其它和你之前看到的差不多 這裡是 x<t> 並加上 bf 然後我們會有一個新的輸出門閘 一樣是sigmoid S型函數, 用到 Wₒ 最後加上 bₒ 然後, 記憶細胞的更新值 c<t> 等於 Γᵤ 這個 ＊ 表示矩陣中逐元素的乘積 這是個向量間逐元素乘積 再加上, 取代 (1-Γᵤ) 用的是另一項遺忘門閘 Γf 乘以 c<t-1> 這樣給了記憶細胞選擇權 去決定使用多少舊數值 c<t-1> 並直接加上新的值 c~<t> 所以這裡是使用兩個分開的項, 更新門閘和遺忘門閘 這些代表更新門閘, 遺忘門閘, 還有輸出門閘 最後, 取代 GRU 中的 a<t>=c<t> a<t> 等於輸出門閘和 c<t> 去做逐元素乘積 那這就是 LSTM 的主要方程式 它用了三個門閘, 而並非兩個 並把三個門閘用到了不同的地方</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/LBMgshFSu4bDa3z.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/MYTc3tpVQgJZB4d.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="10-双向RNN模型"><a href="#10-双向RNN模型" class="headerlink" title="10. 双向RNN模型"></a>10. 双向RNN模型</h3><blockquote>
+<p>「雙向 RNN 模型」 它讓你在序列的某個時間點上 可以同時獲得過去或未來的資訊</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>這就是雙向 RNN 的運作 而這些 RNN 單元不僅可是標準的 RNN 單元 也可以是 GRU 或是 LSTM 單元 事實上, 大多是自然語言處理問題 特別是有大量文本的問題 有 LSTM 單元的雙向 RNN 是很常被使用的 所以, 如果你遇到了 NLP 問題, 而且句子都是完整的 並想嘗試標記這些句子 一個有 LSTM 單元的雙向 RNN 有前向和反向的計算, 應該會是你的首選 </p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/xl6JrEHzTC2Su1V.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="11-深度RNN"><a href="#11-深度RNN" class="headerlink" title="11. 深度RNN"></a>11. 深度RNN</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/q7GvwWseayzp3PH.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p> <strong><em>在上图所示框架基础上</em></strong></p>
+</blockquote>
+<blockquote>
+<p> ，可以改进的地方（1）： 在RNN之后，然後用一些深度層但不用水平連結 使用深度網路來最後預估 y&lt;1&gt; 您可以用相同的深度網路來預估 y&lt;2&gt; 所以這種網路架構比較常見 您有三個遞迴單元以時間相連 連結一個網路 之後連結一個網路 就像 y&lt;3&gt; 跟 y&lt;4&gt; 一樣 這裡有深度網路，但這些並沒有水平連結 所以這是一種比較常見的架構</p>
+</blockquote>
+<blockquote>
+<p>改进（2）：這些區塊不只一定是標準的 RNN 簡單的 RNN 模型 它們也可以是 GRU 區塊，或是 LSTM 區塊 </p>
+</blockquote>
+<blockquote>
+<p>改进（3）：您也可以在雙向 RNN 上建立深度版本 </p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/10/DL9%20-%20%E5%BE%AA%E7%8E%AF%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/" data-id="ckgqfij2n000t754594lrf4jq" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/13/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E4%20-%20%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数学之美4 - 中文分词
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/09/DL8%20-%20%E8%BF%81%E7%A7%BB%E3%80%81%E5%A4%9A%E4%BB%BB%E5%8A%A1%E3%80%81%E7%AB%AF%E5%88%B0%E7%AB%AF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DL8 - 迁移学习、多任务学习、端到端深度学习</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>DL4 - 超参数的调整、批量标准化 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog! 本文所以截图以及文字均来自于：Coursera1. 重要性排序 红色&gt;黄色&gt;紫色       2. 怎么样选择超参数的抽样？2.1. 随机抽样 try random values:Don’t use a grid(网格) 如果你有两个超参数 假设是超参数1和超参数2 人们经常会像这样 在一个网格中对点进行取样 然后系统化地尝试这些点所代表的值 在这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DL4 - 超参数的调整、批量标准化">
+<meta property="og:url" content="http://example.com/2019/08/19/DL4%20-%20Hyperparemeter%20tuning/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog! 本文所以截图以及文字均来自于：Coursera1. 重要性排序 红色&gt;黄色&gt;紫色       2. 怎么样选择超参数的抽样？2.1. 随机抽样 try random values:Don’t use a grid(网格) 如果你有两个超参数 假设是超参数1和超参数2 人们经常会像这样 在一个网格中对点进行取样 然后系统化地尝试这些点所代表的值 在这">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.loli.net/2019/08/29/rGl1U5VOj2kMmRS.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/29/Ivo8pKm5w1HOh7u.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/29/F2VgmdWzZjPYEbI.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/29/oEnjtShkCxqf7uP.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/29/7wdtb9ya6Cre8TY.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/ISPz4wkruCaGXqE.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/x4ga1epuwMKBEin.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/HstvKi94h2GrZl1.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/DZvbGWQcoO68K4l.png">
+<meta property="og:image" content="https://i.loli.net/2019/08/30/L9PnlgQKuYrJv6X.png">
+<meta property="article:published_time" content="2019-08-18T18:40:57.000Z">
+<meta property="article:modified_time" content="2019-09-20T01:12:54.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="deeplearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/08/29/rGl1U5VOj2kMmRS.png">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DL4 - Hyperparemeter tuning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/19/DL4%20-%20Hyperparemeter%20tuning/" class="article-date">
+  <time datetime="2019-08-18T18:40:57.000Z" itemprop="datePublished">2019-08-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DL4 - 超参数的调整、批量标准化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!</p>
+<h2 id="本文所以截图以及文字均来自于：Coursera"><a href="#本文所以截图以及文字均来自于：Coursera" class="headerlink" title="本文所以截图以及文字均来自于：Coursera"></a>本文所以截图以及文字均来自于：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/deep-neural-network/lecture/HRy7y/softmax-regression">Coursera</a></h2><h3 id="1-重要性排序"><a href="#1-重要性排序" class="headerlink" title="1. 重要性排序"></a>1. 重要性排序</h3><blockquote>
+<p>红色&gt;黄色&gt;紫色</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/rGl1U5VOj2kMmRS.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="2-怎么样选择超参数的抽样？"><a href="#2-怎么样选择超参数的抽样？" class="headerlink" title="2. 怎么样选择超参数的抽样？"></a>2. 怎么样选择超参数的抽样？</h3><h4 id="2-1-随机抽样-try-random-values-Don’t-use-a-grid-网格"><a href="#2-1-随机抽样-try-random-values-Don’t-use-a-grid-网格" class="headerlink" title="2.1. 随机抽样 try random values:Don’t use a grid(网格)"></a>2.1. 随机抽样 try random values:Don’t use a grid(网格)</h4><blockquote>
+<p>如果你有两个超参数 假设是超参数1和超参数2 人们经常会像这样 在一个网格中对点进行取样 然后系统化地尝试这些点所代表的值 在这里我放的是一个5*5的网格 实际上可能比这个大 或者比这个小 在这个例子中 当你尝试过所有25个点后 选择最优的超参数 当超参数的数量相对较少时 这样的取参方法较为实用 但是在深度学习中 我推荐你采取另一种方法 在网格中进行随机取样 像这样随机选择一些点 同样的 我们选择25个点 然后在这些随机选取的点中 尝试所有的超参数 这样做的原因是 事先你很难知道 在你的问题中 哪个超参数是最重要的</p>
+</blockquote>
+<blockquote>
+<p>很明显，从下图可以看出，在hyperparameter1重要性远大于hyperparameter2的前提下，右➡️图的有效结果远大于⬅️图,这样找到理想的参数组合的概率就变大了。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/Ivo8pKm5w1HOh7u.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-2-区域定位的抽样方案-coarse粗-to-fine精"><a href="#2-2-区域定位的抽样方案-coarse粗-to-fine精" class="headerlink" title="2.2. 区域定位的抽样方案(coarse粗 to fine精)"></a>2.2. 区域定位的抽样方案(coarse粗 to fine精)</h4><blockquote>
+<p>比如在这个二维的例子中 你抽取了这些点 也许你发现这个点能产生最好的结果 并且旁边的一些点的结果也不错 那么在这个方案中 你需要做的是对 这些点所在的区域进行限定 然后在这个区域内进行密度更高的抽样 或者依然选择随机抽样 但是需要把更多资源集中在这个蓝色方块中搜索 前提是你大体能确定这个区域内取的值能产生最优结果 即最理想的超参数来自于这个区域 在对整个框定范围进行粗略的抽样后 结果会引导你集中在一个更小的区域内 然后你可以在更小的方块内 进行更密集的抽样</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/F2VgmdWzZjPYEbI.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-3-选择合适的尺度来随机抽样"><a href="#2-3-选择合适的尺度来随机抽样" class="headerlink" title="2.3. 选择合适的尺度来随机抽样"></a>2.3. 选择合适的尺度来随机抽样</h4><blockquote>
+<p>比如你正在搜索超参数alpha,即学习率 假设你认为它的下限是0.0001 上限是1 现在画出从0.0001<del>1的数轴 并均匀随机地抽取样本值 那么90%的样本值将落在0.1</del>1的范围内 即你用90%的资源搜索0.1<del>1 只有10%的资源用于搜索0.0001</del>0.1范围内的值 看起来不大对 更合理的方法似乎应该以对数尺度(log scale)来搜索 而不是用线性尺度(linear scale)</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/oEnjtShkCxqf7uP.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-4-特例：beta"><a href="#2-4-特例：beta" class="headerlink" title="2.4. 特例：beta"></a>2.4. 特例：beta</h4><blockquote>
+<p>,用0.9计算指数加权平均值 相当于计算最后10个值的平均值 比如计算10天气温的平均值 而使用0.999就相当于计算1000个值的平均值 类似上一页ppt所展示,如果你要搜索 0.9<del>0.999的范围,线性尺度的取样 即均匀的,随机的,0.9至0.999范围内的搜索,没什么意义 那么考虑这个问题的最好的方法是 将这个范围展开为1-beta 得到0.1</del>0.001的范围 那么我们对beta的采样范围 为0.1<del>0.001 现在运用我们之前学到的方法 这是10^(-1),这是10^(-3) 请注意,之前的数轴是从左至右递增的 这里我们要反过来 大的值在左边,小的值在右边 所以你要做的是在-3</del>-1的范围内均匀随机的取样 然后置1-beta=10^r,即beta=1-10^r 就得到了这个超参数在适当尺度上 的随机取样值 希望这能解释: 你在探索0.9<del>0.99和0.99</del>0.999的范围时 使用了同样数量的资源 如果你想要知道关于这个做法的更规范的数学证明 也就是说,为什么以线性尺度取样是个坏主意？ 这是因为随着beta趋近于1<br />其结果对于beta的改变非常敏感 即使是对beta非常小的改变 如果beta从0.9变成0.9005 这没什么大不了,你的结果几乎没有任何变化 但是如果beta从0.999变成0.9995 它将会对你正在运行的算法产生巨大的影响 在前一个例子中,都是取大约10个值的平均 但是这里,取指数加权平均的情况下 它从取最后1000个样例变成了取最后2000个样例的平均 因为我们的公式是1/(1-beta) 所以当beta趋近于1时,它对beta的改变非常敏感 那么上述整个取样过程所做的 就是使你在beta趋近于1的区域内以更大的密度取样</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/7wdtb9ya6Cre8TY.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-5-如何如何有规划地-探寻合适超参数的小技巧"><a href="#2-5-如何如何有规划地-探寻合适超参数的小技巧" class="headerlink" title="2.5. 如何如何有规划地 探寻合适超参数的小技巧"></a>2.5. 如何如何有规划地 探寻合适超参数的小技巧</h4><blockquote>
+<p>pandas vs caviar(鱼子酱)</p>
+</blockquote>
+<blockquote>
+<p>两种模式的选择主要取决于你的运算资源</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/ISPz4wkruCaGXqE.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="3-批量标准化-batch-norm-（针对W）"><a href="#3-批量标准化-batch-norm-（针对W）" class="headerlink" title="3. 批量标准化(batch norm) （针对W）"></a>3. 批量标准化(batch norm) （针对W）</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingsunny/p/6528549.html">标准化的介绍</a></p>
+</blockquote>
+<blockquote>
+<p>可以让你的超参搜索变得很简单 让你的神经网络变得更加具有鲁棒性 可以让你的神经网络对于超参数的选择上不再那么敏感 而且可以让你更容易地训练非常深的网络</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/x4ga1epuwMKBEin.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>上图中的标准化公式的分母有错误</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>每一组z都是均值0方差1 但是我们并不希望所有的隐藏单元都是这样的 也许本身它们的分布就有不同 所以我们可以这么做 z tilde = γ * zi * norm + β 这里的γ和β值可以从你的模型中学习</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/HstvKi94h2GrZl1.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="3-1-BN算法在神经网络的工作原理"><a href="#3-1-BN算法在神经网络的工作原理" class="headerlink" title="3.1. BN算法在神经网络的工作原理"></a>3.1. BN算法在神经网络的工作原理</h4><blockquote>
+<p>BN算法和普通的输入层标准化的不同在于引入了gama和beta</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/DZvbGWQcoO68K4l.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="3-2-BN算法有效的原因"><a href="#3-2-BN算法有效的原因" class="headerlink" title="3.2 BN算法有效的原因"></a>3.2 BN算法有效的原因</h4><blockquote>
+<ol>
+<li>我们看到经过归一化的输入特征(用X表示) 它们的均值为0 方差为1 这将大幅加速学习过程 所以与其含有某些在0到1范围内变动的特征 或在1到1000范围内变动的特征 通过归一化所有输入特征X 让它们都拥有相同的变化范围将加速学习 所以 BN算法有效的一个原因是 它同样如此 只不过它应用于隐藏层的值 而不是这里输入特征</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>它产生权重 (w参数) 在深层次网络中，解决了协变量问题</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>所以从第三级隐藏层角度来看 这些隐藏单元值一直在变 所以它受协变量问题影响 所以它受协变量问题影响 这在之前我们谈过 所以BN算法所做的就是 它减少了这些隐藏单元值的 分布的不稳定性</p>
+</blockquote>
+<blockquote>
+<p>BN算法确保的是无论它怎么变 z21和z22的均值和方差将保持不变 所以尽管z21和z22的值变化 它们的均值一直为0 方差一直为1 或者 并不一定是均值0 方差1 但是它们的值由beta2 gamma2控制 这两个参数由神经网络选定 所以可以使均值为0 方差为1 或者 可以是其它任何均值和方差 但是这样做 限制了先前层中参数的更新 对第三层 现在所看到和要学习的值的分布的 影响 对第三层 现在所看到和要学习的值的分布的 影响 所以 BN算法减少输入值变化所产生的问题 它的确使这些值变得稳定 所以神经网络的后层 可以有更加稳固的基础 尽管输入分布变化了一点 它变化的更少 实际是 尽管前几层继续学习 后面层适应前面层变化的力量被减弱 后面层适应前面层变化的力量被减弱 如果我们愿意 BN算法削弱了 前面层参数和后层参数之间的耦合 前面层参数和后层参数之间的耦合 所以它允许网络的每一层独立学习 有一点独立于其它层的意思 所以这将有效提升整个网络学习速度</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/L9PnlgQKuYrJv6X.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>它具有轻微的正则化效果</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>因为我们在该min-batch上计算了均值和方差，而不是在整个数据集上计算，所以该均值和方差包含有噪声，因为它是由相对较少的数据集评估得来**<em>（batch越大噪音越小）**</em>，该归一化过程 从zl 到 (带波浪号的)zl， 这个过程也会产生噪声， 因为它是用带有一定噪声的均值和方差来计算的 所以和dropout算法类似， 它会为每个隐藏层的激活函数增加一些噪声， dropout有噪声的原因是 它将隐藏单元以一定概率乘以0， 以一定概率乘以1</p>
+</blockquote>
+<h4 id="3-3-在测试数据上使用BN"><a href="#3-3-在测试数据上使用BN" class="headerlink" title="3.3 在测试数据上使用BN"></a>3.3 在测试数据上使用BN</h4><blockquote>
+<p>训练过程中，(流程： 训练 train ，开发 Dev，测试 test )我们是在每个 mini-batch 使用 Batch Norm，来计算所需要的均值μ和方差σ2。但是在测试的时候，我们需要对每一个测试样本进行预测，无法计算均值和方差。<br>此时，我们需要单独进行估算均值 μ和方差σ2。通常的方法就是在我们训练的过程中，对于训练集的 mini-batch ，使用指数加权平均，当训练结束的时候，得到指数加权平均后的均值 μ 和方差σ2<br>，而这些值直接用于 Batch Norm 公式的计算，用以对测试样本进行预测</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/19/DL4%20-%20Hyperparemeter%20tuning/" data-id="ckgqfij2g000c75452yqka21a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/24/DL5%20-%20SoftmaxRegression/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DL5 - softmax回归、深度学习框架
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/17/DL3%20-%20optimization%20algorithms/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DL3 - 加快神经网络训练速度的优化算法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

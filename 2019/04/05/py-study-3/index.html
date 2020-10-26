@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>python学习笔记(3) - list &amp; tuple | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog! This article was writed to take note my study of Python on liaoxuefeng.  list $ tuple1. listc_list &#x3D; [&#39;a&#39;, &#39;b&#39;, &#39;c &#39;] 1.1 有序集合，可以改动1.2 常用函数  len( ) 获得list元素的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python学习笔记(3) - list &amp; tuple">
+<meta property="og:url" content="http://example.com/2019/04/05/py-study-3/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog! This article was writed to take note my study of Python on liaoxuefeng.  list $ tuple1. listc_list &#x3D; [&#39;a&#39;, &#39;b&#39;, &#39;c &#39;] 1.1 有序集合，可以改动1.2 常用函数  len( ) 获得list元素的">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-04-04T18:40:57.000Z">
+<meta property="article:modified_time" content="2019-04-05T02:03:34.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-py-study-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/05/py-study-3/" class="article-date">
+  <time datetime="2019-04-04T18:40:57.000Z" itemprop="datePublished">2019-04-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python学习笔记(3) - list &amp; tuple
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Python on <a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">liaoxuefeng</a>.</p>
+<hr>
+<h2 id="list-tuple"><a href="#list-tuple" class="headerlink" title="list $ tuple"></a>list $ tuple</h2><h3 id="1-list"><a href="#1-list" class="headerlink" title="1. list"></a>1. list</h3><p><code>c_list = [&#39;a&#39;, &#39;b&#39;, &#39;c &#39;]</code></p>
+<h4 id="1-1-有序集合，可以改动"><a href="#1-1-有序集合，可以改动" class="headerlink" title="1.1 有序集合，可以改动"></a>1.1 有序集合，可以改动</h4><h4 id="1-2-常用函数"><a href="#1-2-常用函数" class="headerlink" title="1.2 常用函数"></a>1.2 常用函数</h4><blockquote>
+<ul>
+<li>len( ) 获得list元素的个数；</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><code>list</code> 的索引从<code>0</code>开始，可以为负数<code>-1</code>表示最后一个元素，超出索引会报错：<code>IndexError</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>pop( ) 删除索引<code>i</code>位置的元素，默认是<code>-1</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>append( ) 向<code>list</code>末尾添加元素</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>insert(i，str) 指定位置添加/替换元素</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="2-tuple"><a href="#2-tuple" class="headerlink" title="2. tuple"></a>2. tuple</h3><p><code>c_tuple = (&#39;a&#39;, &#39;b&#39;, &#39;c&#39; )</code></p>
+<p><code>d_tuple = (1, )</code></p>
+<h4 id="2-1-一旦初始化，元素不能修改，不能改变。这里的不变是指指向不变"><a href="#2-1-一旦初始化，元素不能修改，不能改变。这里的不变是指指向不变" class="headerlink" title="2.1 一旦初始化，元素不能修改，不能改变。这里的不变是指指向不变"></a>2.1 一旦初始化，元素不能修改，不能改变。这里的不变是指<code>指向不变</code></h4><p><code>指tuple的每个元素指向不变。</code>比如</p>
+<p>输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t &#x3D; (&#39;a&#39;, &#39;b&#39;, [&#39;A&#39;, &#39;B&#39;])</span><br><span class="line">t[2][0] &#x3D; &#39;c&#39;</span><br><span class="line">t[2][1] &#x3D; &#39;d&#39;</span><br><span class="line">print(t)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(&#39;a&#39;, &#39;b&#39;, [&#39;c&#39;, &#39;d&#39;])</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t是tuple，但是我们修改是list的元素，并没有修改t的元素的指向。</span><br><span class="line">t[2]依旧指向原来的list</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-因为-即可以表示tuple，也可以表示数学中的小括号。"><a href="#2-2-因为-即可以表示tuple，也可以表示数学中的小括号。" class="headerlink" title="2.2 因为( )即可以表示tuple，也可以表示数学中的小括号。"></a>2.2 因为<code>( )</code>即可以表示tuple，也可以表示数学中的小括号。</h4><p>所以为避免歧义，python规定，当tuple只有一个元素时，必须加逗号<code>,</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t &#x3D; (1, )</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/04/05/py-study-3/" data-id="ckgqfij2x001i75451hh47akl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DL1 - 什么神经网络和深度网络
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/04/py-study-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">python学习笔记(2) - 字符串和编码</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>数学之美4 - 中文分词 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog!   1. 中文分词的演变1.1 查字典      但是它毕竟太过简单，遇到稍微复杂的问题就无能为力了。  1.2 最少词数的分词理论      无法解决二义性问题  1.3 统计语言模型1.3.1 统计语言模型分词方法 的提出     1.3.2 统计语言模型分词方法 的数学概括     1.3.3 实现技巧          1.3.4 动态规划1.3.4.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学之美4 - 中文分词">
+<meta property="og:url" content="http://example.com/2019/09/13/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E4%20-%20%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog!   1. 中文分词的演变1.1 查字典      但是它毕竟太过简单，遇到稍微复杂的问题就无能为力了。  1.2 最少词数的分词理论      无法解决二义性问题  1.3 统计语言模型1.3.1 统计语言模型分词方法 的提出     1.3.2 统计语言模型分词方法 的数学概括     1.3.3 实现技巧          1.3.4 动态规划1.3.4.">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/8znsjU7V6vXOhPo.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/HP1azbFIxO4Sqnc.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/mLazMkUcGxnN8dB.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/o6zixOpZAqHUYlu.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/vlf4wiPTguLJBxU.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/24YvBdahRupsjMT.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/lcLXnCvgDV4fMT9.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/sZrJRjYvNuxfQD3.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/BAhNUQs8E5kbRrM.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/NXEKPWHFOA8a9cm.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/j28McTxCUqZwYWe.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/qYJgK7WnUCfhk32.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/cs743dY6vnFGm8T.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/CDwQ7ZSXpjg3VEF.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/dIXxy2cVp6j1lAG.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/Gtv3koN8ZQVuIc6.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/wlyUEiGoZVaBtCj.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/GAi1pcvtLx4jz3V.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/MRG5iOwuvDpWI8o.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/QnJMl29wfbrR8LO.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/gAb7vYtpMyxLRPu.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/oGBuJgV3pnkaXKc.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/24YvBdahRupsjMT.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/13/v1pQbmVxDtYUKJR.png">
+<meta property="article:published_time" content="2019-09-13T04:59:38.000Z">
+<meta property="article:modified_time" content="2019-09-26T00:36:12.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="数学之美">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/13/8znsjU7V6vXOhPo.png">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数学之美4 - 中文分词" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/13/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E4%20-%20%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" class="article-date">
+  <time datetime="2019-09-13T04:59:38.000Z" itemprop="datePublished">2019-09-13</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数学之美4 - 中文分词
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! </p>
+<hr>
+<h3 id="1-中文分词的演变"><a href="#1-中文分词的演变" class="headerlink" title="1. 中文分词的演变"></a>1. 中文分词的演变</h3><h4 id="1-1-查字典"><a href="#1-1-查字典" class="headerlink" title="1.1 查字典"></a>1.1 查字典</h4><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/8znsjU7V6vXOhPo.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>但是它毕竟太过简单，遇到稍微复杂的问题就无能为力了。</p>
+</blockquote>
+<h4 id="1-2-最少词数的分词理论"><a href="#1-2-最少词数的分词理论" class="headerlink" title="1.2 最少词数的分词理论"></a>1.2 最少词数的分词理论</h4><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/HP1azbFIxO4Sqnc.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>无法解决二义性问题</p>
+</blockquote>
+<h4 id="1-3-统计语言模型"><a href="#1-3-统计语言模型" class="headerlink" title="1.3 统计语言模型"></a>1.3 统计语言模型</h4><h5 id="1-3-1-统计语言模型分词方法-的提出"><a href="#1-3-1-统计语言模型分词方法-的提出" class="headerlink" title="1.3.1 统计语言模型分词方法 的提出"></a>1.3.1 统计语言模型分词方法 的提出</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/mLazMkUcGxnN8dB.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="1-3-2-统计语言模型分词方法-的数学概括"><a href="#1-3-2-统计语言模型分词方法-的数学概括" class="headerlink" title="1.3.2 统计语言模型分词方法 的数学概括"></a>1.3.2 统计语言模型分词方法 的数学概括</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/o6zixOpZAqHUYlu.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="1-3-3-实现技巧"><a href="#1-3-3-实现技巧" class="headerlink" title="1.3.3 实现技巧"></a>1.3.3 实现技巧</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/vlf4wiPTguLJBxU.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/24YvBdahRupsjMT.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="1-3-4-动态规划"><a href="#1-3-4-动态规划" class="headerlink" title="1.3.4 动态规划"></a>1.3.4 动态规划</h5><h6 id="1-3-4-1-什么是动态规划"><a href="#1-3-4-1-什么是动态规划" class="headerlink" title="1.3.4.1 什么是动态规划"></a>1.3.4.1 什么是动态规划</h6><blockquote>
+<p>动态规划：就是已知问题规模为n的前提A，求解一个未知解B的一种方法。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/lcLXnCvgDV4fMT9.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/sZrJRjYvNuxfQD3.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/BAhNUQs8E5kbRrM.png"></p>
+</blockquote>
+</blockquote>
+<h6 id="1-3-4-2-设计思路"><a href="#1-3-4-2-设计思路" class="headerlink" title="1.3.4.2 设计思路"></a>1.3.4.2 设计思路</h6><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/NXEKPWHFOA8a9cm.png"></p>
+</blockquote>
+</blockquote>
+<pre><code>无后效性：某阶段的状态一旦确定，则此后过程的演变不再受此前各种状态及决策的影响</code></pre>
+<h6 id="1-3-4-3-算法实例"><a href="#1-3-4-3-算法实例" class="headerlink" title="1.3.4.3 算法实例"></a>1.3.4.3 算法实例</h6><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/j28McTxCUqZwYWe.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/14/qYJgK7WnUCfhk32.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/14/cs743dY6vnFGm8T.png"></p>
+</blockquote>
+</blockquote>
+<h6 id="1-3-4-4-维特比算法"><a href="#1-3-4-4-维特比算法" class="headerlink" title="1.3.4.4 维特比算法"></a>1.3.4.4 维特比算法</h6><blockquote>
+<p>维特比算法是一种特殊的但应用最广的动态规划算法。利用动态规划可以解决任何一个图中的最短路径问题，而维特比算法则是针对一种特殊的图——篱笆网络的有向图的最短路径问题提出的。之所以重要，是因为凡是使用隐马尔可夫模型描述的问题都可以用它来解码。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/14/CDwQ7ZSXpjg3VEF.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/14/dIXxy2cVp6j1lAG.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/14/Gtv3koN8ZQVuIc6.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/14/wlyUEiGoZVaBtCj.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="1-3-5-统计语言模型分词方法的-局限性"><a href="#1-3-5-统计语言模型分词方法的-局限性" class="headerlink" title="1.3.5 统计语言模型分词方法的 局限性"></a>1.3.5 统计语言模型分词方法的 局限性</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/GAi1pcvtLx4jz3V.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="2-延伸阅读：-工程上的细节问题"><a href="#2-延伸阅读：-工程上的细节问题" class="headerlink" title="2 延伸阅读： 工程上的细节问题"></a>2 延伸阅读： 工程上的细节问题</h3><h4 id="2-1-分词器-准确性的问题"><a href="#2-1-分词器-准确性的问题" class="headerlink" title="2.1 分词器 准确性的问题"></a>2.1 分词器 准确性的问题</h4><blockquote>
+<p>如何衡量分词结果的对与错，好与坏看似容易，其实不是那么简单。说他容易，是因为只要对计算机分词的结果和人工分词的结果进行比较就可以了。说他不容易，是因为不同的人对同一个句子可能有不同的分词方法。比如“清华大学”。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/MRG5iOwuvDpWI8o.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/QnJMl29wfbrR8LO.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-2-导致人工分词不一致性的原因"><a href="#2-2-导致人工分词不一致性的原因" class="headerlink" title="2.2 导致人工分词不一致性的原因"></a>2.2 导致人工分词不一致性的原因</h4><h5 id="2-2-1-颗粒度的理解"><a href="#2-2-1-颗粒度的理解" class="headerlink" title="2.2.1 颗粒度的理解"></a>2.2.1 颗粒度的理解</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/gAb7vYtpMyxLRPu.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>作者不去强调哪一种颗粒度更好，而是指出：在不同的应用中，会有一种颗粒度比另一种更好的情况。<br>比如在机器翻译中，一般来讲，颗粒度大翻译效果会更好。比如“联想公司”作为一个整体，很容易翻译为：lenovo，如果分词时把他们分开了，就翻译错误了，联想会被翻译为：association。</p>
+</blockquote>
+<blockquote>
+<p>但是在另一些应用中，比如网页搜索，小的颗粒度比大的颗粒度更好。比如“清华大学”这四个字作为一个词，在对网页分词后，它是一个整体了，当用户查询“清华”时，是找不到清华大学的，这就错误了。</p>
+</blockquote>
+<h5 id="2-2-2-解决方案"><a href="#2-2-2-解决方案" class="headerlink" title="2.2.2 解决方案"></a>2.2.2 解决方案</h5><h6 id="2-2-2-1-原理"><a href="#2-2-2-1-原理" class="headerlink" title="2.2.2.1 原理"></a>2.2.2.1 原理</h6><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/oGBuJgV3pnkaXKc.png"></p>
+</blockquote>
+</blockquote>
+<h6 id="2-2-2-2-实现方法"><a href="#2-2-2-2-实现方法" class="headerlink" title="2.2.2.2 实现方法"></a>2.2.2.2 实现方法</h6><ul>
+<li>（1）首先需要一个基本词的词表 和 一个复合词的词表</li>
+<li>（2）根据基本词表 和 复合词表，各构建一个语言模型L1 和 L2</li>
+<li>（3）根据基本词表和语言模型L1，对句子进行分词，就可以得到小颗粒度的分词结果了。对应下图的分词器，输入的是字串，输出是词串。</li>
+<li>（4）在第三步的基础上，再用复合词表和语言模型L2 进行第二次分词。就可以得到大颗粒度的分词结果。对于下图的分词器，输入的是基本词串，输出的是复合词串。<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/24YvBdahRupsjMT.png"></p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<h4 id="2-3-总结"><a href="#2-3-总结" class="headerlink" title="2.3 总结"></a>2.3 总结</h4><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/13/v1pQbmVxDtYUKJR.png"></p>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/13/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E4%20-%20%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" data-id="ckgqfij38002775453pcxghbb" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E3%20-%20%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数学之美3 - 统计语言模型
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/10/DL9%20-%20%E5%BE%AA%E7%8E%AF%E5%BA%8F%E5%88%97%E6%A8%A1%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DL9 - 循环序列模型</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

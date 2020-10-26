@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>DL11 - 基础/进阶模型 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog! This article was writed to take note my study of Machine Learning on Cousera.  seq2seq (sequence to sequence)基本的seq2seq模型结构如果你训练一个模型，输入一句法语句子 然后输出一个相应的英语翻译 这个方法目前看来确实是行之有效的 并且这个模型仅仅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DL11 - 基础&#x2F;进阶模型">
+<meta property="og:url" content="http://example.com/2019/09/18/DL11%20-%20%E5%9F%BA%E7%A1%80:%E8%BF%9B%E9%98%B6%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog! This article was writed to take note my study of Machine Learning on Cousera.  seq2seq (sequence to sequence)基本的seq2seq模型结构如果你训练一个模型，输入一句法语句子 然后输出一个相应的英语翻译 这个方法目前看来确实是行之有效的 并且这个模型仅仅">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/Jzcng17vpfCGjTF.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/gBTAj7RmVXNyWsz.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/KChT8ijAq3Yzl6J.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/EnzWJQb8gptox2a.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/zw2f6vRjKyrHnXd.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/ma1Lh7pUHYM8cTd.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/v1dia8o3sCWLgwf.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/q3QMcpeIZ2h9Vsu.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/Z1ya2YOQP3niecV.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/Uzt1eTxkwnrPiaK.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/HFB4aqgZpk9CKUV.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/3RakDMyFCA5pYdS.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/1EV6NHIWBxiLh2d.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/ZnGblkAcpvFUVEh.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/O5AK23txEunDRYF.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/xa2IDiWLg3EPh1f.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/a19KxiDGYpjNUZs.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/jBKsayLwJQTE8hi.png">
+<meta property="article:published_time" content="2019-09-18T07:19:53.000Z">
+<meta property="article:modified_time" content="2019-09-20T01:14:13.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="deeplearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/19/Jzcng17vpfCGjTF.png">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DL11 - 基础:进阶模型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/18/DL11%20-%20%E5%9F%BA%E7%A1%80:%E8%BF%9B%E9%98%B6%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time datetime="2019-09-18T07:19:53.000Z" itemprop="datePublished">2019-09-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DL11 - 基础/进阶模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Machine Learning on <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/nlp-sequence-models/lecture/HyEui/basic-models">Cousera</a>.</p>
+<hr>
+<h1 id="seq2seq-sequence-to-sequence"><a href="#seq2seq-sequence-to-sequence" class="headerlink" title="seq2seq (sequence to sequence)"></a>seq2seq (sequence to sequence)</h1><h2 id="基本的seq2seq模型结构"><a href="#基本的seq2seq模型结构" class="headerlink" title="基本的seq2seq模型结构"></a>基本的seq2seq模型结构</h2><p>如果你训练一个模型，输入一句法语句子 然后输出一个相应的英语翻译 这个方法目前看来确实是行之有效的 并且这个模型仅仅用了一个编码器网络 它的作用是将输入的法语句子先编码 再然后用解码器将来产生相应的英语翻译</p>
+<p><img src="https://i.loli.net/2019/09/19/Jzcng17vpfCGjTF.png"></p>
+<h2 id="图像-序列模型结构（图像标识）"><a href="#图像-序列模型结构（图像标识）" class="headerlink" title="图像-序列模型结构（图像标识）"></a>图像-序列模型结构（图像标识）</h2><p><img src="https://i.loli.net/2019/09/19/gBTAj7RmVXNyWsz.png"></p>
+<h2 id="seq2seq和语言模型的相似处"><a href="#seq2seq和语言模型的相似处" class="headerlink" title="seq2seq和语言模型的相似处"></a>seq2seq和语言模型的相似处</h2><p>机器翻译模型 与语言模型非常相似, 但是，它不总是以全零向量开始, 而是有一个编码的网络 它算出了输入句子的一些表示, 它处理输入句,并在启动解码网络时 使用输入句子的表示 而不是以全零向量。 因此，这就是为什么 我称之为有条件的语言模型, 而非以所有句子的概率去建模, 它现在建模的是 输出的英语翻译的概率, 在一些法语句子输入的条件下 换句话说,就是你正在试图估计出英语翻译的可能性。 比如,翻译成Jane is visiting Africa in September（”简在9月要访问非洲”）,的可能性 但在输入法语审查的条件下, “Jane visite I’Afrique en septembre.” （法语Jane is visiting Africa in September （”简在9月要访问非洲”）） 那么，这才是翻译为英语句子的概率 在输入是法语句子的条件下, 这就是为什么它是一个有条件的语言模型。 </p>
+<p><img src="https://i.loli.net/2019/09/19/KChT8ijAq3Yzl6J.png"></p>
+<h2 id="greedy-search-贪婪搜索机制"><a href="#greedy-search-贪婪搜索机制" class="headerlink" title="greedy search(贪婪搜索机制)"></a>greedy search(贪婪搜索机制)</h2><p><img src="https://i.loli.net/2019/09/19/EnzWJQb8gptox2a.png"></p>
+<p><strong><em>早期的语言模型：</em></strong>如果你只是 在前三个单词最大的概率基础上, 去选择第三个单词 最后很有可能会选择第二个翻译。 但这最终会得出一个不太理想的句子 在这个模型中， 给定 x 时，由 y 的可能性 p 来比较 得出了一个不太理想的翻译， 这可能是一个的论点 但是,这是一个更广泛的现象例子, 如果你想找到单词序列, y1, y2, 一直到最后一个词,使联合概率最大化, 每次只选一个单词并不总是最好的。</p>
+<p>但是， 句子空间的可能性是巨大的, 对所有可能评分,是不可能的 这就是为什么最常见的事情是 使用一个近似搜索出来。 而且,近似搜索算法所做的, 是它会尝试, 但不会总是成功, 它会选择 使条件概率最大化的句子 y 。 而且, 即使它不保证找出 y , 使概率最大化, 但它通常表现不错。</p>
+<p>在这个视频中, 您看到了如何将机器翻译作为条件语言建模问题来考虑。 但这两者之间的一个主要区别 早期的语言建模问题是 随机生成一个句子, 而不是试着找到最有可能的英语句子, 最有可能的英语翻译。 但一定长度的所有英语句子的集合 太大, 无法详尽地列举出。 所以, 我们必须求助于搜索算法。 所以, 让我们去到下一个视频, 你将学习波束搜索算法。</p>
+<h2 id="集束搜索-beam-search-algorith"><a href="#集束搜索-beam-search-algorith" class="headerlink" title="集束搜索 beam search algorith"></a>集束搜索 beam search algorith</h2><p><img src="https://i.loli.net/2019/09/19/zw2f6vRjKyrHnXd.png"></p>
+<p><img src="https://i.loli.net/2019/09/19/ma1Lh7pUHYM8cTd.png"></p>
+<p>请注意到如果集束宽度被设置为1, 因为这里只有一个 那么这基本上成为 我们在上一个视频里讨论过的贪婪搜索算法, 但通过考虑 多种可能性比如说3种10种或其他数字 在同一时间，集束搜索通常会 找到一个比贪婪搜索更好的输出语句</p>
+<h2 id="集束搜索的小改动"><a href="#集束搜索的小改动" class="headerlink" title="集束搜索的小改动"></a>集束搜索的小改动</h2><p><img src="https://i.loli.net/2019/09/19/v1dia8o3sCWLgwf.png"></p>
+<h2 id="怎么选择宽度B"><a href="#怎么选择宽度B" class="headerlink" title="怎么选择宽度B"></a>怎么选择宽度B</h2><p> 在生产系统中,光束宽度可能在10左右,很常见, 我认为集束宽度100是非常大的 生产系统,取决于应用程序。 但对于研究系统,人们拼尽全力从中获取最佳 表现,以便以最好的结果发表论文。 看到人们使用1000或3000的集束宽度并不少见, 但这是非常适用的,它取决于领域的不同。 因此,当您在应用程序中使用时,我会说试试B的各种值。 但是当B变得非常大时,回报往往会减少。</p>
+<h2 id="集束搜索算法-中的-错误分析"><a href="#集束搜索算法-中的-错误分析" class="headerlink" title="集束搜索算法 中的 错误分析"></a>集束搜索算法 中的 错误分析</h2><p>定向搜索是一个搜索算法， 也称为启发式搜索算法。 所以它并不总是输出最有可能性的句子。 它只跟踪记录 B 等于3或10或100最高可能性。 所以，如果定向搜索产生了错误怎么办？</p>
+<p>你的模型有两个主要的组成部分 有一个神经网络模型, 这个序列到序列的模型。 我们就把这个叫做你的 RNN 模型。 这实际上是一个编码器加一个解码器。 并且你有你的定向搜索算法， 你用一些束宽度 B来运行它。 这将会非常好，如果你能把这个错误， 也就是说这个不是很好的翻译的原因， 归因到这两个组成部分中的一个？ </p>
+<p><img src="https://i.loli.net/2019/09/19/q3QMcpeIZ2h9Vsu.png"></p>
+<h1 id="BLEU指数（score）"><a href="#BLEU指数（score）" class="headerlink" title="BLEU指数（score）"></a>BLEU指数（score）</h1><h2 id="BLEU是如何工作的"><a href="#BLEU是如何工作的" class="headerlink" title="BLEU是如何工作的"></a>BLEU是如何工作的</h2><p>例如这个法语句子“Le chat est sur le tapis“ 对应有一个人类翻译的结果作为参照 “猫在垫子上“ 但是这句法语可以有多种翻译结果 另一个人 可能会说“垫子上有只猫” 而这两个结果都是 这句法语非常完美的翻译 在给定一个机器翻译的结果时， BLEU算法能够自动计算出一个指数 来描述机器翻译的好坏</p>
+<p>BLEU是“双语评估替补”</p>
+<p>替补 在话剧届 替补演员会向资深的演员学习剧中角色 来在必要的时候替补资深演员 而BLEU的提出动机是， 在任何需要人类来评估机器翻译系统的地方 BLEU能给出一个 人类评估结果的替补</p>
+<h2 id="机器翻译结果的测量方法"><a href="#机器翻译结果的测量方法" class="headerlink" title="机器翻译结果的测量方法"></a>机器翻译结果的测量方法</h2><p><img src="https://i.loli.net/2019/09/19/Z1ya2YOQP3niecV.png"></p>
+<p>机器翻译结果好坏的一个测量方法是 看生成结果的每一个字，看它是否出现在参考翻译里 这种方法叫做机器翻译结果的准确度 这个例子中，机器生成的结果有7个字 而且每个字都出现在了第一个或者第二个参考翻译里，对吧 “the“在两个参考翻译里都有出现 因此每个字看起来都需要被包括在翻译结果里 这句话的翻译精度是7/7 看起来精确度很高 这就是为什么基本的精确度测量方法 （看MT翻译结果中的哪些字 出现在了参考翻译里） 不是很有用的测量方法 这种方法在这个例子中告诉我们MT结果精度很高 取而代之的是一种改进的精度测量方法 我们给每个单词的分数 至多是该词出现在参考翻译中的次数 因此在参考1中，“the”出现了两次 在参考2中，“the”出现了一次 2比1大，所以我们说这个词 最多得两分 在改进的模型中 the这个词的分数是2/7 因为在总共的7个词中，它最多出现两次</p>
+<p><img src="https://i.loli.net/2019/09/19/Uzt1eTxkwnrPiaK.png"></p>
+<p>目前为止，我们一直孤立地看待词语 在BLEU指数里，不仅要看孤立词 也要看成对的词组 我们定义一份双字母组 双字母组仅意味着互邻出现的成对的词 现在，我们来看看我们如何运用双词组定义BLEU指数 这会成为最终BLEU指数的一部分 我们也会采取一元语法，或者单字，还有双词组，也就是 考虑成对的词，甚至更长序列的词 比如三词组，意味着三个词搭配在一起 我们继续前面的例子 我们有同样的参考1和参考2 但是现在比如机器翻译 或是MT系统有略好的输出 “The cat the cat on the mat“ 翻译还是不太好,但也许比上一个要好</p>
+<h2 id="最终的-BLEU指数"><a href="#最终的-BLEU指数" class="headerlink" title="最终的 BLEU指数"></a>最终的 BLEU指数</h2><p><img src="https://i.loli.net/2019/09/19/HFB4aqgZpk9CKUV.png"></p>
+<p>我们把这个合在一起从而形成最终的BLEU指数 所以P下标n仅仅是计算在n元模型上的BLEU指数 同时也仅仅是计算在n元模型上的修正后精度 通过公式计算一个数，你计算出了P1，P2，P3，P4 然后使用下面的公式结合起来 将会是平均值，Pn，n从1到4加总然后除以4 基本上是取平均值</p>
+<p>根据公式，BLEU指数被定义为e的这些次方，然后求幂 对其线性操作，幂是严格单调增长 然后我们再多用一个因素调整这个值</p>
+<p>这个因素叫作BP惩罚 BP代表 brevity penalty简洁惩罚 细节也许不是很重要 但就是给出一个直观感受，结果是 如果你输出非常简短的翻译，就很容易得到高精准度 因为可能大部分输出的字都在参考表里</p>
+<p>但是我们不希望翻译是非常短的 因此，BP，或简短惩罚，就是一个调整因素 用来惩罚翻译系统中输出的非常简短的翻译 简短惩罚的公式如下 如果机器翻译系统实际输出 比人类生成的翻译参考输出要长，那么结果就等于1 否则，一些像那样的公式 总体惩罚更短的翻译</p>
+<p>BLEU指数对机器翻译来说具有革命性意义 在于它给出了一个非常好，决不是完美，但 确实很好的单一实数评估方法 加速了整个机器翻译领域进展</p>
+<h1 id="注意力网络-attention-model-intuition"><a href="#注意力网络-attention-model-intuition" class="headerlink" title="注意力网络 attention model intuition"></a>注意力网络 attention model intuition</h1><h2 id="什么事注意力网络"><a href="#什么事注意力网络" class="headerlink" title="什么事注意力网络"></a>什么事注意力网络</h2><p>大家都在用Encoder-Decoder框架 解决机器翻译问题 也就是一个RNN读入输入语句， 一个RNN输出翻译后的语句 而注意力模型（attention model） 是这个模型的一个改进。 注意力模型， 是深度学习里最具影响力的思想之一。 </p>
+<p>注意力模型也许更像一个真正的人可能会采用的翻译方法， 注意力模型在某个时间点只看句子的一部份， （使用注意力模型的）机器翻译系统的性能看上去是这样的 因为在一个时间点只针对句子的一部份进行处理， 你不会看到这个大下降 因为这其实是对神经网络记忆能力的度量。 而记忆长句子，并不是我们最想要让神经网络来做的事情</p>
+<p><img src="https://i.loli.net/2019/09/19/3RakDMyFCA5pYdS.png"></p>
+<p><img src="https://i.loli.net/2019/09/19/1EV6NHIWBxiLh2d.png"></p>
+<h2 id="注意力网络的具体实现"><a href="#注意力网络的具体实现" class="headerlink" title="注意力网络的具体实现"></a>注意力网络的具体实现</h2><p>这些注意力参数α 将告诉我们有多少的上下文取决于 我们从不同的时间步长中 获得的激活函数。 所以，我们定义的上下文实际上只是一种方法， 来等待不同的时间步长的注意力特征。 因此，这些注意力(attention waits)会满足这一点， 它们都是非负的， 因此，这将是一个零正数，它们的和等于1.</p>
+<p><img src="https://i.loli.net/2019/09/19/ZnGblkAcpvFUVEh.png"></p>
+<p><img src="https://i.loli.net/2019/09/19/O5AK23txEunDRYF.png"></p>
+<h2 id="注意力网络的缺点"><a href="#注意力网络的缺点" class="headerlink" title="注意力网络的缺点"></a>注意力网络的缺点</h2><p>这个算法的一个缺点是, 运行该算法需要二次时间或二次成本。 如果你有 tx 个输入词和ty 个输出那么注意力参数总数 将是 tx 乘以 ty。 因此,该算法以二次成本运行。 虽然在机器翻译应用中 输入和输出语句都不 长，所以也许二次成本实际上是可接受的。 虽然也有一些研究工作试图降低成本。 到目前为止, 在描述的注意力算法下进行机器翻译。 如果不深入细节, 这个想法也被应用到其他问题上。 比如图像字幕。 因此在图像字母问题中,任务是 查看图片并为该图片写一个描述。</p>
+<h1 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h1><h2 id="两个不同的模型-构建语音识别系统"><a href="#两个不同的模型-构建语音识别系统" class="headerlink" title="两个不同的模型 构建语音识别系统"></a>两个不同的模型 构建语音识别系统</h2><blockquote>
+<p>注意力网络</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/19/xa2IDiWLg3EPh1f.png"></p>
+<blockquote>
+<p>CTC损失函数</p>
+</blockquote>
+<p>basic rule：collapse repeated characters not separated by “blank”</p>
+<p>基本规则：折叠不以“空白”分隔的重复字符</p>
+<p><img src="https://i.loli.net/2019/09/19/a19KxiDGYpjNUZs.png"></p>
+<h1 id="触发词监测-trigger-word-detection"><a href="#触发词监测-trigger-word-detection" class="headerlink" title="触发词监测 trigger word detection"></a>触发词监测 trigger word detection</h1><p> 现在你看到了我们的结尾是这样的, 我们要做的是提取一个音频剪辑 也许是计算频谱图特征并且 它能够声称 特征 x1 x2 x3 音频特征 x1 x2 x3, 你通过一个 RNN 需要做的事情就是定义 目标标签 Y，这样一来，如果这一点在 音频剪辑是有人刚刚 说出触发词,比如 ‘ALEXA’或者说 ‘hey siri‘或者’okay google‘ 然后在 训练集里你可以把 在那之前的所有目标标签设置为0 紧接那之后的 目标标签设置为1 过了一会儿你知道触发词 又被说到了 你可以再次 设置目标标签为1 这种类型 rnn的标记方式可以起作用 但其实不能 很好的起作用，一个缺陷就是 这会使 训练集不平衡， 0会比1多很多 所以你可以做的一件事是 使用一点技巧 可以使他们训练 时容易一些，相比于只设置 一个单一输出的时间点，你 事实上可以设置几次输出为1 或者一个固定时间段 在转化为0之前 所以这样会 使1和0的比率稍微平衡一点 这是一个小技巧</p>
+<p><img src="https://i.loli.net/2019/09/19/jBKsayLwJQTE8hi.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/18/DL11%20-%20%E5%9F%BA%E7%A1%80:%E8%BF%9B%E9%98%B6%E6%A8%A1%E5%9E%8B/" data-id="ckgqfij2a00047545cczn2jf6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数值优化3 - 线搜索方法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/16/DL10%20-%20%E8%AF%8D%E7%A0%94%E8%AE%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DL10 - word_presentation</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

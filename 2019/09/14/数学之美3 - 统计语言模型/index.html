@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>数学之美3 - 统计语言模型 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog!部分借鉴于博客  1. 统计语言模型的提出1.1 20世纪70年代以前 统计语言模型产生初衷就是为了解决语言识别问题。  一个语音识别系统，听到一下句子：The apple and 「pear」 salad is delicious. 系统它应该如何翻译：The apple and 「pear」 salad is delicious. 还是：The apple">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学之美3 - 统计语言模型">
+<meta property="og:url" content="http://example.com/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E3%20-%20%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog!部分借鉴于博客  1. 统计语言模型的提出1.1 20世纪70年代以前 统计语言模型产生初衷就是为了解决语言识别问题。  一个语音识别系统，听到一下句子：The apple and 「pear」 salad is delicious. 系统它应该如何翻译：The apple and 「pear」 salad is delicious. 还是：The apple">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/VLHujbP54tODFE7.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/JjMcVhzHYkRInrZ.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/HXp1BGhTO2oYCqv.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/Ga1IREnbBot9YKq.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/UzVYJOkCPtRE6ph.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/Un4A8DEJVeYCsba.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/yx6qODkNYzMmEcd.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/kWsSyZMfh431meK.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/K9lHJgNXFu74kAo.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/11/wJdhTVanpWgu8Nb.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/10/5q71eE9nLuZANDa.png">
+<meta property="article:published_time" content="2019-09-14T02:24:46.000Z">
+<meta property="article:modified_time" content="2019-09-14T02:24:46.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="数学之美">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/11/VLHujbP54tODFE7.png">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数学之美3 - 统计语言模型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E3%20-%20%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time datetime="2019-09-14T02:24:46.000Z" itemprop="datePublished">2019-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数学之美3 - 统计语言模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!<br>部分借鉴于<a target="_blank" rel="noopener" href="https://www.cnblogs.com/marsggbo/p/8485650.html#autoid-5-0-0">博客</a></p>
+<hr>
+<h3 id="1-统计语言模型的提出"><a href="#1-统计语言模型的提出" class="headerlink" title="1. 统计语言模型的提出"></a>1. 统计语言模型的提出</h3><h4 id="1-1-20世纪70年代以前"><a href="#1-1-20世纪70年代以前" class="headerlink" title="1.1 20世纪70年代以前"></a>1.1 20世纪70年代以前</h4><blockquote>
+<p>统计语言模型产生初衷就是为了解决语言识别问题。</p>
+</blockquote>
+<pre><code>一个语音识别系统，听到一下句子：The apple and 「pear」 salad is delicious.
+系统它应该如何翻译：The apple and 「pear」 salad is delicious.
+还是：The apple and 「pair」 salad is delicious.（pear和pair在英文里发音相同）</code></pre>
+<blockquote>
+<p>科学家们解决以上问题，是通过判断这个文字序列是否合乎语法、含义是否正确。</p>
+</blockquote>
+<h4 id="1-2-20世纪70年代之后"><a href="#1-2-20世纪70年代之后" class="headerlink" title="1.2 20世纪70年代之后"></a>1.2 20世纪70年代之后</h4><blockquote>
+<p>贾里尼克从另外一个角度看待问题，用一个简单的统计模型非常漂亮地搞定了它。</p>
+</blockquote>
+<blockquote>
+<p>他的想法是：一个句子是否合理，就看看他的可能性大小如何，至于可能性就用概率来衡量。比如上面的“苹果梨和沙拉很好吃”的语音问题，第一个句子出现的概率是10的-20次分，第二个句子出现的概率是10的-25次方。那么，第一个句子是最有可能的。</p>
+</blockquote>
+<h3 id="2-统计语言模型的数学表示"><a href="#2-统计语言模型的数学表示" class="headerlink" title="2. 统计语言模型的数学表示"></a>2. 统计语言模型的数学表示</h3><h4 id="2-1-贾里尼克提出了一个简单的统计模型"><a href="#2-1-贾里尼克提出了一个简单的统计模型" class="headerlink" title="2.1 贾里尼克提出了一个简单的统计模型"></a>2.1 贾里尼克提出了一个简单的统计模型</h4><blockquote>
+<p>假定S表示某一个有意义的句子，由一串特定顺序排列的词w1,w2,w3….Wn构成的，这里n是句子的长度。那么P(S)就表示S在文本中出现的可能性。</p>
+</blockquote>
+<blockquote>
+<p>只要把人类自诞生以来说过的话全部统计下，就知道这句话出现的概率了。但是这种方法显然是不可行。因此，需要一个模型来估算P(S)。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/VLHujbP54tODFE7.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>但是这里有一个问题，前面的词P(w1),P(w2)都很容易计算，但到了最后一个词Wn，P(Wn|W1,W2,W3,…,Wn-1)的可能性太多，无法估算</p>
+</blockquote>
+<h4 id="2-2-马尔可夫假设"><a href="#2-2-马尔可夫假设" class="headerlink" title="2.2 马尔可夫假设"></a>2.2 马尔可夫假设</h4><blockquote>
+<p>他给出了一个方法，就是假设任意一个词Wt出现的概率只同他前面的词Wt-1有关，于是问题就变得很简单了。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/JjMcVhzHYkRInrZ.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="2-2-1-计算过程"><a href="#2-2-1-计算过程" class="headerlink" title="2.2.1 计算过程"></a>2.2.1 计算过程</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/HXp1BGhTO2oYCqv.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-3-补充：N元模型、高阶模型"><a href="#2-3-补充：N元模型、高阶模型" class="headerlink" title="2.3 补充：N元模型、高阶模型"></a>2.3 补充：N元模型、高阶模型</h4><h5 id="2-3-1-n元模型的概念"><a href="#2-3-1-n元模型的概念" class="headerlink" title="2.3.1 n元模型的概念"></a>2.3.1 n元模型的概念</h5><blockquote>
+<p>所谓n元模型，就是假设一个词由前面n-1个词决定。</p>
+</blockquote>
+<blockquote>
+<p>所以在2.2中提到的马尔可夫假设，就是二元模型。</p>
+</blockquote>
+<h5 id="2-3-2-N一般取值都很小"><a href="#2-3-2-N一般取值都很小" class="headerlink" title="2.3.2 N一般取值都很小"></a>2.3.2 N一般取值都很小</h5><blockquote>
+<p>主要有两个原因：</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/Ga1IREnbBot9YKq.png"><br><img src="https://i.loli.net/2019/09/11/UzVYJOkCPtRE6ph.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="2-3-3-马尔可夫假设的局限性"><a href="#2-3-3-马尔可夫假设的局限性" class="headerlink" title="2.3.3 马尔可夫假设的局限性"></a>2.3.3 马尔可夫假设的局限性</h5><blockquote>
+<p>在自然语言中，上下文之间的相关性可能跨度非常大，甚至一个段落跨越到另一个段落。三元、四元、甚至是更高阶的模型都不能覆盖所有的语言现象。</p>
+</blockquote>
+<h3 id="3-模型训练"><a href="#3-模型训练" class="headerlink" title="3. 模型训练"></a>3. 模型训练</h3><h4 id="3-1-“不平滑”现象"><a href="#3-1-“不平滑”现象" class="headerlink" title="3.1 “不平滑”现象"></a>3.1 “不平滑”现象</h4><h5 id="3-1-1-原因：零概率和一概率"><a href="#3-1-1-原因：零概率和一概率" class="headerlink" title="3.1.1 原因：零概率和一概率"></a>3.1.1 原因：零概率和一概率</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/Un4A8DEJVeYCsba.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="3-1-2-解决方法1-卡茨退避法"><a href="#3-1-2-解决方法1-卡茨退避法" class="headerlink" title="3.1.2 解决方法1: 卡茨退避法"></a>3.1.2 解决方法1: 卡茨退避法</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/yx6qODkNYzMmEcd.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/kWsSyZMfh431meK.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/K9lHJgNXFu74kAo.png"></p>
+</blockquote>
+</blockquote>
+<h5 id="3-1-3-解决方法2-删除差值"><a href="#3-1-3-解决方法2-删除差值" class="headerlink" title="3.1.3 解决方法2: 删除差值"></a>3.1.3 解决方法2: 删除差值</h5><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/11/wJdhTVanpWgu8Nb.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="3-2-语料选取"><a href="#3-2-语料选取" class="headerlink" title="3.2 语料选取"></a>3.2 语料选取</h4><ul>
+<li>训练语料和模型应用的领域，不能相脱节</li>
+<li>训练数据通常越多越好</li>
+<li>在成本不高的情况下，过滤训练数据是需要的</li>
+</ul>
+<h3 id="4-扩展"><a href="#4-扩展" class="headerlink" title="4 扩展"></a>4 扩展</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/10/5q71eE9nLuZANDa.png"> </p>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E3%20-%20%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" data-id="ckgqfij370025754567dh9is3" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E5%20-%20%E9%9A%90%E5%90%AB%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数学之美5 - 隐含马尔可夫模型
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/13/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E4%20-%20%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数学之美4 - 中文分词</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>DL2 - 在实际应用中如何使得神经网络高效工作 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog!本文所有截图和文字均借鉴于：Coursera  1 如何设置你的训练集&#x2F;开发集&#x2F;测试集 在训练一个神经网络时， 你必须做出许多决定， 例如你的神经网络将会有多少层啊 并且每一层中包含多少个隐藏神经元啊， 学习速率是多少啊， 还有每一层你想用什么激活函数啊 当你开始一个新的应用时， 你几乎不可能一次性就正确地猜到上面提及的， 以及未提及的超参数的准确数值 因此在实">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DL2 - 在实际应用中如何使得神经网络高效工作">
+<meta property="og:url" content="http://example.com/2019/08/14/DL2%20-%20Improving%20Deep%20Neural%20Networks-%20Hyperparameter%20tuning,%20Regularization%20and%20Optimization/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog!本文所有截图和文字均借鉴于：Coursera  1 如何设置你的训练集&#x2F;开发集&#x2F;测试集 在训练一个神经网络时， 你必须做出许多决定， 例如你的神经网络将会有多少层啊 并且每一层中包含多少个隐藏神经元啊， 学习速率是多少啊， 还有每一层你想用什么激活函数啊 当你开始一个新的应用时， 你几乎不可能一次性就正确地猜到上面提及的， 以及未提及的超参数的准确数值 因此在实">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bqc1qsymj30qe0c0439.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6br5cxk7nj30uc0syaw3.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6br7tnxshj30wk0ea77e.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6brdy1ozrj30ta0kaqa7.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6brgduproj30ny0loq8p.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bt60lnxwj30xk0jqgv6.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bu5wvrsyj310y07k796.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bua4yxxij312i0bgqas.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6buv1opc7j314u0kkwug.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bvu5s8x7j310i0fstd8.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6c2niz5suj30u20h446a.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8a5ftsnj31420kmn91.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8n796vzj30l8056jtf.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8q6kkecj314y0lgn9x.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dflrnad1j315m0f4wnc.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dfmhgxxgj31580l0k2h.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dfylr8tbj315a0juk47.jpg">
+<meta property="article:published_time" content="2019-08-13T18:40:57.000Z">
+<meta property="article:modified_time" content="2019-09-20T01:08:13.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="deeplearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bqc1qsymj30qe0c0439.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DL2 - Improving Deep Neural Networks- Hyperparameter tuning, Regularization and Optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/14/DL2%20-%20Improving%20Deep%20Neural%20Networks-%20Hyperparameter%20tuning,%20Regularization%20and%20Optimization/" class="article-date">
+  <time datetime="2019-08-13T18:40:57.000Z" itemprop="datePublished">2019-08-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DL2 - 在实际应用中如何使得神经网络高效工作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!<br>本文所有截图和文字均借鉴于：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/deep-neural-network/lecture/cxG1s/train-dev-test-sets">Coursera</a></p>
+<hr>
+<h3 id="1-如何设置你的训练集-开发集-测试集"><a href="#1-如何设置你的训练集-开发集-测试集" class="headerlink" title="1 如何设置你的训练集/开发集/测试集"></a>1 如何设置你的训练集/开发集/测试集</h3><blockquote>
+<p>在训练一个神经网络时， 你必须做出许多决定， 例如你的神经网络将会有多少层啊 并且每一层中包含多少个隐藏神经元啊， 学习速率是多少啊， 还有每一层你想用什么激活函数啊 当你开始一个新的应用时， 你几乎不可能一次性就正确地猜到上面提及的， 以及未提及的超参数的准确数值 因此在实际应用中 机器学习是一个**<em>高度迭代的过程**</em>。</p>
+</blockquote>
+<blockquote>
+<p>机器学习的应用是相当反复的迭代的过程, 你只需要将这个循环进行许多次, 就有希望能为你的应用中的网络找出好的参数, 所以有一件事能决定你能多快地取得进展, 那就是你进行迭代过程时的效率, 而恰当地将你的数据集分为训练集, 开发集和测试集让你的迭代效率更高</p>
+</blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bqc1qsymj30qe0c0439.jpg"></p>
+</blockquote>
+<h4 id="1-1-比例"><a href="#1-1-比例" class="headerlink" title="1.1 比例"></a>1.1 比例</h4><blockquote>
+<blockquote>
+<p>当样本个数只有100、1000、10000时，被广泛认为的最佳比例是60/20/20%。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>但是在大数据时代，当你有100万个训练样本时，可能只需要1万个用作开发集和测试集就足够了。</p>
+</blockquote>
+</blockquote>
+<h4 id="1-2-确保开发集和测试集中的数据分布相同"><a href="#1-2-确保开发集和测试集中的数据分布相同" class="headerlink" title="1.2 确保开发集和测试集中的数据分布相同"></a>1.2 确保开发集和测试集中的数据分布相同</h4><blockquote>
+<blockquote>
+<p>你需要用开发集对许多不同的模型进行评估, 费尽全力改善模型在开发集上的性能, 如果开发集和测试集的数据分布相同就很方便, 但是因为深度学习算法对训练数据量需求巨大, 我能看到一种趋势是用各种有创意的办法, 比如爬取网页, 来获得比其它途径大得多的训练集, 即使这会带来一些代价, 也就是训练集的数据分布, 与开发集和测试集的数据分布不同, 但你只需要遵守这个经验法则, 你的算法进步速度就会更快</p>
+</blockquote>
+</blockquote>
+<h3 id="2-bias（偏差）和variance（方差）"><a href="#2-bias（偏差）和variance（方差）" class="headerlink" title="2 bias（偏差）和variance（方差）"></a>2 bias（偏差）和variance（方差）</h3><h4 id="2-1-偏差和方差的区别"><a href="#2-1-偏差和方差的区别" class="headerlink" title="2.1 偏差和方差的区别"></a>2.1 偏差和方差的区别</h4><blockquote>
+<p>偏差：预测值或者估计值期望与真实值期望之间的差距。</p>
+</blockquote>
+<blockquote>
+<p>方差：预测结果的分布情况/分布范围/离散程度。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6br5cxk7nj30uc0syaw3.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6br7tnxshj30wk0ea77e.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>偏差：评价对象时单个模型，期望输出和真实标记的差别。</p>
+</blockquote>
+<blockquote>
+<p>方差：评价对象时多个模型，表示多个模型差异程度。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6brdy1ozrj30ta0kaqa7.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>以上图为例：</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<ol>
+<li>左上的模型偏差最大，右下的模型偏差最小；</li>
+</ol>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<ol start="2">
+<li>左上的模型方差最小，右下的模型方差最大；</li>
+</ol>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6brgduproj30ny0loq8p.jpg"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-2-过拟合和欠拟合"><a href="#2-2-过拟合和欠拟合" class="headerlink" title="2.2 过拟合和欠拟合"></a>2.2 过拟合和欠拟合</h4><blockquote>
+<p>高方差：你的训练集误差是1%，而对于开发集误差 为了便于讨论 我们假设是11% 在这个例子里 你的模型对训练集处理得非常好 但是相对来说，开发集处理得就有些不尽如人意 所以这可能是在处理训练集时过拟合了</p>
+</blockquote>
+<blockquote>
+<p>高偏差：假设训练集的误差是15%,假设你的开发集误差是16%, 在这种情况下，我们假设人工识别误差是0% 因为人可以直接看到这些图片，并判断出这是否是一只猫, 所以看上去，这个算法在训练集上的表现并不尽如人意 如果它并未将训练集数据处理得很好 这就是欠拟合。</p>
+</blockquote>
+<h3 id="3-机器学习的基本准则"><a href="#3-机器学习的基本准则" class="headerlink" title="3 机器学习的基本准则"></a>3 机器学习的基本准则</h3><blockquote>
+<p>high bias: <strong><em>bigger network</em></strong>、train longer、更高级的优化算法、更换神经网络结构</p>
+</blockquote>
+<blockquote>
+<p>high variance: <strong><em>more data</em></strong>、正则化？、更适合的神经网络结构</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bt60lnxwj30xk0jqgv6.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>只要你能不断扩大所训练的网络的规模 只要你能不断获得更多数据 虽然这两点都不是永远成立的 但如果这两点是可能的 那扩大网络几乎总是能够 减小偏差而不增大方差 只要你用恰当的方式正则化的话 而获得更多数据几乎总是能够 减小方差而不增大偏差 所以归根结底 有了这两步以后 再加上能够选取不同的网络来训练 以及获取更多数据的能力 我们就有了能够且只单独削减偏差 或者能够并且单独削减方差 同时不会过多影响另一个指标的能力 我认为这就是诸多原因中的一个 它能够解释为何深度学习在监督学习中如此有用</p>
+</blockquote>
+</blockquote>
+<h3 id="4-regularization正则化"><a href="#4-regularization正则化" class="headerlink" title="4 regularization正则化"></a>4 regularization正则化</h3><h4 id="4-1-什么是L2正则化"><a href="#4-1-什么是L2正则化" class="headerlink" title="4.1 什么是L2正则化"></a>4.1 什么是L2正则化</h4><blockquote>
+<p>在神经网络中 你有一个代价函数 它是你所有参数的函数 包括w[1] b[1]到w[L] b[L] 这里大写的L是神经网络的层数 因此 代价函数是m个训练样本上 的损失之和 至于正则化 再加上lambda/2m 乘以所有参数W的范数的平方之和 这里W是你的参数矩阵 这里矩阵范数的平方定义为 对于i和j 对矩阵中每一个元素的平方求和</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bu5wvrsyj310y07k796.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>L2正则化也被称为权重衰减（表现在目标函数/参数更新）</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bua4yxxij312i0bgqas.jpg"></p>
+</blockquote>
+</blockquote>
+<h4 id="4-2-为什么正则化可以防止过拟合（减少方差问题）"><a href="#4-2-为什么正则化可以防止过拟合（减少方差问题）" class="headerlink" title="4.2 为什么正则化可以防止过拟合（减少方差问题）"></a>4.2 为什么正则化可以防止过拟合（减少方差问题）</h4><blockquote>
+<p>如果不加此项，模型必定倾向于最小化损失函数J(θ)<br>，这么一来就很可能发生overfitting。引入该项后，如果模型过于复杂，该项的次数(degree)也更高，引发的惩罚（penalization）值也更大，由此抑制了模型的过度复杂化，λ也被称为惩罚因子。<br>λ过小，则对“防止过拟合”几乎无影响。λ过大，则使损失函数前半部分的权重大大降低，试想如果λ接近无限大，最终的结果是所有的θ都接近0，因此需要选择适当的λ。</p>
+</blockquote>
+<blockquote>
+<p>举一个极端的例子，当lanbda非常大的时候，神经网络的许多神经节点将被弱化，看起来就像一个不容易过拟合的小型网络。</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6buv1opc7j314u0kkwug.jpg"></p>
+</blockquote>
+</blockquote>
+<h4 id="4-3-随机失活正则化（丢弃发dropout）"><a href="#4-3-随机失活正则化（丢弃发dropout）" class="headerlink" title="4.3 随机失活正则化（丢弃发dropout）"></a>4.3 随机失活正则化（丢弃发dropout）</h4><h4 id="4-4-其他防止过拟合的方法"><a href="#4-4-其他防止过拟合的方法" class="headerlink" title="4.4 其他防止过拟合的方法"></a>4.4 其他防止过拟合的方法</h4><blockquote>
+<p>1 数据集扩充：比如水平翻转，随机裁剪、随机扭曲、随机放大来变化图片（廉价的方式）</p>
+<p>2 早终止法：</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bvu5s8x7j310i0fstd8.jpg"></p>
+</blockquote>
+</blockquote>
+<h3 id="5-标准化处理"><a href="#5-标准化处理" class="headerlink" title="5 标准化处理"></a>5 标准化处理</h3><blockquote>
+<p>如果你对左图的那种代价函数使用梯度下降法 那可能必须使用非常小的学习率 因为假如从这里开始 梯度下降法需要经历许多步 反复辗转 才能好不容易终于挪到这个最小值 而如果等值线更趋近于圆形 那无论从何开始 梯度下降法几乎都能直接朝向最小值而去 你可以在梯度下降中采用更长的步长 而无需像左图那样来回摇摆缓慢挪动 当然在实践中 w是一个高维向量 把它画在二维空间中可能无法正确传递出高维中的感觉 但大体上的感觉是你的代价函数会更圆 优化过程更容易进行 因为各种特征的尺度会比较接近</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6c2niz5suj30u20h446a.jpg"></p>
+</blockquote>
+<h3 id="6-梯度-消失-爆发"><a href="#6-梯度-消失-爆发" class="headerlink" title="6 梯度 消失/爆发"></a>6 梯度 消失/爆发</h3><blockquote>
+<p>当训练神经网络时我们会遇到一个问题 尤其是当训练层数非常多的神经网络时 这个问题就是梯度的消失和爆炸 它的意思是当你在训练一个深度神经网络的时候 损失函数的导数或者说斜率 有时会变得非常大 或者非常小甚至是呈指数级减小 这使训练变得很困难</p>
+</blockquote>
+<blockquote>
+<p>针对此问题的**<em>部分**</em>解决方法：虽然不能完全解决它 但帮助很大 该方法就是更好 更细致地随机初始化你的神经网络</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8a5ftsnj31420kmn91.jpg"></p>
+</blockquote>
+</blockquote>
+<h3 id="7-梯度检测"><a href="#7-梯度检测" class="headerlink" title="7 梯度检测"></a>7 梯度检测</h3><blockquote>
+<p>导数的正式定义 就是对于很小的𝜀 计算[f(𝜃+𝜀)-f(𝜃-𝜀)]/(2𝜃) 就是对于很小的𝜀 计算[f(𝜃+𝜀)-f(𝜃-𝜀)]/(2𝜃) </p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8n796vzj30l8056jtf.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>原因：对于一个非零的𝜀值 你可以证明这个近似的误差 在𝜀平方这个阶上 𝜀是个很小的数 如果𝜀是0.01 就像这里 那么𝜀平方就是0.0001 这个大O记号就表示误差就是某个常数乘以这个 这就是我们的近似误差 这个例子中的大O的常数恰好就是1 相比而言 如果我们用这边的另一个公式 误差就在𝜀这个阶上 当𝜀是一个小于1的数时 𝜀就比𝜀平方大很多 这也就是为什么 这个公式不如左边这个公式精确 这也就是为什么我们做梯度检验时采用双侧差值 你计算f(𝜃+𝜀)-f(𝜃-𝜀)再除以2𝜀 而不使用这个不够精确的单侧差值</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8q6kkecj314y0lgn9x.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>怎么进行双侧差值梯度检测</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dflrnad1j315m0f4wnc.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>从W1,B1,一直到,WL,bL 要实现梯度检查算法 首先要把你的所有参数 重新拼成一个巨大的参数向量θ 你要把W矩阵转化成一个向量 把所有的W矩阵都转化成向量 然后把他们首尾相接拼在一起 成为一个巨大的参数向量θ 之前代价函数J是所有W和b的函数 经过向量转化后它变成了θ的函数 W和b按照同样的顺序转化后 你也可以把dW[1],dB[1]等等参数都转化成 和θ的维度相同的向量dθ 和之前一样,把dW[1]转化成向量 db[1]已经是向量 把所有的dW矩阵转化成向量 记住dW[1]和W[1]的维度相同 db[1]和b[1]的维度相同 经过相同的矩阵转化和向量拼接之后 你就把所有的微分也转化成 一个参数向量dθ dθ和θ的维度一样</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dfmhgxxgj31580l0k2h.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>在实际中 我取ε为10的负7次方 这样 如果这个式子的结果 小于10的负7次方 那就认为计算正确 它表示你的微分近似是对的 因为(误差)很小 如果该式的结果在10的负5次方的量级的话 我会很仔细地检查一遍 有可能式子也是对的 但我会再三检查这个向量的每个分量 确定没有某个分量很大 如果某个分量很大的话 那么可能你的式子里有错误了 如果左面的式子在10的负3次方的量级的话 我觉得你一定要检查代码 它很可能有错误 它的结果应该远远小于10的负3次方 如果(某个分量)大于10的负3次方 我很担心你的代码有错误</p>
+</blockquote>
+<blockquote>
+<p>梯度检测的使用原则如下:</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>不要在训练中使用梯度检查 而仅仅在调试时</li>
+<li>如果一个算法没有通过梯度检测 你需要检查它的组成 检查每一个组成成分 尝试找出漏洞 我的意思是 如果d(θapprox)与dθ差距很大的话 我会这么做 检查不同的i值 看看哪些 d(θapprox)的值 与dθ的值差距最大</li>
+<li>如果使用了正则化，别忘了你的正则项</li>
+<li>梯度检验不能与随机失活一起使用，因为：因为在每一次的迭代中 随机失活(dropout)将随机消除 隐藏层单元的不同子集 在使用随机失活(dropout) 进行梯度下降的过程中 并不存在一个容易计算的代价函数J 随机失活(dropout)可以被视为 对于代价函数的优化 但是这个代价函数的定义是 在每一次迭代中 对所有 非常大的可消除节点集进行求和 所以这个代价函数是很难计算的 你只需要对代价函数进行抽样 在那些使用随机失活(dropout)的集合中 每次消除不同的随机集合 所以使用梯度检验来检查 包含了随机失活(dropout)的运算是很困难的</li>
+<li>你对于梯度下降的使用是正确的 同时w和b在随机初始化的时候 是很接近0的数 但随着梯度下降的进行 w和b有所增大 也许你的反向传播算法 在w和b接近0的时候是正确的 但是当w和b变大的时候 算法精确度有所下降 所以虽然我不经常使用它 但是你可以尝试的一个方法是 在随机初始化的时候 运行梯度检验 然后训练网络一段时间 那么w和b 将会在0附近摇摆一段时间 即很小的随机初始值 在进行几次训练的迭代后 再运行梯度检验</li>
+</ol>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dfylr8tbj315a0juk47.jpg"></p>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/14/DL2%20-%20Improving%20Deep%20Neural%20Networks-%20Hyperparameter%20tuning,%20Regularization%20and%20Optimization/" data-id="ckgqfij2c000675453v4odud1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/17/DL3%20-%20optimization%20algorithms/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DL3 - 加快神经网络训练速度的优化算法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DL1 - 什么神经网络和深度网络</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

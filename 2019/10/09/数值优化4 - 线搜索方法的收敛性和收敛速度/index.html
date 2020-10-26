@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.一些概念$$ x_{k+1}&#x3D;x_k + \alpha_k p_k $$ 通过 $ || \nabla{f_k}|| &lt; \epsilon $ 判断迭代是否停止 1.1 算法收敛性（是否收敛）收敛条件（强）：（满足这个条件，算法一定会终止）$$ \lim_{k\to\infty}||\nabla{f(x_i)}|| &#x3D; 0 $$ 收敛条件（弱）【下界限】：$$ \lim_{k \to \">
+<meta property="og:type" content="article">
+<meta property="og:title" content="杨健豪-blog">
+<meta property="og:url" content="http://example.com/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="1.一些概念$$ x_{k+1}&#x3D;x_k + \alpha_k p_k $$ 通过 $ || \nabla{f_k}|| &lt; \epsilon $ 判断迭代是否停止 1.1 算法收敛性（是否收敛）收敛条件（强）：（满足这个条件，算法一定会终止）$$ \lim_{k\to\infty}||\nabla{f(x_i)}|| &#x3D; 0 $$ 收敛条件（弱）【下界限】：$$ \lim_{k \to \">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2019-10-09T11:06:44.000Z">
+<meta property="article:modified_time" content="2019-10-09T11:06:44.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数值优化4 - 线搜索方法的收敛性和收敛速度" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/" class="article-date">
+  <time datetime="2019-10-09T11:06:44.000Z" itemprop="datePublished">2019-10-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-一些概念"><a href="#1-一些概念" class="headerlink" title="1.一些概念"></a>1.一些概念</h1><p>$$ x_{k+1}=x_k + \alpha_k p_k $$</p>
+<p>通过 $ || \nabla{f_k}|| &lt; \epsilon $ 判断迭代是否停止</p>
+<h2 id="1-1-算法收敛性（是否收敛）"><a href="#1-1-算法收敛性（是否收敛）" class="headerlink" title="1.1 算法收敛性（是否收敛）"></a>1.1 算法收敛性（是否收敛）</h2><p>收敛条件（强）：（满足这个条件，算法一定会终止）<br>$$ \lim_{k\to\infty}||\nabla{f(x_i)}|| = 0 $$</p>
+<p>收敛条件（弱）【下界限】：<br>$$ \lim_{k \to \infty}  inf  ||\nabla f(x_k)|| = 0 $$</p>
+<p>对下界限条件的反正法：<br>当$ k \to \infty $, $||\nabla f(x_k) || \ge \epsilon &gt; 0 $</p>
+<h2 id="1-2-收敛速度"><a href="#1-2-收敛速度" class="headerlink" title="1.2 收敛速度"></a>1.2 收敛速度</h2><p>（1）线性： $ || X_{k+1} - X^* || \le \Gamma || X_k - X^* || , 0&lt;\Gamma&lt;1 $</p>
+<p>当 $\Gamma 接近0的时候，收敛很快，\Gamma接近1，收敛就很慢$</p>
+<p>（2）二次：$ || X_{k+1} - X^*|| \le L || X_k - X^* ||^2, L&gt;0 $</p>
+<p>需要注意的是，这里的参数L是允许大于1的，因为主要依靠 $|| X_k - X^* ||^2 $这一部分进行收敛，所以当$ L&gt;1 $和  $|| X_k - X^* ||^2 &gt;1$, 那么这个二次收敛就没有意义了。所以只有当$|| X_k - X^* ||^2 $很小很小的时候才有意义。</p>
+<p>（3） 超线性：  $ || X_{k+1} - X^* || = o (|| X_k - X^* || ) $</p>
+<h1 id="1-3-所需条件"><a href="#1-3-所需条件" class="headerlink" title="1.3 所需条件"></a>1.3 所需条件</h1><h2 id="1-3-1-关于f-x"><a href="#1-3-1-关于f-x" class="headerlink" title="1.3.1 关于f(x)"></a>1.3.1 关于f(x)</h2><p>水平界  L = { x | f(x) $\le$ f($x_0$)}，$ x_0 $ 是连续的</p>
+<p>因为 L 不连续，有洞，所以需要有一个区域$ D \supseteq L$, D是L把洞口补起来得到的，我们更多也是在D上讨论。</p>
+<p>f(x)下面有界限（必须的），上面有界</p>
+<p>f(x)连续</p>
+<p>f(x) 满足Lipscity连续， $ |f(x)-f(y)| \le L||x-y|| $, 当 $ |x-y| \to 0,| f(x)-f(y)| 也\to 0$</p>
+<h2 id="1-3-2-关于-nabla-f-x-和-nabla-2f-x-同上"><a href="#1-3-2-关于-nabla-f-x-和-nabla-2f-x-同上" class="headerlink" title="1.3.2 关于 $ \nabla f(x)$和 $\nabla^2f(x)$, 同上"></a>1.3.2 关于 $ \nabla f(x)$和 $\nabla^2f(x)$, 同上</h2><h2 id="1-3-3-关于方向-下降"><a href="#1-3-3-关于方向-下降" class="headerlink" title="1.3.3 关于方向 下降"></a>1.3.3 关于方向 下降</h2><p>下降方向 意味着：$\nabla f_k^T p_k &lt; 0 $</p>
+<p>最速下降：$ p_k = \nabla f_k $</p>
+<p>牛顿法：$ p_k^N = - \nabla^2 f_k^{-1}\nabla f_k $</p>
+<p>拟牛顿法： $ p_k^N = - B_k^{-1}\nabla f_k $</p>
+<h2 id="1-3-4-对于步长怎么选择：-alpha-k"><a href="#1-3-4-对于步长怎么选择：-alpha-k" class="headerlink" title="1.3.4 对于步长怎么选择：$\alpha_k $"></a>1.3.4 对于步长怎么选择：$\alpha_k $</h2><p>目标函数： $ \alpha_k = \operatorname{argmin}{f(x_k + \alpha p_k)} , \alpha_k&gt;0$</p>
+<p>wolfe条件-1: $ \alpha $要充分下降（充分下降条件） $ f_{k+1} \le f_k + c_1 \alpha_k \nabla f_k^T p_k $</p>
+<h2 id="1-3-5-如果-x-k-to-x-那么-x-满足二阶充分条件"><a href="#1-3-5-如果-x-k-to-x-那么-x-满足二阶充分条件" class="headerlink" title="1.3.5 如果 $ x_k \to x^*,那么 x^*$满足二阶充分条件"></a>1.3.5 如果 $ x_k \to x^*,那么 x^*$满足二阶充分条件</h2><p>二阶充分条件如下：</p>
+<p>$ \nabla f(x^*) = 0 $</p>
+<p>$ \nabla^2 f(x^*) $ 是正定</p>
+<h1 id="2-收敛性"><a href="#2-收敛性" class="headerlink" title="2 收敛性"></a>2 收敛性</h1><h2 id="2-1-定理（课本定理3-2）"><a href="#2-1-定理（课本定理3-2）" class="headerlink" title="2.1 定理（课本定理3.2）"></a>2.1 定理（课本定理3.2）</h2><p>首先假设： $ \nabla f(x) 满足 Lipschily 连续$</p>
+<p>p_k 下降</p>
+<p>$ \alpha_k 满足wolfe条件 $</p>
+<p>在这三个假设下，则：$ \sum_k^N || \nabla f_k||^2 cos^2 \theta_k &lt; \infty $</p>
+<p>其中，$ cos \theta_k = \frac{ - \nabla f_k^T p_k}{|| \nabla f_k || || p_k ||}$ </p>
+<p> 记(wolfer第一条件的解释）： $ f_{k+1} \le f_k + c_1 \alpha_k \nabla f_k^T p_k $</p>
+<p>$ \Leftarrow  \frac{f_k - f_{k+1}}{\alpha_k || p_k ||} \ge c_1 || \nabla f_k || cos\theta_k $</p>
+<p>$ {f_k - f_{k+1}}{\alpha_k || p_k ||}  $表示平均收敛速度</p>
+<p>$  c_1 || \nabla f_k || cos\theta_k $表示初始斜率</p>
+<p>wolfer第二条件的解释: </p>
+<p>记：$ \nabla f_{k+1}^T p_k \ge c_2 \nabla f_k^T p_k , c_2&lt;1$</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/" data-id="ckgqfij33001v75457247ggrw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">文献理解 - LCF</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="该博客blog用于记录日常所学，包括Cousera、刷题（算法、代码实操）、文献阅读&#x2F;复现">
+<meta property="og:type" content="website">
+<meta property="og:title" content="杨健豪-blog">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="该博客blog用于记录日常所学，包括Cousera、刷题（算法、代码实操）、文献阅读&#x2F;复现">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Jianhao Yang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-数值优化4 - 线搜索方法的收敛性和收敛速度" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/" class="article-date">
+  <time datetime="2019-10-09T11:06:44.000Z" itemprop="datePublished">2019-10-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-一些概念"><a href="#1-一些概念" class="headerlink" title="1.一些概念"></a>1.一些概念</h1><p>$$ x_{k+1}=x_k + \alpha_k p_k $$</p>
+<p>通过 $ || \nabla{f_k}|| &lt; \epsilon $ 判断迭代是否停止</p>
+<h2 id="1-1-算法收敛性（是否收敛）"><a href="#1-1-算法收敛性（是否收敛）" class="headerlink" title="1.1 算法收敛性（是否收敛）"></a>1.1 算法收敛性（是否收敛）</h2><p>收敛条件（强）：（满足这个条件，算法一定会终止）<br>$$ \lim_{k\to\infty}||\nabla{f(x_i)}|| = 0 $$</p>
+<p>收敛条件（弱）【下界限】：<br>$$ \lim_{k \to \infty}  inf  ||\nabla f(x_k)|| = 0 $$</p>
+<p>对下界限条件的反正法：<br>当$ k \to \infty $, $||\nabla f(x_k) || \ge \epsilon &gt; 0 $</p>
+<h2 id="1-2-收敛速度"><a href="#1-2-收敛速度" class="headerlink" title="1.2 收敛速度"></a>1.2 收敛速度</h2><p>（1）线性： $ || X_{k+1} - X^* || \le \Gamma || X_k - X^* || , 0&lt;\Gamma&lt;1 $</p>
+<p>当 $\Gamma 接近0的时候，收敛很快，\Gamma接近1，收敛就很慢$</p>
+<p>（2）二次：$ || X_{k+1} - X^*|| \le L || X_k - X^* ||^2, L&gt;0 $</p>
+<p>需要注意的是，这里的参数L是允许大于1的，因为主要依靠 $|| X_k - X^* ||^2 $这一部分进行收敛，所以当$ L&gt;1 $和  $|| X_k - X^* ||^2 &gt;1$, 那么这个二次收敛就没有意义了。所以只有当$|| X_k - X^* ||^2 $很小很小的时候才有意义。</p>
+<p>（3） 超线性：  $ || X_{k+1} - X^* || = o (|| X_k - X^* || ) $</p>
+<h1 id="1-3-所需条件"><a href="#1-3-所需条件" class="headerlink" title="1.3 所需条件"></a>1.3 所需条件</h1><h2 id="1-3-1-关于f-x"><a href="#1-3-1-关于f-x" class="headerlink" title="1.3.1 关于f(x)"></a>1.3.1 关于f(x)</h2><p>水平界  L = { x | f(x) $\le$ f($x_0$)}，$ x_0 $ 是连续的</p>
+<p>因为 L 不连续，有洞，所以需要有一个区域$ D \supseteq L$, D是L把洞口补起来得到的，我们更多也是在D上讨论。</p>
+<p>f(x)下面有界限（必须的），上面有界</p>
+<p>f(x)连续</p>
+<p>f(x) 满足Lipscity连续， $ |f(x)-f(y)| \le L||x-y|| $, 当 $ |x-y| \to 0,| f(x)-f(y)| 也\to 0$</p>
+<h2 id="1-3-2-关于-nabla-f-x-和-nabla-2f-x-同上"><a href="#1-3-2-关于-nabla-f-x-和-nabla-2f-x-同上" class="headerlink" title="1.3.2 关于 $ \nabla f(x)$和 $\nabla^2f(x)$, 同上"></a>1.3.2 关于 $ \nabla f(x)$和 $\nabla^2f(x)$, 同上</h2><h2 id="1-3-3-关于方向-下降"><a href="#1-3-3-关于方向-下降" class="headerlink" title="1.3.3 关于方向 下降"></a>1.3.3 关于方向 下降</h2><p>下降方向 意味着：$\nabla f_k^T p_k &lt; 0 $</p>
+<p>最速下降：$ p_k = \nabla f_k $</p>
+<p>牛顿法：$ p_k^N = - \nabla^2 f_k^{-1}\nabla f_k $</p>
+<p>拟牛顿法： $ p_k^N = - B_k^{-1}\nabla f_k $</p>
+<h2 id="1-3-4-对于步长怎么选择：-alpha-k"><a href="#1-3-4-对于步长怎么选择：-alpha-k" class="headerlink" title="1.3.4 对于步长怎么选择：$\alpha_k $"></a>1.3.4 对于步长怎么选择：$\alpha_k $</h2><p>目标函数： $ \alpha_k = \operatorname{argmin}{f(x_k + \alpha p_k)} , \alpha_k&gt;0$</p>
+<p>wolfe条件-1: $ \alpha $要充分下降（充分下降条件） $ f_{k+1} \le f_k + c_1 \alpha_k \nabla f_k^T p_k $</p>
+<h2 id="1-3-5-如果-x-k-to-x-那么-x-满足二阶充分条件"><a href="#1-3-5-如果-x-k-to-x-那么-x-满足二阶充分条件" class="headerlink" title="1.3.5 如果 $ x_k \to x^*,那么 x^*$满足二阶充分条件"></a>1.3.5 如果 $ x_k \to x^*,那么 x^*$满足二阶充分条件</h2><p>二阶充分条件如下：</p>
+<p>$ \nabla f(x^*) = 0 $</p>
+<p>$ \nabla^2 f(x^*) $ 是正定</p>
+<h1 id="2-收敛性"><a href="#2-收敛性" class="headerlink" title="2 收敛性"></a>2 收敛性</h1><h2 id="2-1-定理（课本定理3-2）"><a href="#2-1-定理（课本定理3-2）" class="headerlink" title="2.1 定理（课本定理3.2）"></a>2.1 定理（课本定理3.2）</h2><p>首先假设： $ \nabla f(x) 满足 Lipschily 连续$</p>
+<p>p_k 下降</p>
+<p>$ \alpha_k 满足wolfe条件 $</p>
+<p>在这三个假设下，则：$ \sum_k^N || \nabla f_k||^2 cos^2 \theta_k &lt; \infty $</p>
+<p>其中，$ cos \theta_k = \frac{ - \nabla f_k^T p_k}{|| \nabla f_k || || p_k ||}$ </p>
+<p> 记(wolfer第一条件的解释）： $ f_{k+1} \le f_k + c_1 \alpha_k \nabla f_k^T p_k $</p>
+<p>$ \Leftarrow  \frac{f_k - f_{k+1}}{\alpha_k || p_k ||} \ge c_1 || \nabla f_k || cos\theta_k $</p>
+<p>$ {f_k - f_{k+1}}{\alpha_k || p_k ||}  $表示平均收敛速度</p>
+<p>$  c_1 || \nabla f_k || cos\theta_k $表示初始斜率</p>
+<p>wolfer第二条件的解释: </p>
+<p>记：$ \nabla f_{k+1}^T p_k \ge c_2 \nabla f_k^T p_k , c_2&lt;1$</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/" data-id="ckgqfij33001v75457247ggrw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-不完整/文献理解1 - LCF" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/" class="article-date">
+  <time datetime="2019-10-05T12:51:40.000Z" itemprop="datePublished">2019-10-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! </p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/" data-id="ckgqfij3f002h75459q80dea8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-数学之美16 - 信息指纹" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/" class="article-date">
+  <time datetime="2019-09-26T07:12:17.000Z" itemprop="datePublished">2019-09-26</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! </p>
+<hr>
+<h1 id="1-什么是信息指纹"><a href="#1-什么是信息指纹" class="headerlink" title="1. 什么是信息指纹"></a>1. 什么是信息指纹</h1><blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7cy1b9txgj30vc0acgol.jpg"></p>
+</blockquote>
+</blockquote>
+<h1 id="2-信息指纹的用途"><a href="#2-信息指纹的用途" class="headerlink" title="2. 信息指纹的用途"></a>2. 信息指纹的用途</h1><h2 id="2-1-网址的消重行"><a href="#2-1-网址的消重行" class="headerlink" title="2.1 网址的消重行"></a>2.1 网址的消重行</h2><h3 id="2-1-1-具体原理"><a href="#2-1-1-具体原理" class="headerlink" title="2.1.1 具体原理"></a>2.1.1 具体原理</h3><blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7cywt366cj30vu0d80yx.jpg"></p>
+</blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7cyxtg5vnj30w60lgk0k.jpg"></p>
+</blockquote>
+<pre><code>2^128 = 3.4028e+38
+5000亿 = 5e+12</code></pre>
+<h2 id="2-1-2-算法实现"><a href="#2-1-2-算法实现" class="headerlink" title="2.1.2 算法实现"></a>2.1.2 算法实现</h2><pre><code>（1）首先，将字符串堪称一个特殊的、长度很长的整体。
+（2）产生信息指纹的关键算法：伪随机数产生器算法, 
+通过它可以将任意很长的整数转成特定长度的伪随机数。</code></pre>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7czamqp6pj30ve0aidla.jpg"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-2-密码"><a href="#2-2-密码" class="headerlink" title="2.2 密码"></a>2.2 密码</h2><pre><code>信息指纹的一个特征是：不可逆性。也就是说，无法根据信息指纹推出原有信息。这种
+性质，正是网络加密传输所需要的。
+
+cookie就是一种信息指纹。</code></pre>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7czyuuuybj30ve0aejx8.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6ly1g7d000yvmxj30w609ajvk.jpg"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-2-判断集合（完全）相同"><a href="#2-2-判断集合（完全）相同" class="headerlink" title="2.2 判断集合（完全）相同"></a>2.2 判断集合（完全）相同</h2><h2 id="2-3-判断集合（基本）相同"><a href="#2-3-判断集合（基本）相同" class="headerlink" title="2.3 判断集合（基本）相同"></a>2.3 判断集合（基本）相同</h2><h2 id="2-4-YouTube的反盗版"><a href="#2-4-YouTube的反盗版" class="headerlink" title="2.4 YouTube的反盗版"></a>2.4 YouTube的反盗版</h2><h1 id="3-信息指纹的概率"><a href="#3-信息指纹的概率" class="headerlink" title="3. 信息指纹的概率"></a>3. 信息指纹的概率</h1><h1 id="4-相似哈希"><a href="#4-相似哈希" class="headerlink" title="4. 相似哈希"></a>4. 相似哈希</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/" data-id="ckgqfij3600217545ajhj9zrz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-DL12 - CNN基础知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" class="article-date">
+  <time datetime="2019-09-25T10:04:57.000Z" itemprop="datePublished">2019-09-25</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Machine Learning on <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/convolutional-neural-networks/lecture/Ob1nR/computer-vision">Cousera</a>.</p>
+<hr>
+<h2 id="卷积运算"><a href="#卷积运算" class="headerlink" title="卷积运算"></a>卷积运算</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/5JYTmi1rgW3CMPz.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="vertical-edge-detection"><a href="#vertical-edge-detection" class="headerlink" title="vertical edge detection"></a>vertical edge detection</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/cXVRWkYB1zNdstL.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/UHWS9hCb57wEVdM.png"></p>
+</blockquote>
+</blockquote>
+<p>总之 将这9个数字当成参数去学习 是计算机视觉里的一个有用的想法</p>
+<h2 id="padding-补白-填充"><a href="#padding-补白-填充" class="headerlink" title="padding 补白/填充"></a>padding 补白/填充</h2><blockquote>
+<p>为了构建深层神经网络,一个你非常需要使用的,对基本的卷积操作的改进是填充(padding) </p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/mi7AGetX4voau6r.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/wLmADHFyIBJs8r5.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>通常在计算机视觉(computer vision)领域 f基本上是使用奇数 事实上几乎永远是奇数<br />并且你很少看到偶数大小的 计算机视觉使用的过滤器 并且我想有两个原因导致这个现象 一是如果f是偶数 你会需要一些不对称的填充 所以只有当f是奇数时 这种same卷积会产生 在四周有相同的维度的一个自然的填充区域 而不是在左边多填充在右边少填充 或者别的不对称的填充 其次当你有一个奇数大小的过滤器 比如3x3或者5x5 这样这可以有一个中心位置 有时候在计算机视觉领域 有一个特殊点是很好的 有一个这样的像素是很好的 你可以称之为中心像素 这样你就可以描述你过滤器的位置 也许这些都不是<br />为什么f基本上永远使用奇数的很好的理由 但是如果你去读一些卷积相关的文献 你会发现3x3的过滤器非常常见 你会看见一些5x5,7x7 事实上有时候 之后我们会讲到1x1过滤器和它的原理 但是只是约定俗成 我建议你也使用奇数大小的过滤器 我想就算你使用一个偶数f 你也许能得到不错的结果 但是如果你坚持计算机视觉的传统 我一般只用奇数f</p>
+</blockquote>
+<pre><code>你可以只说这是一个valid卷积 意味着p=0 或者你可以说这是一个same卷积 
+意味着使用足够的填充 使得输出输入的大小相等 所以这就是填充 
+在下一个视频，让我们来讲讲如何实现步幅(stride)卷积</code></pre>
+<h2 id="strided-convolutions-带步长的卷积"><a href="#strided-convolutions-带步长的卷积" class="headerlink" title="strided convolutions 带步长的卷积"></a>strided convolutions 带步长的卷积</h2><blockquote>
+<p>输入和输出的维度间的关系可以用以下的方程进行表示 如果你有一个NxN大小的图像 用一个FxF大小的过滤器对这个图像进行卷积 对图像使用p层填充，并假设步长为S。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/lk85wU7CrSxZKPy.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>如果这个分数中，分子不能被分母整除得到整数怎么办？ 这时，我们可以向下取整 用这个标志表示对于某个值向下取整 这又叫floor(z) 它表示最接近z的小于z的整数 之所以这样，是因为 蓝色区域被像素或补充的元素填满时，得到的是正数 如果蓝色区域 部分没有被图像或图像加填充部分覆盖 就这样落在外部的时候，我们不能进行计算 这说明，3X3的过滤器 必须全部落在原图像 或原图像加上填充的范围之内 就形成了这样的约定 之后，计算输出维度的正确做法是 如果(N+2P-F)/S不是整数的话，则将其向下取整。</p>
+</blockquote>
+<h2 id="convolutions-over-volume"><a href="#convolutions-over-volume" class="headerlink" title="convolutions over volume"></a>convolutions over volume</h2><blockquote>
+<p>你会得到一个 n-f+1 乘以 n-f+1乘以这边的nc’， 或者说下一层的nc， 也就是你所用的过滤器的数量。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/EjOZC4bevHKQtPD.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="one-layer-of-a-convolutional-network"><a href="#one-layer-of-a-convolutional-network" class="headerlink" title="one layer of a convolutional network"></a>one layer of a convolutional network</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/THgIWVi82jLsaeB.png"></p>
+</blockquote>
+</blockquote>
+<p>这个特征使得卷积神经网络 不太容易过拟合（overfitting）</p>
+<p>现在想象一下 前面我们的图中是两个过滤器 现在这里我们有10个过滤器 1, 2, … 10个 加起来是28x10 也就是280个参数 注意这里. 一个很好的特性是. 不管输入的图像有多大 比方1000 x 1000 或者5000 x 5000， 这里的参数个数不变. 依然是280个 因此 用这10个过滤器来检测一个图片的不同的特征，比方垂直边缘线， 水平边缘线 或者其他不同的特征 不管图片多大 所用的参数个数都是一样的</p>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/IE4GqHdXixpDWzo.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/QO1dHRGxnVbAhJU.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="simple-convolutional-network-example"><a href="#simple-convolutional-network-example" class="headerlink" title="simple convolutional network example"></a>simple convolutional network example</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/tm3of6Pk9cJln72.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/Sf3ztuKyigZqdbX.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="pooling"><a href="#pooling" class="headerlink" title="pooling"></a>pooling</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/Zifhmp4QaPr5Y19.png"></p>
+</blockquote>
+</blockquote>
+<pre><code>这里只有这些超参需要你设定一次 或许是人工设定或者使用交叉检验 
+除此之外，你就不用做什么了 它就是一个神经网络在其中一层计算的确定函数 
+而这里实际上没有任何需要学习的 它仅仅是一个确定的函数</code></pre>
+<h3 id="max-pooling"><a href="#max-pooling" class="headerlink" title="max pooling"></a>max pooling</h3><blockquote>
+<p>如果你把这个4x4的区域看作某个特征的集合 即神经网络某个层中的激活状态 那么 一个大的数字 意味着它或许检测到了一个特定的特征 所以 左侧上方的四分之一区域有这样的特征 它或许是一个垂直的边沿 亦或一个更高或更弱 显然 左侧上方的四分之一区域有那个特征 然而这个特征 或许它不是猫眼检测 但是 右侧上方的四分之一区域没有这个特征 所以 max pooling做的是 检测到所有地方的特征 四个特征中的一个被保留在max pooling的输出中 所以，max pooling作所做的其实是 如果在滤波器中任何地方检测到了这些特征 就保留最大的数值 但是 如果这个特征没有被检测到 可能左侧上方的四分之一区域就没有这个特征 于是 那些数值的最大值仍然相当小 这或许就是max pooling背后的解释 </p>
+</blockquote>
+<pre><code>pooling的一个有趣的特性是 它有一套超参 但是它没有任何参数需要学习 实际上 
+没有任何需要梯度相加算法学习的东西 一旦确定了 f 和 s 就确定了计算 
+而且梯度下降算法不会对其有任何改变 </code></pre>
+<h3 id="average-pooling"><a href="#average-pooling" class="headerlink" title="average pooling"></a>average pooling</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/BdhqsokbeDw85gK.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="CNN-Example"><a href="#CNN-Example" class="headerlink" title="CNN Example"></a>CNN Example</h2><blockquote>
+<p>神经网络中当人们说到网络层数的时候，通常指 那些有权重，有参数的网络层数量 因为池化层没有权重，没有参数 只有一些超参数，我会使用 卷积层1和池化层1为一体的说法 把他们作为层一，尽管有时候 当你看在线文章或读研究论文时，你会听到卷积层 和池化层被称为两个独立层 但这不过是二种细微不一致的表示术语 这里当我计算层数，我只会算那些有权重的层 所以我视这二个一起为层一 并且Conv1和Pool1名字末尾是1 也表明了我认为二者都是神经网络层一的组成部分 </p>
+</blockquote>
+<blockquote>
+<p> 关于如何选择这类超参数 也许一个常用的法则实际上是 不要试着创造你自己的超参数组 而是查看文献，看看其他人使用的超参数 从中选一组适用于其他人的超参数 很可能它也适用于你的应用</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/Ymb5ghGTjw3fAvq.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="why-convolutions"><a href="#why-convolutions" class="headerlink" title="why convolutions?"></a>why convolutions?</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/25/8KIgWw4ljOxArBR.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>如果你是创建一个一层有3072个单元的神经网络 下一层是4704个单元 然后你会连接每一个这些神经元 接着是权重矩阵 在权重矩阵，这些参数的总数是3072 乘以4704，结果大约是1400万个 所以这样就有很多参数需要训练 当然如今你可以训练比1400万更多参数的神经网络 但是，考虑到这仅仅是很小的图像 却有如此多的参数需要训练 而且，如果说有一个1000×1000的图像 那么这个权重矩阵将会变得非常大 但是如果你看看这个卷积层的参数总数 每个滤网是5x5 因此每个滤网有25个参数 而且一个偏置参数对每个滤网会错过26个参数 你有6个滤网 所以总共的参数总数 就等于156个参数 所以这个卷积层的参数总数仍然很少</p>
+</blockquote>
+<blockquote>
+<p>相比于全链接层，卷积的参数会少很多很多</p>
+</blockquote>
+<pre><code>卷积神经网络参数很少的原因有两个 一个是参数共享 </code></pre>
+<blockquote>
+<p>用相同的9个参数来计算所有16个输出结果 是减少参数个数的方法之一 而且，直观的来看，像垂直的边缘探测器 这类功能探测器来计算它图片的左上角 相同的特征可能会在后面有用处 当用在右下角，这个特征有可能也会有用 </p>
+</blockquote>
+<pre><code>另一个是稀疏式联系</code></pre>
+<blockquote>
+<p>第二种卷积神经网络避免 只有相对少的参数方法是建立稀疏的联系 我的意思是 如果你看着这个0 这个是通过一个3×3的卷积算出来的 所以，它只是根据这个3×3格子的输入来决定的 所有这个右边输出单元 只和这个9分之36 （6×6=36）个特征所相连 以及所有剩下的像素（格子）值 这个像素值对其他输出值没有任何的影响 这就是我所说的稀疏式联系 </p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g7c6n3c7crj30ws0iqtn3.jpg"></p>
+</blockquote>
+</blockquote>
+<pre><code>卷积神经网络会被用来捕捉平移不变 </code></pre>
+<blockquote>
+<p>我们可以观察到 一张猫的图片，它的像素格从右边移动了几格 还是一个非常清晰的猫的图片 卷积结构帮助神经网络编译了 当一张图面移动了几个像素格，它同样还应该产生非常相似的特征 应该给它一个相同的标签 同时，因为你使用了相同的滤网 这张图片的各个部分 平移之前和平移之后的图层 帮助神经网络自然而然地学会更稳定 或者更佳的捕捉到平移不变所需要的特性</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g7c6lbr7bmj30xm0g2dnu.jpg"></p>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" data-id="ckgqfij2b00057545f9uraoj5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-数值优化3 - 线性搜索方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/" class="article-date">
+  <time datetime="2019-09-22T05:26:54.000Z" itemprop="datePublished">2019-09-22</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!<br>该博客内容是在观看了吴立德老师的数值优化课程记录下的一些笔记，仅供个人复习所用。<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av10289610/?p=2">课程传送门</a></p>
+<hr>
+<h1 id="1-下降方向"><a href="#1-下降方向" class="headerlink" title="1. 下降方向"></a>1. 下降方向</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/zwx7p48NMcEJWvZ.png"></p>
+</blockquote>
+</blockquote>
+<pre><code>x(k), 选一个方向p(k)，在选一个步长a(k)
+x(k+1) = x(k) + a(k)*p(k)
+
+- 最速下降法（梯度方向）（一阶）
+- 牛顿方向 （只有在铁的附近才会快，而且对计算机内存要求很高）
+- 拟牛顿方向 （即保存了收敛的速度，又不想要计算二阶导数）
+- 共轭梯度法</code></pre>
+<h1 id="2-a-步长"><a href="#2-a-步长" class="headerlink" title="2. a 步长"></a>2. a 步长</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/eFGmpLEuP6D3tZX.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-1-wolfe条件"><a href="#2-1-wolfe条件" class="headerlink" title="2.1 wolfe条件"></a>2.1 wolfe条件</h2><h3 id="2-1-1-充分下降条件（下降速度比较大）【上限】"><a href="#2-1-1-充分下降条件（下降速度比较大）【上限】" class="headerlink" title="2.1.1 充分下降条件（下降速度比较大）【上限】"></a>2.1.1 充分下降条件（下降速度比较大）【上限】</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/UTO75vYBNLw3sm6.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/5UEtYfjy1Teporc.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="2-1-2（保证a步长-不会太小）【下限】"><a href="#2-1-2（保证a步长-不会太小）【下限】" class="headerlink" title="2.1.2（保证a步长 不会太小）【下限】"></a>2.1.2（保证a步长 不会太小）【下限】</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/J7dCMVqpUawisTP.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/8JAVuj7bx21qZdW.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-2-强wolfe条件"><a href="#2-2-强wolfe条件" class="headerlink" title="2.2 强wolfe条件"></a>2.2 强wolfe条件</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/9Tfbx6suUMVJc1q.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-3-引理-3-1"><a href="#2-3-引理-3-1" class="headerlink" title="2.3 引理 3.1"></a>2.3 引理 3.1</h2><blockquote>
+<blockquote>
+<p>满足条件的a是存在的</p>
+</blockquote>
+</blockquote>
+<h1 id="3-函数插值（求解方法）"><a href="#3-函数插值（求解方法）" class="headerlink" title="3. 函数插值（求解方法）"></a>3. 函数插值（求解方法）</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/9eGSvMcPoabJhRO.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/QOa6YEMATtBv15h.png"></p>
+</blockquote>
+</blockquote>
+<h1 id="4-收敛性-和-收敛速度"><a href="#4-收敛性-和-收敛速度" class="headerlink" title="4. 收敛性 和 收敛速度"></a>4. 收敛性 和 收敛速度</h1><blockquote>
+<p>引理3.2</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/22/N5oXgJ2tsALwRaZ.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/" data-id="ckgqfij32001u75455hl9774g" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-DL11 - 基础:进阶模型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/18/DL11%20-%20%E5%9F%BA%E7%A1%80:%E8%BF%9B%E9%98%B6%E6%A8%A1%E5%9E%8B/" class="article-date">
+  <time datetime="2019-09-18T07:19:53.000Z" itemprop="datePublished">2019-09-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/18/DL11%20-%20%E5%9F%BA%E7%A1%80:%E8%BF%9B%E9%98%B6%E6%A8%A1%E5%9E%8B/">DL11 - 基础/进阶模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Machine Learning on <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/nlp-sequence-models/lecture/HyEui/basic-models">Cousera</a>.</p>
+<hr>
+<h1 id="seq2seq-sequence-to-sequence"><a href="#seq2seq-sequence-to-sequence" class="headerlink" title="seq2seq (sequence to sequence)"></a>seq2seq (sequence to sequence)</h1><h2 id="基本的seq2seq模型结构"><a href="#基本的seq2seq模型结构" class="headerlink" title="基本的seq2seq模型结构"></a>基本的seq2seq模型结构</h2><p>如果你训练一个模型，输入一句法语句子 然后输出一个相应的英语翻译 这个方法目前看来确实是行之有效的 并且这个模型仅仅用了一个编码器网络 它的作用是将输入的法语句子先编码 再然后用解码器将来产生相应的英语翻译</p>
+<p><img src="https://i.loli.net/2019/09/19/Jzcng17vpfCGjTF.png"></p>
+<h2 id="图像-序列模型结构（图像标识）"><a href="#图像-序列模型结构（图像标识）" class="headerlink" title="图像-序列模型结构（图像标识）"></a>图像-序列模型结构（图像标识）</h2><p><img src="https://i.loli.net/2019/09/19/gBTAj7RmVXNyWsz.png"></p>
+<h2 id="seq2seq和语言模型的相似处"><a href="#seq2seq和语言模型的相似处" class="headerlink" title="seq2seq和语言模型的相似处"></a>seq2seq和语言模型的相似处</h2><p>机器翻译模型 与语言模型非常相似, 但是，它不总是以全零向量开始, 而是有一个编码的网络 它算出了输入句子的一些表示, 它处理输入句,并在启动解码网络时 使用输入句子的表示 而不是以全零向量。 因此，这就是为什么 我称之为有条件的语言模型, 而非以所有句子的概率去建模, 它现在建模的是 输出的英语翻译的概率, 在一些法语句子输入的条件下 换句话说,就是你正在试图估计出英语翻译的可能性。 比如,翻译成Jane is visiting Africa in September（”简在9月要访问非洲”）,的可能性 但在输入法语审查的条件下, “Jane visite I’Afrique en septembre.” （法语Jane is visiting Africa in September （”简在9月要访问非洲”）） 那么，这才是翻译为英语句子的概率 在输入是法语句子的条件下, 这就是为什么它是一个有条件的语言模型。 </p>
+<p><img src="https://i.loli.net/2019/09/19/KChT8ijAq3Yzl6J.png"></p>
+<h2 id="greedy-search-贪婪搜索机制"><a href="#greedy-search-贪婪搜索机制" class="headerlink" title="greedy search(贪婪搜索机制)"></a>greedy search(贪婪搜索机制)</h2><p><img src="https://i.loli.net/2019/09/19/EnzWJQb8gptox2a.png"></p>
+<p><strong><em>早期的语言模型：</em></strong>如果你只是 在前三个单词最大的概率基础上, 去选择第三个单词 最后很有可能会选择第二个翻译。 但这最终会得出一个不太理想的句子 在这个模型中， 给定 x 时，由 y 的可能性 p 来比较 得出了一个不太理想的翻译， 这可能是一个的论点 但是,这是一个更广泛的现象例子, 如果你想找到单词序列, y1, y2, 一直到最后一个词,使联合概率最大化, 每次只选一个单词并不总是最好的。</p>
+<p>但是， 句子空间的可能性是巨大的, 对所有可能评分,是不可能的 这就是为什么最常见的事情是 使用一个近似搜索出来。 而且,近似搜索算法所做的, 是它会尝试, 但不会总是成功, 它会选择 使条件概率最大化的句子 y 。 而且, 即使它不保证找出 y , 使概率最大化, 但它通常表现不错。</p>
+<p>在这个视频中, 您看到了如何将机器翻译作为条件语言建模问题来考虑。 但这两者之间的一个主要区别 早期的语言建模问题是 随机生成一个句子, 而不是试着找到最有可能的英语句子, 最有可能的英语翻译。 但一定长度的所有英语句子的集合 太大, 无法详尽地列举出。 所以, 我们必须求助于搜索算法。 所以, 让我们去到下一个视频, 你将学习波束搜索算法。</p>
+<h2 id="集束搜索-beam-search-algorith"><a href="#集束搜索-beam-search-algorith" class="headerlink" title="集束搜索 beam search algorith"></a>集束搜索 beam search algorith</h2><p><img src="https://i.loli.net/2019/09/19/zw2f6vRjKyrHnXd.png"></p>
+<p><img src="https://i.loli.net/2019/09/19/ma1Lh7pUHYM8cTd.png"></p>
+<p>请注意到如果集束宽度被设置为1, 因为这里只有一个 那么这基本上成为 我们在上一个视频里讨论过的贪婪搜索算法, 但通过考虑 多种可能性比如说3种10种或其他数字 在同一时间，集束搜索通常会 找到一个比贪婪搜索更好的输出语句</p>
+<h2 id="集束搜索的小改动"><a href="#集束搜索的小改动" class="headerlink" title="集束搜索的小改动"></a>集束搜索的小改动</h2><p><img src="https://i.loli.net/2019/09/19/v1dia8o3sCWLgwf.png"></p>
+<h2 id="怎么选择宽度B"><a href="#怎么选择宽度B" class="headerlink" title="怎么选择宽度B"></a>怎么选择宽度B</h2><p> 在生产系统中,光束宽度可能在10左右,很常见, 我认为集束宽度100是非常大的 生产系统,取决于应用程序。 但对于研究系统,人们拼尽全力从中获取最佳 表现,以便以最好的结果发表论文。 看到人们使用1000或3000的集束宽度并不少见, 但这是非常适用的,它取决于领域的不同。 因此,当您在应用程序中使用时,我会说试试B的各种值。 但是当B变得非常大时,回报往往会减少。</p>
+<h2 id="集束搜索算法-中的-错误分析"><a href="#集束搜索算法-中的-错误分析" class="headerlink" title="集束搜索算法 中的 错误分析"></a>集束搜索算法 中的 错误分析</h2><p>定向搜索是一个搜索算法， 也称为启发式搜索算法。 所以它并不总是输出最有可能性的句子。 它只跟踪记录 B 等于3或10或100最高可能性。 所以，如果定向搜索产生了错误怎么办？</p>
+<p>你的模型有两个主要的组成部分 有一个神经网络模型, 这个序列到序列的模型。 我们就把这个叫做你的 RNN 模型。 这实际上是一个编码器加一个解码器。 并且你有你的定向搜索算法， 你用一些束宽度 B来运行它。 这将会非常好，如果你能把这个错误， 也就是说这个不是很好的翻译的原因， 归因到这两个组成部分中的一个？ </p>
+<p><img src="https://i.loli.net/2019/09/19/q3QMcpeIZ2h9Vsu.png"></p>
+<h1 id="BLEU指数（score）"><a href="#BLEU指数（score）" class="headerlink" title="BLEU指数（score）"></a>BLEU指数（score）</h1><h2 id="BLEU是如何工作的"><a href="#BLEU是如何工作的" class="headerlink" title="BLEU是如何工作的"></a>BLEU是如何工作的</h2><p>例如这个法语句子“Le chat est sur le tapis“ 对应有一个人类翻译的结果作为参照 “猫在垫子上“ 但是这句法语可以有多种翻译结果 另一个人 可能会说“垫子上有只猫” 而这两个结果都是 这句法语非常完美的翻译 在给定一个机器翻译的结果时， BLEU算法能够自动计算出一个指数 来描述机器翻译的好坏</p>
+<p>BLEU是“双语评估替补”</p>
+<p>替补 在话剧届 替补演员会向资深的演员学习剧中角色 来在必要的时候替补资深演员 而BLEU的提出动机是， 在任何需要人类来评估机器翻译系统的地方 BLEU能给出一个 人类评估结果的替补</p>
+<h2 id="机器翻译结果的测量方法"><a href="#机器翻译结果的测量方法" class="headerlink" title="机器翻译结果的测量方法"></a>机器翻译结果的测量方法</h2><p><img src="https://i.loli.net/2019/09/19/Z1ya2YOQP3niecV.png"></p>
+<p>机器翻译结果好坏的一个测量方法是 看生成结果的每一个字，看它是否出现在参考翻译里 这种方法叫做机器翻译结果的准确度 这个例子中，机器生成的结果有7个字 而且每个字都出现在了第一个或者第二个参考翻译里，对吧 “the“在两个参考翻译里都有出现 因此每个字看起来都需要被包括在翻译结果里 这句话的翻译精度是7/7 看起来精确度很高 这就是为什么基本的精确度测量方法 （看MT翻译结果中的哪些字 出现在了参考翻译里） 不是很有用的测量方法 这种方法在这个例子中告诉我们MT结果精度很高 取而代之的是一种改进的精度测量方法 我们给每个单词的分数 至多是该词出现在参考翻译中的次数 因此在参考1中，“the”出现了两次 在参考2中，“the”出现了一次 2比1大，所以我们说这个词 最多得两分 在改进的模型中 the这个词的分数是2/7 因为在总共的7个词中，它最多出现两次</p>
+<p><img src="https://i.loli.net/2019/09/19/Uzt1eTxkwnrPiaK.png"></p>
+<p>目前为止，我们一直孤立地看待词语 在BLEU指数里，不仅要看孤立词 也要看成对的词组 我们定义一份双字母组 双字母组仅意味着互邻出现的成对的词 现在，我们来看看我们如何运用双词组定义BLEU指数 这会成为最终BLEU指数的一部分 我们也会采取一元语法，或者单字，还有双词组，也就是 考虑成对的词，甚至更长序列的词 比如三词组，意味着三个词搭配在一起 我们继续前面的例子 我们有同样的参考1和参考2 但是现在比如机器翻译 或是MT系统有略好的输出 “The cat the cat on the mat“ 翻译还是不太好,但也许比上一个要好</p>
+<h2 id="最终的-BLEU指数"><a href="#最终的-BLEU指数" class="headerlink" title="最终的 BLEU指数"></a>最终的 BLEU指数</h2><p><img src="https://i.loli.net/2019/09/19/HFB4aqgZpk9CKUV.png"></p>
+<p>我们把这个合在一起从而形成最终的BLEU指数 所以P下标n仅仅是计算在n元模型上的BLEU指数 同时也仅仅是计算在n元模型上的修正后精度 通过公式计算一个数，你计算出了P1，P2，P3，P4 然后使用下面的公式结合起来 将会是平均值，Pn，n从1到4加总然后除以4 基本上是取平均值</p>
+<p>根据公式，BLEU指数被定义为e的这些次方，然后求幂 对其线性操作，幂是严格单调增长 然后我们再多用一个因素调整这个值</p>
+<p>这个因素叫作BP惩罚 BP代表 brevity penalty简洁惩罚 细节也许不是很重要 但就是给出一个直观感受，结果是 如果你输出非常简短的翻译，就很容易得到高精准度 因为可能大部分输出的字都在参考表里</p>
+<p>但是我们不希望翻译是非常短的 因此，BP，或简短惩罚，就是一个调整因素 用来惩罚翻译系统中输出的非常简短的翻译 简短惩罚的公式如下 如果机器翻译系统实际输出 比人类生成的翻译参考输出要长，那么结果就等于1 否则，一些像那样的公式 总体惩罚更短的翻译</p>
+<p>BLEU指数对机器翻译来说具有革命性意义 在于它给出了一个非常好，决不是完美，但 确实很好的单一实数评估方法 加速了整个机器翻译领域进展</p>
+<h1 id="注意力网络-attention-model-intuition"><a href="#注意力网络-attention-model-intuition" class="headerlink" title="注意力网络 attention model intuition"></a>注意力网络 attention model intuition</h1><h2 id="什么事注意力网络"><a href="#什么事注意力网络" class="headerlink" title="什么事注意力网络"></a>什么事注意力网络</h2><p>大家都在用Encoder-Decoder框架 解决机器翻译问题 也就是一个RNN读入输入语句， 一个RNN输出翻译后的语句 而注意力模型（attention model） 是这个模型的一个改进。 注意力模型， 是深度学习里最具影响力的思想之一。 </p>
+<p>注意力模型也许更像一个真正的人可能会采用的翻译方法， 注意力模型在某个时间点只看句子的一部份， （使用注意力模型的）机器翻译系统的性能看上去是这样的 因为在一个时间点只针对句子的一部份进行处理， 你不会看到这个大下降 因为这其实是对神经网络记忆能力的度量。 而记忆长句子，并不是我们最想要让神经网络来做的事情</p>
+<p><img src="https://i.loli.net/2019/09/19/3RakDMyFCA5pYdS.png"></p>
+<p><img src="https://i.loli.net/2019/09/19/1EV6NHIWBxiLh2d.png"></p>
+<h2 id="注意力网络的具体实现"><a href="#注意力网络的具体实现" class="headerlink" title="注意力网络的具体实现"></a>注意力网络的具体实现</h2><p>这些注意力参数α 将告诉我们有多少的上下文取决于 我们从不同的时间步长中 获得的激活函数。 所以，我们定义的上下文实际上只是一种方法， 来等待不同的时间步长的注意力特征。 因此，这些注意力(attention waits)会满足这一点， 它们都是非负的， 因此，这将是一个零正数，它们的和等于1.</p>
+<p><img src="https://i.loli.net/2019/09/19/ZnGblkAcpvFUVEh.png"></p>
+<p><img src="https://i.loli.net/2019/09/19/O5AK23txEunDRYF.png"></p>
+<h2 id="注意力网络的缺点"><a href="#注意力网络的缺点" class="headerlink" title="注意力网络的缺点"></a>注意力网络的缺点</h2><p>这个算法的一个缺点是, 运行该算法需要二次时间或二次成本。 如果你有 tx 个输入词和ty 个输出那么注意力参数总数 将是 tx 乘以 ty。 因此,该算法以二次成本运行。 虽然在机器翻译应用中 输入和输出语句都不 长，所以也许二次成本实际上是可接受的。 虽然也有一些研究工作试图降低成本。 到目前为止, 在描述的注意力算法下进行机器翻译。 如果不深入细节, 这个想法也被应用到其他问题上。 比如图像字幕。 因此在图像字母问题中,任务是 查看图片并为该图片写一个描述。</p>
+<h1 id="语音识别"><a href="#语音识别" class="headerlink" title="语音识别"></a>语音识别</h1><h2 id="两个不同的模型-构建语音识别系统"><a href="#两个不同的模型-构建语音识别系统" class="headerlink" title="两个不同的模型 构建语音识别系统"></a>两个不同的模型 构建语音识别系统</h2><blockquote>
+<p>注意力网络</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/19/xa2IDiWLg3EPh1f.png"></p>
+<blockquote>
+<p>CTC损失函数</p>
+</blockquote>
+<p>basic rule：collapse repeated characters not separated by “blank”</p>
+<p>基本规则：折叠不以“空白”分隔的重复字符</p>
+<p><img src="https://i.loli.net/2019/09/19/a19KxiDGYpjNUZs.png"></p>
+<h1 id="触发词监测-trigger-word-detection"><a href="#触发词监测-trigger-word-detection" class="headerlink" title="触发词监测 trigger word detection"></a>触发词监测 trigger word detection</h1><p> 现在你看到了我们的结尾是这样的, 我们要做的是提取一个音频剪辑 也许是计算频谱图特征并且 它能够声称 特征 x1 x2 x3 音频特征 x1 x2 x3, 你通过一个 RNN 需要做的事情就是定义 目标标签 Y，这样一来，如果这一点在 音频剪辑是有人刚刚 说出触发词,比如 ‘ALEXA’或者说 ‘hey siri‘或者’okay google‘ 然后在 训练集里你可以把 在那之前的所有目标标签设置为0 紧接那之后的 目标标签设置为1 过了一会儿你知道触发词 又被说到了 你可以再次 设置目标标签为1 这种类型 rnn的标记方式可以起作用 但其实不能 很好的起作用，一个缺陷就是 这会使 训练集不平衡， 0会比1多很多 所以你可以做的一件事是 使用一点技巧 可以使他们训练 时容易一些，相比于只设置 一个单一输出的时间点，你 事实上可以设置几次输出为1 或者一个固定时间段 在转化为0之前 所以这样会 使1和0的比率稍微平衡一点 这是一个小技巧</p>
+<p><img src="https://i.loli.net/2019/09/19/jBKsayLwJQTE8hi.png"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/18/DL11%20-%20%E5%9F%BA%E7%A1%80:%E8%BF%9B%E9%98%B6%E6%A8%A1%E5%9E%8B/" data-id="ckgqfij2a00047545cczn2jf6" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-DL10 - 词研讨" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/16/DL10%20-%20%E8%AF%8D%E7%A0%94%E8%AE%A8/" class="article-date">
+  <time datetime="2019-09-16T07:54:35.000Z" itemprop="datePublished">2019-09-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/16/DL10%20-%20%E8%AF%8D%E7%A0%94%E8%AE%A8/">DL10 - word_presentation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Machine Learning on <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/nlp-sequence-models/lecture/0h7gT/why-sequence-models">Cousera</a>.<br>部分借鉴于<a target="_blank" rel="noopener" href="https://www.cnblogs.com/marsggbo/p/8485650.html#autoid-5-0-0">博客</a></p>
+<hr>
+<h1 id="词嵌入"><a href="#词嵌入" class="headerlink" title="词嵌入"></a>词嵌入</h1><h2 id="one-hot编码"><a href="#one-hot编码" class="headerlink" title="one-hot编码"></a>one-hot编码</h2><pre><code>這樣的表示法有個弱點是 它將每個字詞獨立看待 無法讓演算法能夠泛化運用至相關字詞 </code></pre>
+<h2 id="高纬度特征的优势"><a href="#高纬度特征的优势" class="headerlink" title="高纬度特征的优势"></a>高纬度特征的优势</h2><p><img src="https://i.loli.net/2019/09/16/ahzJjweB5IAF9iE.png"></p>
+<h2 id="常用的视觉化演算法-t-SNE"><a href="#常用的视觉化演算法-t-SNE" class="headerlink" title="常用的视觉化演算法 t-SNE"></a>常用的视觉化演算法 t-SNE</h2><p><img src="https://i.loli.net/2019/09/16/7nfsNebRm9Y2K6S.png"></p>
+<pre><code> 來自 Laurens van der Maaten &lt;br /&gt;和 Geoffrey Hinton 的論文</code></pre>
+<h2 id="为什么叫做词嵌入-word-embedding"><a href="#为什么叫做词嵌入-word-embedding" class="headerlink" title="为什么叫做词嵌入 word embedding"></a>为什么叫做词嵌入 word embedding</h2><pre><code>這些用到特徵化向量的表示法 如這些300維向量所用的表示方法 被稱作「嵌入」 
+我們這樣叫它的原因是 你可以想像一個300維度的空間 而當然, 我們畫不出300維的空間&lt;br /&gt;
+這裡用一個三維空間表示 然後取每一個字詞, 如「柳橙」 會對應到一個三維特徵向量 
+使得這個字被嵌入在這個300維空間上的一點 而「蘋果」被嵌入在300維空間上的另一個點 </code></pre>
+<h1 id="如何使用-词嵌入"><a href="#如何使用-词嵌入" class="headerlink" title="如何使用 词嵌入"></a>如何使用 词嵌入</h1><h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><pre><code>榴莲是一种罕见的水果, 在新加坡和其他少数节国家很流行。 但如果你为人名识别任务 
+设置了一个小的标签训练集, 你可能根本没有在你的训练集中看到 
+单词’durian榴莲’或’cultivator耕种者 我想严格来说,应该是a durian cultivator 
+一位种榴莲的耕种者。 但如果你学了一个单词嵌入, 它告诉你榴莲是一种水果, 它就像橙子一样, 
+并且告诉你耕种者和农民类似, 然后,你可能在训练集中见过 orange farmer橙子果民 
+从而得知durian⏎cultivator 榴莲耕种者可能也是个人。 因此，单词嵌入能够做到这一点的原因之一是 学习单词嵌入的算法 可以检查大量的文本主体, 
+也许是在网上找到的这些文本 所以你可以检查非常大的数据集, 也许会达到10亿字, 
+甚至多达1000亿字，这也是相当合理的。 大量的只含未标记文本的训练集</code></pre>
+<h2 id="学习迁移"><a href="#学习迁移" class="headerlink" title="学习迁移"></a>学习迁移</h2><blockquote>
+<p>你可以进行学习迁移, 你可以利用来自文本的信息， 这些大量未标记的文本可从网络上免费得到 去得出橘子、苹果和榴莲都是水果。</p>
+</blockquote>
+<blockquote>
+<p>然后将该知识迁移到任务上, 如命名实体识别, 对于这个任务，你可能有 较小的已标记的训练集。 当然,简单起见, 我只画出单向RNN。 如果你确实要执行命名识别任务,则应该 使用双向RNN, 而不是我画的简单RNN。 但总而言之, 这就是如何使用单词嵌入来进行学习迁移 :</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/17/7vOsDFHjopPI2Qr.png"></p>
+<ul>
+<li>第一步是从大量的文本语料库学习单词嵌入, 或者可以从网上下载已经训练好的单词嵌入。 </li>
+<li> 然后你可以把这些单词嵌入迁移 到有着更小的已标记训练集的任务上。 然后用这个300维的词嵌入,来代表单词。 还有一点好处是你现在可以使用 相对较低维的特征向量。 不用1万维的one hot向量, 你现在可以改用300维向量。</li>
+<li>  最后,当你在新任务上训练你的模型时, 比如，在较小标签数据集的命名识别任务上, 你可以选择性的去继续微调参数, 继续用新数据调整单词嵌入。 (实战中，只有任务2具有相当大的数据集时, 才会执行此操作。 如果第二步带标签的数据集很小, 那么通常, 我不会继续微调单词嵌入。)</li>
+</ul>
+<h2 id="词嵌入迁移的适用情况"><a href="#词嵌入迁移的适用情况" class="headerlink" title="词嵌入迁移的适用情况"></a>词嵌入迁移的适用情况</h2><blockquote>
+<p>如同在其他迁移学习设置中看到的, 如果您正在尝试 从某个任务 a 转移到某个任务 B, 迁移学习过程在这种情况下最有用的, 就是当你碰巧 对A有很多数据集，B有相对更少的数据集。 对于许多 NLP 任务, 这是正确的，然而对于 一些语言建模和机器翻译，就不一定了。</p>
+</blockquote>
+<h1 id="词嵌入的作用-类比推理"><a href="#词嵌入的作用-类比推理" class="headerlink" title="词嵌入的作用 - 类比推理"></a>词嵌入的作用 - 类比推理</h1><h2 id="词的词组相关性判断（类比）"><a href="#词的词组相关性判断（类比）" class="headerlink" title="词的词组相关性判断（类比）"></a>词的词组相关性判断（类比）</h2><pre><code>词嵌入可以帮你找到一组词汇中你想要的特定的词语 假设我提出了一个问题 
+男人对应女人那么国王对应什么呢 </code></pre>
+<p> <img src="https://i.loli.net/2019/09/17/JPUqe1AREOV2fQi.png"></p>
+<blockquote>
+<p>注意：诸如t-SAE 之类的算法来可视化单词 t-SAE做的是，它处理300维的数据 然后以非线性的方式映射到2维空间 因此t-SAE的学习过程是一个非常复杂并且 非线性的映射 所以在t-SAE映射以后，你不应该期望这种类型的 平行四边形关系, 就像我们在左边看到的, 是有效的</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/17/ou4fecPW8qYDynU.png"></p>
+<h2 id="余弦相似度-和-欧几里得距离"><a href="#余弦相似度-和-欧几里得距离" class="headerlink" title="余弦相似度 和 欧几里得距离"></a>余弦相似度 和 欧几里得距离</h2><pre><code>这就是余弦相似度的来源，并且它对于 类比推理的应用是很有效的 
+如果你想的话，你也可以用平方距离或 欧几里得距离，u-v平方 
+技术上来说这是对非相似度的测量，而不是 相似度的测量 
+所以我们需要利用它的不利因素，并且也可以应用得很好 
+虽然我看到余弦相似性被使用得更频繁一些
+
+这两者最大的不同在于 它是如何规范化向量u和v的长度的
+
+因此, 嵌入词的一个显著的结果是 它们能够学会的类比关系的普遍性 比如说它可以学习男人对应女人之于男孩对应女孩 因为男人和女人之间的向量差 
+与国王与王后以及男孩和女孩之间的差别是相似的，主要是性别 
+它也知道Ottwa（渥太华）是加拿大的首都 正如Nairobi（内罗毕）是肯尼亚的首都一样 
+所以城市首都对应着这个国家中的一个名字 它可以学习大对应更大，正如高对应更高</code></pre>
+<p><img src="https://i.loli.net/2019/09/17/bxAmY2MsfauWDGj.png"></p>
+<h1 id="Embedding-matrix-嵌入矩阵"><a href="#Embedding-matrix-嵌入矩阵" class="headerlink" title="Embedding matrix 嵌入矩阵"></a>Embedding matrix 嵌入矩阵</h1><h2 id="词嵌入-和-one-hot编码-的符号和图表示"><a href="#词嵌入-和-one-hot编码-的符号和图表示" class="headerlink" title="词嵌入 和 one-hot编码 的符号和图表示"></a>词嵌入 和 one-hot编码 的符号和图表示</h2><p><img src="https://i.loli.net/2019/09/17/Vocae8KPu5AgnJG.png"></p>
+<h1 id="learning-word-embeddings-训练和学习-词嵌入的方法"><a href="#learning-word-embeddings-训练和学习-词嵌入的方法" class="headerlink" title="learning word embeddings 训练和学习 词嵌入的方法"></a>learning word embeddings 训练和学习 词嵌入的方法</h1><h2 id="神经网络语言模型-学习word-embedding"><a href="#神经网络语言模型-学习word-embedding" class="headerlink" title="神经网络语言模型 学习word-embedding"></a>神经网络语言模型 学习word-embedding</h2><pre><code>在这个视频中你们看到了语言建模问题 这导致机器学习问题的不同角度 
+你输入像最后四个单词这样的上下文, 然后预测一些目标词 
+如何看待这个问题让你可以学习输入词嵌入</code></pre>
+<p><img src="https://i.loli.net/2019/09/17/YFLmS4j1hUHPBgC.png"></p>
+<blockquote>
+<p>上图中的E就是我们要训练的词嵌入！</p>
+</blockquote>
+<blockquote>
+<p>研究人员发现, 如果你真的想建立一个语言模型 用最后几个单词作为上下文语境是很自然的 但是, 如果你的主要目标是真正学习词嵌入 那么你可以使用所有这些其他的上下文并且他们 也会产生非常有意义的词嵌入</p>
+</blockquote>
+<h1 id="skip-grams"><a href="#skip-grams" class="headerlink" title="skip-grams"></a>skip-grams</h1><p><img src="https://i.loli.net/2019/09/17/pgydmOnBxXvUw1V.png"></p>
+<blockquote>
+<p> 这就是所谓的skip-gram模型，因为输入一个单词 比如orange，它会试图跳过一些单词去预测另一些单词 从左边或者从右边跳过 预测出现在语境词前后的词，会是什么</p>
+</blockquote>
+<blockquote>
+<p> 现在，使用这个算法还有几个问题需要解决。 最主要的问题是计算速度 特别是对于softmax模型, 我们每次都要计算这个概率 这就需要在你的词汇表中对所有1万个单词进行求和 也许一万个词汇并不是很糟糕 但如果使用的是大小为10万或100万的词汇表, 每次都要对这个分母求和，就会变得很慢。</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/17/YFLgUaGcIhRAlsP.png"></p>
+<blockquote>
+<p>使用分层的softmax分类器 它的意思是 并不是在一次计算中把它分成一万个类 想象你如果有一个分类器 它会告诉你目标单词是否在词汇表的前5000个单词里 或者是在后5000个单词里 假设这个二分法分类器告诉你，它在前5000个单词里 第二个分类器告诉你，它在词汇表的前2500个词汇里 或者在后2500个词汇里，诸如此类 直到最后，你终于分清楚它究竟是什么单词 就像这棵树上的叶子，因此这么一个像树一样的分类器 这个树上的每一个内部节点，都可以用一个二元分类器来表示，比如逻辑分类器 这样你就没必要对所有10000个单词求和 仅仅为了一个分类 事实上，使用像这样的一个分类树的计算代价 是根据词汇表大小，按对数函数形式增长的，而不是按线性增长的 这就是分层softmax分类器 我想提到的是，在实际应用中，分层softmax分类器并不会 使用一个完美平衡的树，或者说完美对称的树 每个分支的左右两侧有着同样数目的单词 事实上，分层softmax分类器可以被设计成 常见的词汇都在顶端 而像durian这样不怎么常见的词汇，就被隐藏的很深 因为你经常看到常见的单词 所以你或许只需要几次遍历，就能找到常见的词汇，比如the和of 但是你很少会看到像durian这样罕见的词汇 它就会把它埋在树的深处，因为你没有必要经常去到那么深 因此有许多启发式的方法 来建立这棵树，这棵你用来建造分层softmax分类器的树</p>
+</blockquote>
+<h1 id="负采样法-negative-sample"><a href="#负采样法-negative-sample" class="headerlink" title="负采样法 negative sample"></a>负采样法 negative sample</h1><h2 id="训练过程"><a href="#训练过程" class="headerlink" title="训练过程"></a>训练过程</h2><blockquote>
+<p>想象这是有10,000个二进制逻辑回归分类器 但是，并非要在每次迭代中 训练全部10,000个分类器 我们只训练其中的5个 也就是对应于实际的目标词语的那个 以及对应于其他4个 随机抽取的负样本的分类器 这就是k等于4时的情形 那么，不同于训练一个非常难于训练的 巨大的具有10,000个可能结果的Softmax模型， 我们将它转换为 10,000个二元分类问题 它们每一个计算起来都特别容易 并且在每次迭代中，我们只训练其中的5个， 或者更一般地说 其中的k+1个，k个负样本，1个正样本 这就是为什么这个算法的计算成本显著更低 因为你在训练k+1个逻辑回归模型 或者说k+1个二元分类问题 它们在每次迭代中计算起来都相对容易 而不是训练一个具有10,000个 可能结果的Softmax分类器 在这周的编程练习中，你将有机会 来熟悉这种算法 这种技巧叫做负采样法，因为你做的正是 得到一个正样本，”橙子“，然后”果汁“ 然后你会故意地生成一些负样本 这就是为什么它叫做”负采样法“ 你将用这些负样本来训练4个二元分类器</p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/17/lrENoqVDjgFC7dS.png"></p>
+<h2 id="采样方法"><a href="#采样方法" class="headerlink" title="采样方法"></a>采样方法</h2><p><img src="https://i.loli.net/2019/09/17/ykc4NYlp92Eo8Lt.png"></p>
+<blockquote>
+<p>根据经验，他们认为最好的方法是 采用这种启发式的值，也就是介于 从经验频率分布中采样，即 观察到的英语文本中的分布， 到从均匀分布中采样 他们所做的，就是依词频的3/4次幂 来抽样 那么例如f(w_i)表示某个观察到的 英语中的词频 或者说你训练集中的词频， 那么取它的3/4次幂 这样它就介于取均匀分布 和取经验分布的 两个极端之间</p>
+</blockquote>
+<h1 id="GloVe-word-vectors-特点是简单"><a href="#GloVe-word-vectors-特点是简单" class="headerlink" title="GloVe word vectors(特点是简单)"></a>GloVe word vectors(特点是简单)</h1><p><img src="https://i.loli.net/2019/09/17/q7l145oyaiEVSKh.png"></p>
+<p><img src="https://i.loli.net/2019/09/17/Us9Q5DWKnwEm3V6.png"></p>
+<h1 id="从特征角度看待词向量"><a href="#从特征角度看待词向量" class="headerlink" title="从特征角度看待词向量"></a>从特征角度看待词向量</h1><blockquote>
+<p>你无法保证用来表示特征的那些坐标 可以轻易地和人类可以 容易理解的特征坐标联系起来 尤其是，第一个特征可能是包括了性别、 皇室属性、年龄、食物、 价格、尺寸、 是名词还是动词 等等这些特征的一个组合 因此要给单个元素、嵌入矩阵的单个行 一个人性化解释是非常困难的 但尽管有这种线性变换 我们在描述类比的时候用到的 平行四边形图，仍然是有效的 因此，尽管有这种特征间可能的任意的线性变换 表征类比的平行四边形图仍然是有效的 </p>
+</blockquote>
+<p><img src="https://i.loli.net/2019/09/17/BReSl8UNcCatMP5.png"></p>
+<h1 id="词嵌入的应用-情感分类"><a href="#词嵌入的应用-情感分类" class="headerlink" title="词嵌入的应用 - 情感分类"></a>词嵌入的应用 - 情感分类</h1><pre><code>希望本节视频能给你一种感觉 一旦你从学习了一个词嵌入向量&lt;br /&gt;
+或从网上下载了一个词嵌入向量 它可以让你相当迅速地构建出&lt;br /&gt;非常有效的自然语言处理系统</code></pre>
+<h1 id="词嵌入的偏见"><a href="#词嵌入的偏见" class="headerlink" title="词嵌入的偏见"></a>词嵌入的偏见</h1><pre><code>机器学习和AI算法越来越受人信任 可以用来帮人做出非常重要的决策 所以我们需要尽可能确保 
+算法中没有我们不希望看到的偏见，如性别偏见、种族偏见等 这节课我想教你一些方法 
+来减少或消除在词嵌入中的这些形式的偏差 </code></pre>
+<p><img src="https://i.loli.net/2019/09/17/RzkKe46AMNalC9m.png"></p>
+<ul>
+<li>那如何才可以明确对应偏见的方向呢？ 对性别而言，我们可以将词向量he 减去词向量she，因为他们是按性别来区分不同的 符号为e_male-e_female 取相类似的，然后取平均值对吧 并采取一些这些差异,基本上对他们去平均数。 这能让你明白在这个案例中应该得出一个怎样的结果 这个方向是性别的方向，即偏差方向</li>
+<li>下一步就是中立化 对于每一个没有定义的词，通过映射来摆脱偏差 有些词本来就带有性别的含义 所以像grandmother grandfather，girl，boy，she，he， 都是本来就有性别相关的定义 然而像其他的词，如doctor babysitter，这些词是性别中性词 在很多情况下，你也许希望doctor babysitter是中性的或者说是 性别导向为中立的</li>
+<li>最后一步叫均匀化 你有一对词，比如grandmother和 grandfather或girl和boy，你希望 词嵌入中唯一的差别是性别 那为什么你想这么做呢？ 在这个例子中，距离也就是相似度 在babysitter和grandmother之间的距离 比babysitter和grandfather之间的要小 这会加强一种不健康 不希望看到的偏差， 即：grandmother之于babysitter 多余grandermother之于grandfather 所以在最后平均化这一步中 我们希望确保的是像grandmother， grandfather这类词 有相似性，有相同的距离</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/16/DL10%20-%20%E8%AF%8D%E7%A0%94%E8%AE%A8/" data-id="ckgqfij2600017545by68dk9m" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-数值优化2 - 无约束优化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/15/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%962%20-%20%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/" class="article-date">
+  <time datetime="2019-09-15T11:54:38.000Z" itemprop="datePublished">2019-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/15/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%962%20-%20%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/">数值优化2 - 无约束优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!<br>该博客内容是在观看了吴立德老师的数值优化课程记录下的一些笔记，仅供个人复习所用。<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av10289610/?p=2">课程传送门</a></p>
+<hr>
+<h1 id="1-“解”的概念-x🌟"><a href="#1-“解”的概念-x🌟" class="headerlink" title="1. “解”的概念 x🌟"></a>1. “解”的概念 x🌟</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/Q7rVMOsPtp1BbGw.png"></p>
+</blockquote>
+</blockquote>
+<h1 id="2-解的条件"><a href="#2-解的条件" class="headerlink" title="2. 解的条件"></a>2. 解的条件</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/tUCsRmwFy6prebO.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-1-taylor公式，n元多项式"><a href="#2-1-taylor公式，n元多项式" class="headerlink" title="2.1 taylor公式，n元多项式"></a>2.1 taylor公式，n元多项式</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/AacUJEdesYiXQVk.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-2-中值定理"><a href="#2-2-中值定理" class="headerlink" title="2.2 中值定理"></a>2.2 中值定理</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/KTAYFD8neqEcJQg.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-3-一阶必要条件"><a href="#2-3-一阶必要条件" class="headerlink" title="2.3 一阶必要条件"></a>2.3 一阶必要条件</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/9S6vYJXifMbtq8V.png"></p>
+</blockquote>
+</blockquote>
+<pre><code>反证法，忘记了可以回顾视频</code></pre>
+<h2 id="2-4-二阶必要条件（半正定"><a href="#2-4-二阶必要条件（半正定" class="headerlink" title="2.4 二阶必要条件（半正定"></a>2.4 二阶必要条件（半正定</h2><pre><code>矩阵A正定是指,对任意的X≠0恒有X^TAX＞0
+矩阵A半正定是指,对任意的X≠0恒有X^TAX≥0</code></pre>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/sLKR42cUxpAQ6jJ.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-5-二阶充分条件（正定）"><a href="#2-5-二阶充分条件（正定）" class="headerlink" title="2.5 二阶充分条件（正定）"></a>2.5 二阶充分条件（正定）</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/sLKR42cUxpAQ6jJ.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="2-6-凸函数的解"><a href="#2-6-凸函数的解" class="headerlink" title="2.6 凸函数的解"></a>2.6 凸函数的解</h2><h1 id="3-算法"><a href="#3-算法" class="headerlink" title="3. 算法"></a>3. 算法</h1><h2 id="3-1-概念"><a href="#3-1-概念" class="headerlink" title="3.1 概念"></a>3.1 概念</h2><p>迭代算法： x0-&gt;x1-&gt;….-&gt;xi-&gt;xi+1, x最后收敛到我们要的解<br>        算法就是怎么从xi，求出下一个迭代点xi+1<br>         一定包含终止条件：||∇f(xi)|| -&gt; ||∇f(x🌟)||=0时必要条件<br>                        或者： f(x+1)-f(x)差值比较小</p>
+<h2 id="3-2-直接、一阶、二阶-方法"><a href="#3-2-直接、一阶、二阶-方法" class="headerlink" title="3.2 直接、一阶、二阶 方法"></a>3.2 直接、一阶、二阶 方法</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/ue9fT7rygUzG38A.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="3-3-算法的收敛性"><a href="#3-3-算法的收敛性" class="headerlink" title="3.3 算法的收敛性"></a>3.3 算法的收敛性</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/oMfz1Hl7xUbm4tJ.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="3-3-1-全局收敛的算法"><a href="#3-3-1-全局收敛的算法" class="headerlink" title="3.3.1 全局收敛的算法"></a>3.3.1 全局收敛的算法</h3><h3 id="3-3-2-局部收敛的算法"><a href="#3-3-2-局部收敛的算法" class="headerlink" title="3.3.2 局部收敛的算法"></a>3.3.2 局部收敛的算法</h3><h2 id="3-4-算法的收敛速度"><a href="#3-4-算法的收敛速度" class="headerlink" title="3.4 算法的收敛速度"></a>3.4 算法的收敛速度</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/mCc4S79tV2HbwAi.png"></p>
+</blockquote>
+</blockquote>
+<pre><code>线性收敛、超线性收敛（超线性其实就是线性收敛里面r趋紧于0）、二次收敛（牛顿收敛就是二次收敛）</code></pre>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/WlZNog3pYDnq2m7.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="3-5-方法"><a href="#3-5-方法" class="headerlink" title="3.5 方法"></a>3.5 方法</h2><p>线性搜索方法<br>信赖域方法</p>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/QnP5rxqwhmOKM1X.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/22/fmVtFJw1T4aRNzA.png">·</p>
+</blockquote>
+</blockquote>
+<h3 id="3-5-1-线性搜索方法"><a href="#3-5-1-线性搜索方法" class="headerlink" title="3.5.1 线性搜索方法"></a>3.5.1 线性搜索方法</h3><p>x(k), 选一个方向p(k)，在选一个步长a(k)<br>x(k+1) = x(k) + a(k)*p(k)</p>
+<p>（1）选方向</p>
+<ul>
+<li>最速下降法（梯度方向）（一阶）</li>
+<li>牛顿方向 （只有在铁的附近在回快，而且对计算机内存要求很高）</li>
+<li>拟牛顿方向 （即保存了收敛的速度，又不想要计算二阶导数）</li>
+<li>共轭梯度法</li>
+</ul>
+<h3 id="3-5-2-信赖域方法"><a href="#3-5-2-信赖域方法" class="headerlink" title="3.5.2 信赖域方法"></a>3.5.2 信赖域方法</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/15/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%962%20-%20%E6%97%A0%E7%BA%A6%E6%9D%9F%E4%BC%98%E5%8C%96/" data-id="ckgqfij30001p7545hca2buir" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-数值优化1 - 概述" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/15/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%961%20-%20%E6%A6%82%E8%BF%B0/" class="article-date">
+  <time datetime="2019-09-15T11:00:39.000Z" itemprop="datePublished">2019-09-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/15/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%961%20-%20%E6%A6%82%E8%BF%B0/">数值优化1 - 概述</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!<br>该博客内容是在观看了吴立德老师的数值优化课程记录下的一些笔记，仅供个人复习所用。<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av10289610/?p=1">课程传送门</a></p>
+<hr>
+<h1 id="1-问题和术语"><a href="#1-问题和术语" class="headerlink" title="1. 问题和术语"></a>1. 问题和术语</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/NqCuJVRmxAU6nX8.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/MS2xAX9fJPuOwIN.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/gn6oY8salCcUuPF.png"></p>
+</blockquote>
+</blockquote>
+<pre><code>x🌟=（1，1） </code></pre>
+<h1 id="2-为什么要学-举实际例子"><a href="#2-为什么要学-举实际例子" class="headerlink" title="2. 为什么要学(举实际例子)"></a>2. 为什么要学(举实际例子)</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/15/FjlL4m3rfV1XDOh.png"></p>
+</blockquote>
+</blockquote>
+<h1 id="3-一些重要的子类"><a href="#3-一些重要的子类" class="headerlink" title="3. 一些重要的子类"></a>3. 一些重要的子类</h1><ul>
+<li>无约束优化 和 约束优化（等式/不等式约束优化）</li>
+<li>线性规划（目标函数、约束函数都是线性）</li>
+<li>二次规划（规划就是约束优化问题）：目标函数是二次函数、约束函数是线性</li>
+<li>凸规划：目标函数是凸的，约束函数是线性的（局部最小值就是整体最小值）</li>
+</ul>
+<h1 id="4-左邻右舍（左边是本书要讲的内容，右边是扩展【更难】）"><a href="#4-左邻右舍（左边是本书要讲的内容，右边是扩展【更难】）" class="headerlink" title="4. 左邻右舍（左边是本书要讲的内容，右边是扩展【更难】）"></a>4. 左邻右舍（左边是本书要讲的内容，右边是扩展【更难】）</h1><ul>
+<li>局部（本书关键，因为全局解太难了） 与 全局（解）</li>
+<li>连续优化问题 与 离散优化问题</li>
+<li>决定函数 与 随机函数</li>
+</ul>
+<h1 id="5-关于“数值”"><a href="#5-关于“数值”" class="headerlink" title="5. 关于“数值”"></a>5. 关于“数值”</h1><pre><code>在算法设计的时候，要考虑舍入误差</code></pre>
+<h1 id="6-基本内容"><a href="#6-基本内容" class="headerlink" title="6. 基本内容"></a>6. 基本内容</h1><ul>
+<li>解的 存在、唯一、特征等</li>
+<li>算法（算法本身、收敛性、收敛速度）</li>
+</ul>
+<h1 id="7-课本的章节内容分布"><a href="#7-课本的章节内容分布" class="headerlink" title="7. 课本的章节内容分布"></a>7. 课本的章节内容分布</h1><ul>
+<li>第一章：引言</li>
+<li>第2-11章：无约束问题<ul>
+<li>第2章：讨论“解”的问题</li>
+<li>3-9章：讲各种各样的算法</li>
+<li>10、11章：算法的其他数学应用</li>
+</ul>
+</li>
+<li>12-19章：约束问题<ul>
+<li>12章：讲“解”的条件</li>
+<li>13、14：线性规划</li>
+<li>15： 算法总的</li>
+<li>16：二次规划</li>
+<li>17-19:类似16章的各种规划</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/15/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%961%20-%20%E6%A6%82%E8%BF%B0/" data-id="ckgqfij2z001n7545bg8x1tfz" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-数学之美14 - 余弦定理和新闻的分类" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E14%20-%20%E4%BD%99%E5%BC%A6%E5%AE%9A%E7%90%86%E5%92%8C%E6%96%B0%E9%97%BB%E7%9A%84%E5%88%86%E7%B1%BB/" class="article-date">
+  <time datetime="2019-09-14T11:54:29.000Z" itemprop="datePublished">2019-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E14%20-%20%E4%BD%99%E5%BC%A6%E5%AE%9A%E7%90%86%E5%92%8C%E6%96%B0%E9%97%BB%E7%9A%84%E5%88%86%E7%B1%BB/">数学之美14 - 余弦定理和新闻的分类</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! </p>
+<hr>
+<h3 id="1-新闻的特征向量"><a href="#1-新闻的特征向量" class="headerlink" title="1. 新闻的特征向量"></a>1. 新闻的特征向量</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/14/aelQoz6bchdMpg3.png"></p>
+</blockquote>
+</blockquote>
+<p>利用 tf-idf算法，讲新闻转换为数学的问题</p>
+<h3 id="3-计算向量余弦的技巧"><a href="#3-计算向量余弦的技巧" class="headerlink" title="3. 计算向量余弦的技巧"></a>3. 计算向量余弦的技巧</h3><h4 id="3-1-大数据量-时的余弦计算"><a href="#3-1-大数据量-时的余弦计算" class="headerlink" title="3.1 大数据量 时的余弦计算"></a>3.1 大数据量 时的余弦计算</h4><h4 id="3-2-位置的加权"><a href="#3-2-位置的加权" class="headerlink" title="3.2 位置的加权"></a>3.2 位置的加权</h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E14%20-%20%E4%BD%99%E5%BC%A6%E5%AE%9A%E7%90%86%E5%92%8C%E6%96%B0%E9%97%BB%E7%9A%84%E5%88%86%E7%B1%BB/" data-id="ckgqfij35001z7545ah9t9fba" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

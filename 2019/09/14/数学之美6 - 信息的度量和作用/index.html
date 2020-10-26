@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>数学之美6 - 信息的度量和作用 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog!   信息熵信息熵的概念   信息熵公式的理解自信息 引入一个新的概念：自信息：用来衡量某个具体变量或者事件具体发生时，包含的信息量。在这里我们用I(X)表示   如果我们有两个不相关的事件 x 和 y，那么观察两个事件同时发生时获得的信息量应该等于观察到事件各自发生时获得的信息之和，即：I(x,y)&#x3D;I(x)+I(y)。   因为两个事件是独立不相关的，因此">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学之美6 - 信息的度量和作用">
+<meta property="og:url" content="http://example.com/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E6%20-%20%E4%BF%A1%E6%81%AF%E7%9A%84%E5%BA%A6%E9%87%8F%E5%92%8C%E4%BD%9C%E7%94%A8/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog!   信息熵信息熵的概念   信息熵公式的理解自信息 引入一个新的概念：自信息：用来衡量某个具体变量或者事件具体发生时，包含的信息量。在这里我们用I(X)表示   如果我们有两个不相关的事件 x 和 y，那么观察两个事件同时发生时获得的信息量应该等于观察到事件各自发生时获得的信息之和，即：I(x,y)&#x3D;I(x)+I(y)。   因为两个事件是独立不相关的，因此">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://i.loli.net/2019/09/14/evVoHtLMJkfbzRP.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/RkFWV2xcOoDINHf.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/r7pGxkPsyMv9fC6.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/FzSABWU2hP7tOv3.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/18/f4EsJgQ5OjF61NG.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/18/lH5EmPaurOCtR38.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/CvjkPy6H9oJcRT3.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/zngEABqN9RCFrSv.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/m86tCrqYKwlfb2F.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/18/eNS9bLHoscw6TkZ.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/K4Xoc2fdTBPltbv.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/xDOikEHUaXM7bc4.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/e5RMxUpKmjDltEy.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/qCIP3XKLpyYMsGh.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/WOAUCXbKS8sh9NZ.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/BHgbJl86w9pEFfd.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/1hL9m4zpnUa5fMb.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/GZRTefgsyaBVorK.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/mYjd2MyGpv7UN5z.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/17/VcevuKL7QSk2Ryq.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/2trYqlOIMiCcoeV.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/NwxuVjOGiTphvCM.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/20/RT2Oy5K9qAIc7sr.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/qQyip17jx53eEvs.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/19/XerID2Po9Hlx5hy.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/20/o9xwuGDlXSBKej1.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/20/rT5xXlF8hB6Ia7O.png">
+<meta property="article:published_time" content="2019-09-14T06:55:27.000Z">
+<meta property="article:modified_time" content="2019-09-20T09:26:36.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="数学之美">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/09/14/evVoHtLMJkfbzRP.png">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-数学之美6 - 信息的度量和作用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E6%20-%20%E4%BF%A1%E6%81%AF%E7%9A%84%E5%BA%A6%E9%87%8F%E5%92%8C%E4%BD%9C%E7%94%A8/" class="article-date">
+  <time datetime="2019-09-14T06:55:27.000Z" itemprop="datePublished">2019-09-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      数学之美6 - 信息的度量和作用
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! </p>
+<hr>
+<h1 id="信息熵"><a href="#信息熵" class="headerlink" title="信息熵"></a>信息熵</h1><h2 id="信息熵的概念"><a href="#信息熵的概念" class="headerlink" title="信息熵的概念"></a>信息熵的概念</h2><blockquote>
+<p><img src="https://i.loli.net/2019/09/14/evVoHtLMJkfbzRP.png"></p>
+</blockquote>
+<h2 id="信息熵公式的理解"><a href="#信息熵公式的理解" class="headerlink" title="信息熵公式的理解"></a>信息熵公式的理解</h2><h3 id="自信息"><a href="#自信息" class="headerlink" title="自信息"></a>自信息</h3><blockquote>
+<p>引入一个新的概念：自信息：用来衡量某个具体变量或者事件具体发生时，包含的信息量。在这里我们用I(X)表示</p>
+</blockquote>
+<blockquote>
+<p>如果我们有两个不相关的事件 x 和 y，那么观察两个事件同时发生时获得的信息量应该等于观察到事件各自发生时获得的信息之和，即：I(x,y)=I(x)+I(y)。</p>
+</blockquote>
+<blockquote>
+<p>因为两个事件是独立不相关的，因此 p(x,y)=p(x)p(y)。根据这两个关系，很容易看出 I(x)一定与 p(x)的对数有关 (因为对数的运算法则是 </p>
+</blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/RkFWV2xcOoDINHf.png"></p>
+</blockquote>
+<blockquote>
+<p>因此，我们有I(x)=−logp(x)其中负号是用来保证信息量是正数或者零。而 log 函数基的选择是任意的（信息论中基常常选择为2，因此信息的单位为比特bits；而机器学习中基常常选择为自然常数）</p>
+</blockquote>
+<blockquote>
+<p>I(x)描述的是随机变量的某个事件发生所带来的信息量。图像如图：</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/r7pGxkPsyMv9fC6.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="信息熵的数学表示"><a href="#信息熵的数学表示" class="headerlink" title="信息熵的数学表示"></a>信息熵的数学表示</h3><blockquote>
+<p>自信息和信息熵的对比：自信息只能处理单个的输出。而熵是对整个概率分布中不确定性总量进行量化</p>
+</blockquote>
+<blockquote>
+<p>现在假设一个发送者想传送一个随机变量的值给接收者。那么在这个过程中，他们传输的平均信息量可以通过求 I(x)=−logp(x)关于概率分布 p(x)的期望得到，即：</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/FzSABWU2hP7tOv3.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>从公式可得，随机变量的取值个数越多，状态数也就越多，信息熵就越大，混乱程度就越大。当随机分布为均匀分布时，熵最大，且 0≤H(X)≤logn</p>
+</blockquote>
+<h3 id="熵和编码长度"><a href="#熵和编码长度" class="headerlink" title="熵和编码长度"></a>熵和编码长度</h3><blockquote>
+<p>信息论中，熵代表着根据信息的概率分布，对信息的编码，所需要的最短平均编码长度。</p>
+</blockquote>
+<blockquote>
+<p>举个简单的例子来理解一下这件事情：假设有个考试作弊团伙，需要连续不断地向外传递4选1单选题的答案。直接传递ABCD的ascii码的话，每个答案需要8个bit的二进制编码，从传输的角度，这显然有些浪费。信息论最初要解决的，就是数据压缩和传输的问题，所以这个作弊团伙希望能用更少bit的编码来传输答案。很简单，答案只有4种可能性，所以二进制编码需要的长度就是取2为底的对数：</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/18/f4EsJgQ5OjF61NG.png"></p>
+</blockquote>
+</blockquote>
+<p>此时已经有些像熵的定义了。回顾一下熵的定义，正是求−log(p)的期望值，所以我们把这个思路也套用一下：</p>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/18/lH5EmPaurOCtR38.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/19/CvjkPy6H9oJcRT3.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="信息的作用"><a href="#信息的作用" class="headerlink" title="信息的作用"></a>信息的作用</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/zngEABqN9RCFrSv.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>一个事物内部存在着随机性，也就是不确定性，假定为U，而外部消除这个不确定性唯一的办法就是引入信息I，而需要引入的信息量取决于这个不确定性的大小，即I&gt;U才行。当I&lt;U时间，这些信息可以消除一部分不确定，也就是新的不确定性。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/m86tCrqYKwlfb2F.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>反之，如果没有信息，任何公式或者数字的游戏都无法排除不确定性。</p>
+</blockquote>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/18/eNS9bLHoscw6TkZ.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>直接信息和相关信息，都可以降低随机事件的不确定性。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/K4Xoc2fdTBPltbv.png"></p>
+</blockquote>
+</blockquote>
+<h1 id="条件熵"><a href="#条件熵" class="headerlink" title="条件熵"></a>条件熵</h1><h2 id="条件熵的概念"><a href="#条件熵的概念" class="headerlink" title="条件熵的概念"></a>条件熵的概念</h2><blockquote>
+<p>为什么“直接的、相关的”信息也能过消除不确定性？怎么判断信息是相关的还是直接的或者是无关信息？ 为此，需要引入一个概念：条件熵、互信息</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/xDOikEHUaXM7bc4.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>只要证明 H(X)&gt;=H(X|Y) ，也就说明了多了Y的信息后，关于X的不确定性下降了。</p>
+</blockquote>
+<h2 id="公式的理解"><a href="#公式的理解" class="headerlink" title="公式的理解"></a>公式的理解</h2><blockquote>
+<p>条件熵 H(X|Y) 定义为：Y给定的条件下，X对Y的条件概率的信息熵，对Y的数学期望：</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/19/e5RMxUpKmjDltEy.jpg"></p>
+</blockquote>
+</blockquote>
+<h1 id="互信息"><a href="#互信息" class="headerlink" title="互信息"></a>互信息</h1><h2 id="互信息的引入"><a href="#互信息的引入" class="headerlink" title="互信息的引入"></a>互信息的引入</h2><blockquote>
+<p>这里引入另一个概念：“互信息”是作为两个随机事件“相关性”的量化度量。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/qCIP3XKLpyYMsGh.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>当x和y完全相关时，它的取值是1；当二者完全无关时，它的取值是0；</p>
+</blockquote>
+<h2 id="互信息的具体应用"><a href="#互信息的具体应用" class="headerlink" title="互信息的具体应用"></a>互信息的具体应用</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/WOAUCXbKS8sh9NZ.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/BHgbJl86w9pEFfd.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/1hL9m4zpnUa5fMb.png"></p>
+</blockquote>
+</blockquote>
+<h1 id="相对熵"><a href="#相对熵" class="headerlink" title="相对熵"></a>相对熵</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><blockquote>
+<p>相对熵也是用来衡量相关性，但是和随机变量的互信息不同，它是用来衡量两个取值为正数的函数的相关性。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/GZRTefgsyaBVorK.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/mYjd2MyGpv7UN5z.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/17/VcevuKL7QSk2Ryq.png"></p>
+</blockquote>
+</blockquote>
+<h2 id="交叉熵"><a href="#交叉熵" class="headerlink" title="交叉熵"></a>交叉熵</h2><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/19/2trYqlOIMiCcoeV.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/19/NwxuVjOGiTphvCM.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/20/RT2Oy5K9qAIc7sr.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/19/qQyip17jx53eEvs.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/19/XerID2Po9Hlx5hy.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/20/o9xwuGDlXSBKej1.png"></p>
+</blockquote>
+</blockquote>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/20/rT5xXlF8hB6Ia7O.png"></p>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E6%20-%20%E4%BF%A1%E6%81%AF%E7%9A%84%E5%BA%A6%E9%87%8F%E5%92%8C%E4%BD%9C%E7%94%A8/" data-id="ckgqfij3d002d75456hra3puc" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E14%20-%20%E4%BD%99%E5%BC%A6%E5%AE%9A%E7%90%86%E5%92%8C%E6%96%B0%E9%97%BB%E7%9A%84%E5%88%86%E7%B1%BB/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数学之美14 - 余弦定理和新闻的分类
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/14/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E5%20-%20%E9%9A%90%E5%90%AB%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E6%A8%A1%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">数学之美5 - 隐含马尔可夫模型</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

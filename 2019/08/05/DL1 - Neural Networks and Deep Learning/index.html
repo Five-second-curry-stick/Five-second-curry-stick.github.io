@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>DL1 - 什么神经网络和深度网络 | 杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Welcome to MyBlog! This article was writed to take note my study of Python on liaoxuefeng.这是笔者在完成了cousera上的课程：Neural Networks and Deep Learning的前提下，记录下来的笔记，方便自己以后查阅资料，或者与他人分享和交流。  1. Logistic Regressi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DL1 - 什么神经网络和深度网络">
+<meta property="og:url" content="http://example.com/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="Welcome to MyBlog! This article was writed to take note my study of Python on liaoxuefeng.这是笔者在完成了cousera上的课程：Neural Networks and Deep Learning的前提下，记录下来的笔记，方便自己以后查阅资料，或者与他人分享和交流。  1. Logistic Regressi">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?\frac{1}{1&plus;e^{-x}}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?-(y*log(yhat)&plus;(1-y)*log(1-yhat))">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?w:=w-a*\frac{dJ(w,b)}{dw}">
+<meta property="og:image" content="https://latex.codecogs.com/gif.latex?b:=b-a*\frac{dJ(w,b)}{db}">
+<meta property="og:image" content="https://i.loli.net/2019/09/03/ndkyUxZGgpu4TYC.png">
+<meta property="og:image" content="https://i.loli.net/2019/09/03/wMLHYUSvxha1mZq.png">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b7uqaykaj30sq0f4ahi.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b7yg1yf6j30v80hc7c5.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b86bb27bj30vi0fsdrz.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8defjekj30bg052wex.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8fcox6oj30de05qq3s.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8nm69tsj30es05e75g.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8vmup0yj30ug0gm0yh.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6ba2214fgj30pc0d0qa0.jpg">
+<meta property="og:image" content="https://tva1.sinaimg.cn/large/006y8mN6gy1g6badshjqsj30uw0f0gvm.jpg">
+<meta property="article:published_time" content="2019-08-04T18:40:57.000Z">
+<meta property="article:modified_time" content="2019-09-20T01:08:00.000Z">
+<meta property="article:author" content="Jianhao Yang">
+<meta property="article:tag" content="deeplearning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://latex.codecogs.com/gif.latex?\frac{1}{1&plus;e^{-x}}">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-DL1 - Neural Networks and Deep Learning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/" class="article-date">
+  <time datetime="2019-08-04T18:40:57.000Z" itemprop="datePublished">2019-08-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      DL1 - 什么神经网络和深度网络
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Python on <a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">liaoxuefeng</a>.<br>这是笔者在完成了cousera上的课程：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/neural-networks-deep-learning/home/week/1">Neural Networks and Deep Learning</a>的前提下，记录下来的笔记，方便自己以后查阅资料，或者与他人分享和交流。</p>
+<hr>
+<h3 id="1-Logistic-Regression-as-a-Neural-Network"><a href="#1-Logistic-Regression-as-a-Neural-Network" class="headerlink" title="1. Logistic Regression as a Neural Network"></a>1. Logistic Regression as a Neural Network</h3><blockquote>
+<p>神经网络是由许多神经元分层级联而成的网络，可以用来拟合各种函数。</p>
+</blockquote>
+<blockquote>
+<p>单个神经元是一个非线性函数，它接收多个输入x，将它们线性组合后再用一个非线性激活函数作用，产生输出值 y。</p>
+</blockquote>
+<h4 id="1-1-单层神经网络"><a href="#1-1-单层神经网络" class="headerlink" title="1.1 单层神经网络"></a>1.1 单层神经网络</h4><blockquote>
+<p>逻辑回归模型可以看成是最简单的神经网络，它只有一个神经元。在逻辑回归中，激活函数是逻辑函数：<a href="https://www.codecogs.com/eqnedit.php?latex=\frac{1}{1&plus;e^{-x}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{1}{1&plus;e^{-x}}" title="\frac{1}{1+e^{-x}}" /></a></p>
+</blockquote>
+<blockquote>
+<p>线性回归模型采用的损失函数为平方损失函数，而逻辑回归采用的损失函数是交叉熵损失函数。交叉熵损失函数的形式可以用极大似然（可能性）估计算法推导得到。对于多样本的情况，逻辑回归的交叉熵损失函数是关于w和b参数的凸函数，即至多仅有一个极值点，这一优良性质使得它能够很好地被用于w和b的学习。</p>
+</blockquote>
+<blockquote>
+<p>交叉熵损失函数：<a href="https://www.codecogs.com/eqnedit.php?latex=-(y*log(yhat)&plus;(1-y)*log(1-yhat))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?-(y*log(yhat)&plus;(1-y)*log(1-yhat))" title="-(y*log(yhat)+(1-y)*log(1-yhat))" /></a>,其中yhat是指y的预测值。</p>
+</blockquote>
+<h4 id="1-2-梯度下降"><a href="#1-2-梯度下降" class="headerlink" title="1.2 梯度下降"></a>1.2 梯度下降</h4><p><a href="https://www.codecogs.com/eqnedit.php?latex=w:=w-a*\frac{dJ(w,b)}{dw}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?w:=w-a*\frac{dJ(w,b)}{dw}" title="w:=w-a*\frac{dJ(w,b)}{dw}" /></a></p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=b:=b-a*\frac{dJ(w,b)}{db}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?b:=b-a*\frac{dJ(w,b)}{db}" title="b:=b-a*\frac{dJ(w,b)}{db}" /></a></p>
+<h4 id="1-3-计算图"><a href="#1-3-计算图" class="headerlink" title="1.3 计算图"></a>1.3 计算图</h4><blockquote>
+<p>对于存在复杂嵌套关系的函数，可以用计算图的可视化方法简化函数值和对各个参数偏导数的计算过程。计算图可以直观呈现函数中各个变量之间的依赖关系，在计算图的帮助下，应用导数计算的链式法则将非常清晰明了。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/03/ndkyUxZGgpu4TYC.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/03/wMLHYUSvxha1mZq.png"></p>
+</blockquote>
+</blockquote>
+<hr>
+<h3 id="2-shallow-neural-network"><a href="#2-shallow-neural-network" class="headerlink" title="2. shallow neural network"></a>2. shallow neural network</h3><p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b7uqaykaj30sq0f4ahi.jpg" alt="双层神经网络"></p>
+<h4 id="2-1-computing-a-neural-network’s-output"><a href="#2-1-computing-a-neural-network’s-output" class="headerlink" title="2.1 computing a neural network’s output"></a>2.1 computing a neural network’s output</h4><p>一个神经网络的的计算，并且输出它的细节，你会发现只是逻辑回归的多次重复。如上图，是一个双层神经网络。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b7yg1yf6j30v80hc7c5.jpg" alt="神经元"></p>
+<p>如图所示，每一个神经元都表示两步</p>
+<blockquote>
+<p>-1 线性计算</p>
+</blockquote>
+<blockquote>
+<p>-2 非线性（激活函数）</p>
+</blockquote>
+<h4 id="2-2-向量化"><a href="#2-2-向量化" class="headerlink" title="2.2 向量化"></a>2.2 向量化</h4><p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b86bb27bj30vi0fsdrz.jpg" alt="正向传播"></p>
+<h4 id="2-3-activation-function"><a href="#2-3-activation-function" class="headerlink" title="2.3 activation function"></a>2.3 activation function</h4><blockquote>
+<p><strong><em>sigmoid</em></strong></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8defjekj30bg052wex.jpg" alt="sigmoid"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>较少使用，除非用在二元分类情境下</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>tanh</em></strong></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8fcox6oj30de05qq3s.jpg" alt="tanh"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><strong>tanh</strong>是<strong>sigmoid</strong>的位移版本，一般表现都比<strong>sigmoid</strong>好，因为<strong>tanh</strong>一种具有居中数据的效果, 因此 数据的平均值接近0而不是0.5。 这实际上使学习下一层更容易一些。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> sogmoid 函数和 tanh 函数的 一个共同缺点是 如果 z 很大或者很小 那么这个函数的梯度或者导数 或者斜率将会很小 所以如果 z 非常大或者非常小 那么该函数的斜率将最终接近 0 然后会减慢梯度下降的速度</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>ReLu</em></strong>(整流线性单元/线性修正单元)</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8nm69tsj30es05e75g.jpg" alt="relu"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>ReLU的一个缺点是导数等于零， 在 z 是负数的时候。但是在练习中, 有足够的隐藏单元将使 z 大于 0 对于大多数的训练样本来说, 仍旧可以学习得快些.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>leaky ReLu</em></strong></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8vmup0yj30ug0gm0yh.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>leaky ReLu是对ReLu的改进， 当 z 为负数时, 它的导数不再为 0 它只是略微倾斜, 所以称它为 leaky ReLU。</p>
+</blockquote>
+</blockquote>
+<h4 id="2-3-非线性激活函数的作用？"><a href="#2-3-非线性激活函数的作用？" class="headerlink" title="2.3 非线性激活函数的作用？"></a>2.3 非线性激活函数的作用？</h4><blockquote>
+<p>神经网络有许多许多层, 许多隐藏层，结果发现 如果您使用线性激活函数或者, 如果你没有使用激活函数, 那么无论你的神经有多少层 它所做的只是计算一个线性激活函数 这还不如去除所有隐藏层 </p>
+</blockquote>
+<blockquote>
+<p>除非你放一个非线性激活函数在那里, 否则你没有得到 更复杂的函数, 即使你的网络再深也一样 </p>
+</blockquote>
+<blockquote>
+<p>只有一个地方可以使用线性激活函数 g (x) = z 如果你将机器学习用于回归问题</p>
+</blockquote>
+<h4 id="2-4-神经网络中的梯度下降"><a href="#2-4-神经网络中的梯度下降" class="headerlink" title="2.4 神经网络中的梯度下降"></a>2.4 神经网络中的梯度下降</h4><blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6ba2214fgj30pc0d0qa0.jpg"></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>主要运动到偏导数和链式法则</p>
+</blockquote>
+</blockquote>
+<h4 id="2-5-随机初始化参数"><a href="#2-5-随机初始化参数" class="headerlink" title="2.5 随机初始化参数"></a>2.5 随机初始化参数</h4><blockquote>
+<p>如果你在神经网络中 将所有权重参数矩阵w的值初始化为零 由于两个隐藏单元肩负着相同的计算功能 并且也将同样的影响作用在输出神经元上 经过一次迭代后 依然会得到相同的结果 这两个隐藏神经元依然是“对称”的 同样推导下去 经过两次迭代 三次迭代 以及更多次迭代 无论你将这个神经网络训练多久 这两个隐藏单元仍然在使用同样的功能进行运算</p>
+</blockquote>
+<blockquote>
+<p>w[1]=np.random.randn((2,2))<em>0.01 这样的写法来对这个2</em>2的矩阵进行随机初始化 并乘上一个非常小的数 比如0.01 这样操作后 你已经将权重参数矩阵赋予了非常小的随机初始值 然后对于b来说 b并不会由于初始值为零而产生对称问题 或称之为对称失效问题 所以使用b[i]=np.zeros((2,1))将b矩阵初始值设为零</p>
+</blockquote>
+<blockquote>
+<p>为什么是0.01 为什么我们不把它设置为100或1000？ 主要原因是,我们通常比较喜欢使用 非常非常小的随机初始值 而当你使用tanh或者sigmoid的激活函数时 或者在输出层使用了sigmoid函数 如果步长过大 那么当你要计算激活值的时候 你应该还记得z[1]=w[1]<em>x+b[1] 而a[1]=g[1]</em>(z[1]) 所以 当w非常大的时候 z（的绝对值）也相应的会非常大</p>
+</blockquote>
+<hr>
+<h3 id="3-深度神经网络"><a href="#3-深度神经网络" class="headerlink" title="3.深度神经网络"></a>3.深度神经网络</h3><h4 id="3-1-为什么深度（很多隐含层）神经网络对很多问题确实很有效？"><a href="#3-1-为什么深度（很多隐含层）神经网络对很多问题确实很有效？" class="headerlink" title="3.1 为什么深度（很多隐含层）神经网络对很多问题确实很有效？"></a>3.1 为什么深度（很多隐含层）神经网络对很多问题确实很有效？</h4><p>让我们通过几个例子直观的感受</p>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6badshjqsj30uw0f0gvm.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>如果我们搭建一个系统用于 面部识别 或者 面部检测 那么神经网络就可以在此运用 如果我们输入一张面部图片 那么 神经网络的第一层 可以被我们认为是一个 特征检测器 或 边缘检测器 在这个例子中 我正在绘制一个具有 20个隐藏神经元的 神经网络 可能是 在这个图像上的 某种算法 且这20个隐藏神经元通过这些小方块可视化 所以例如 这个 这个微型可视化图 表示一个 隐藏神经元 正在试图找出 在DMH (Depth-MHI-HOG) 中该方向的边缘位置 也许 这个隐藏神经元可能试图 找出这幅图像中的 水平边缘 在哪里 并且当我们在稍后的课程中讨论 卷积网络 时 这个特殊的可视化可能会更有意义 但是 形式上 我们可以认为神经网络的第一层就好比 看一张图片 并尝试找出这张图片的边缘 现在 让我们来找出这张图片的边缘 通过 将像素分组 来形成边缘的方法 然后 可以取消检测边缘 并将边缘组合在一起 以形成面部的一部分 所以例如 我们可能有一个低神经元 试图看看它是否发现了一个眼睛 或者一个不同的神经元 试图找到鼻子的一部分 所以通过把 大量的边缘 放置在一起 我们可以开始检测面部的不同部位 然后 最后 通过将面部的不同部位 如眼睛 鼻子 耳朵或下巴组合在一起 然后 可以尝试识别或检测不同类型的面部 所以直观地 我们可以将神经网络的浅层 看作是简单的检测函数 如 (检测) 边缘 然后 在神经网络的后一层 将它们组合在一起 以便它可以学习 更多和更复杂 的功能</p>
+</blockquote>
+</blockquote>
+<h4 id="3-2超参数"><a href="#3-2超参数" class="headerlink" title="3.2超参数"></a>3.2超参数</h4><blockquote>
+<p>参数：W、 B</p>
+</blockquote>
+<blockquote>
+<p>超参数：隐含层数、每一层的节点数、学习率、迭代次数、激活函数的选择、最小批大小 等</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>在神经网络模型中 我们常见的参数是W和b 而在整个学习算法模型中 还有另一些参数 比如学习率α 和梯度下降 算法中的迭代次数 决定了你神经网络模型中的参数 会如何变化 你还需要为学习算法设定其他超参数, 比如隐藏层的层数 即L 还有隐藏神经元的个数 比如n[1] n[2]等等 还有激活函数的选择, 在隐藏层中可以使用ReLu或tanh或sigmoid 或其他激活函数 这些参数都是你需要在学习算法中设定的,它们会影响到参数W和b的最终结果,我们称之为超参数</p>
+</blockquote>
+</blockquote>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/" data-id="ckgqfij2200007545eogc06un" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/08/14/DL2%20-%20Improving%20Deep%20Neural%20Networks-%20Hyperparameter%20tuning,%20Regularization%20and%20Optimization/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DL2 - 在实际应用中如何使得神经网络高效工作
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/05/py-study-3/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">python学习笔记(3) - list &amp; tuple</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>杨健豪-blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="该博客blog用于记录日常所学，包括Cousera、刷题（算法、代码实操）、文献阅读&#x2F;复现">
+<meta property="og:type" content="website">
+<meta property="og:title" content="杨健豪-blog">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="杨健豪-blog">
+<meta property="og:description" content="该博客blog用于记录日常所学，包括Cousera、刷题（算法、代码实操）、文献阅读&#x2F;复现">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:author" content="Jianhao Yang">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="杨健豪-blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">杨健豪-blog</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-DL5 - SoftmaxRegression" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/24/DL5%20-%20SoftmaxRegression/" class="article-date">
+  <time datetime="2019-08-24T00:20:23.000Z" itemprop="datePublished">2019-08-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/24/DL5%20-%20SoftmaxRegression/">DL5 - softmax回归、深度学习框架</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!</p>
+<h2 id="本文所以截图以及文字均来自于：Coursera"><a href="#本文所以截图以及文字均来自于：Coursera" class="headerlink" title="本文所以截图以及文字均来自于：Coursera"></a>本文所以截图以及文字均来自于：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/deep-neural-network/lecture/HRy7y/softmax-regression">Coursera</a></h2><h3 id="1-softmax回归"><a href="#1-softmax回归" class="headerlink" title="1. softmax回归"></a>1. softmax回归</h3><blockquote>
+<p>有一种更普遍的逻辑回归的方法叫做softmax回归 这种方法能够让你试图预测一个 多种分类中的类别时做出预测,而不是识别两类中的类别</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/n9imogLreZCbuJc.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>以前我们的激活通常是接收单行输入 比如 sigmoid函数和ReLU函数就是接收一个实数输入 然后输出一个实数的输出 softmax函数的不同之处就是 由于它需要把输出归一化 以及输入输出都是向量</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/anPJUivWfges9CX.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="2-如何训练一个带有softmax层的神经网络"><a href="#2-如何训练一个带有softmax层的神经网络" class="headerlink" title="2. 如何训练一个带有softmax层的神经网络"></a>2. 如何训练一个带有softmax层的神经网络</h3><blockquote>
+<p>hardmax:将矢量z映射到这个矢量 即 hardmax函数遍历Z中的元素 将Z中最大的元素对应的位置置1 其余位置置0 所以它实在简单粗暴(hard) 最大的元素得到输出1 其余的元素对应输出0 与之相对的是 softmax中Z到这些概率值的映射要平和些 所以 我不知道这是不是一个NB的名字 但是至少它体现了softmax背后的直观原因</p>
+</blockquote>
+<blockquote>
+<p>softmax激活函数将logistic激活函数 从2分类推广到C分类 也就是说 如果C=2 那么C=2的softmax 实际上将简化成logistic回归 </p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/4Y9Jv8hzltjDqra.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="3-如何选择深度学习框架"><a href="#3-如何选择深度学习框架" class="headerlink" title="3. 如何选择深度学习框架"></a>3. 如何选择深度学习框架</h3><blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/uqADi4XB3WR9aF5.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://enynvxwvbaltzqwxrdbryh.coursera-apps.org/notebooks/week7/Tensorflow%20Tutorial%20v3a.ipynb">tensorflow教程参考</a></p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/24/DL5%20-%20SoftmaxRegression/" data-id="ckgqfij2i000h7545esye0o7l" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-DL4 - Hyperparemeter tuning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/19/DL4%20-%20Hyperparemeter%20tuning/" class="article-date">
+  <time datetime="2019-08-18T18:40:57.000Z" itemprop="datePublished">2019-08-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/19/DL4%20-%20Hyperparemeter%20tuning/">DL4 - 超参数的调整、批量标准化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!</p>
+<h2 id="本文所以截图以及文字均来自于：Coursera"><a href="#本文所以截图以及文字均来自于：Coursera" class="headerlink" title="本文所以截图以及文字均来自于：Coursera"></a>本文所以截图以及文字均来自于：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/deep-neural-network/lecture/HRy7y/softmax-regression">Coursera</a></h2><h3 id="1-重要性排序"><a href="#1-重要性排序" class="headerlink" title="1. 重要性排序"></a>1. 重要性排序</h3><blockquote>
+<p>红色&gt;黄色&gt;紫色</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/rGl1U5VOj2kMmRS.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="2-怎么样选择超参数的抽样？"><a href="#2-怎么样选择超参数的抽样？" class="headerlink" title="2. 怎么样选择超参数的抽样？"></a>2. 怎么样选择超参数的抽样？</h3><h4 id="2-1-随机抽样-try-random-values-Don’t-use-a-grid-网格"><a href="#2-1-随机抽样-try-random-values-Don’t-use-a-grid-网格" class="headerlink" title="2.1. 随机抽样 try random values:Don’t use a grid(网格)"></a>2.1. 随机抽样 try random values:Don’t use a grid(网格)</h4><blockquote>
+<p>如果你有两个超参数 假设是超参数1和超参数2 人们经常会像这样 在一个网格中对点进行取样 然后系统化地尝试这些点所代表的值 在这里我放的是一个5*5的网格 实际上可能比这个大 或者比这个小 在这个例子中 当你尝试过所有25个点后 选择最优的超参数 当超参数的数量相对较少时 这样的取参方法较为实用 但是在深度学习中 我推荐你采取另一种方法 在网格中进行随机取样 像这样随机选择一些点 同样的 我们选择25个点 然后在这些随机选取的点中 尝试所有的超参数 这样做的原因是 事先你很难知道 在你的问题中 哪个超参数是最重要的</p>
+</blockquote>
+<blockquote>
+<p>很明显，从下图可以看出，在hyperparameter1重要性远大于hyperparameter2的前提下，右➡️图的有效结果远大于⬅️图,这样找到理想的参数组合的概率就变大了。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/Ivo8pKm5w1HOh7u.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-2-区域定位的抽样方案-coarse粗-to-fine精"><a href="#2-2-区域定位的抽样方案-coarse粗-to-fine精" class="headerlink" title="2.2. 区域定位的抽样方案(coarse粗 to fine精)"></a>2.2. 区域定位的抽样方案(coarse粗 to fine精)</h4><blockquote>
+<p>比如在这个二维的例子中 你抽取了这些点 也许你发现这个点能产生最好的结果 并且旁边的一些点的结果也不错 那么在这个方案中 你需要做的是对 这些点所在的区域进行限定 然后在这个区域内进行密度更高的抽样 或者依然选择随机抽样 但是需要把更多资源集中在这个蓝色方块中搜索 前提是你大体能确定这个区域内取的值能产生最优结果 即最理想的超参数来自于这个区域 在对整个框定范围进行粗略的抽样后 结果会引导你集中在一个更小的区域内 然后你可以在更小的方块内 进行更密集的抽样</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/F2VgmdWzZjPYEbI.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-3-选择合适的尺度来随机抽样"><a href="#2-3-选择合适的尺度来随机抽样" class="headerlink" title="2.3. 选择合适的尺度来随机抽样"></a>2.3. 选择合适的尺度来随机抽样</h4><blockquote>
+<p>比如你正在搜索超参数alpha,即学习率 假设你认为它的下限是0.0001 上限是1 现在画出从0.0001<del>1的数轴 并均匀随机地抽取样本值 那么90%的样本值将落在0.1</del>1的范围内 即你用90%的资源搜索0.1<del>1 只有10%的资源用于搜索0.0001</del>0.1范围内的值 看起来不大对 更合理的方法似乎应该以对数尺度(log scale)来搜索 而不是用线性尺度(linear scale)</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/oEnjtShkCxqf7uP.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-4-特例：beta"><a href="#2-4-特例：beta" class="headerlink" title="2.4. 特例：beta"></a>2.4. 特例：beta</h4><blockquote>
+<p>,用0.9计算指数加权平均值 相当于计算最后10个值的平均值 比如计算10天气温的平均值 而使用0.999就相当于计算1000个值的平均值 类似上一页ppt所展示,如果你要搜索 0.9<del>0.999的范围,线性尺度的取样 即均匀的,随机的,0.9至0.999范围内的搜索,没什么意义 那么考虑这个问题的最好的方法是 将这个范围展开为1-beta 得到0.1</del>0.001的范围 那么我们对beta的采样范围 为0.1<del>0.001 现在运用我们之前学到的方法 这是10^(-1),这是10^(-3) 请注意,之前的数轴是从左至右递增的 这里我们要反过来 大的值在左边,小的值在右边 所以你要做的是在-3</del>-1的范围内均匀随机的取样 然后置1-beta=10^r,即beta=1-10^r 就得到了这个超参数在适当尺度上 的随机取样值 希望这能解释: 你在探索0.9<del>0.99和0.99</del>0.999的范围时 使用了同样数量的资源 如果你想要知道关于这个做法的更规范的数学证明 也就是说,为什么以线性尺度取样是个坏主意？ 这是因为随着beta趋近于1<br />其结果对于beta的改变非常敏感 即使是对beta非常小的改变 如果beta从0.9变成0.9005 这没什么大不了,你的结果几乎没有任何变化 但是如果beta从0.999变成0.9995 它将会对你正在运行的算法产生巨大的影响 在前一个例子中,都是取大约10个值的平均 但是这里,取指数加权平均的情况下 它从取最后1000个样例变成了取最后2000个样例的平均 因为我们的公式是1/(1-beta) 所以当beta趋近于1时,它对beta的改变非常敏感 那么上述整个取样过程所做的 就是使你在beta趋近于1的区域内以更大的密度取样</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/29/7wdtb9ya6Cre8TY.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-5-如何如何有规划地-探寻合适超参数的小技巧"><a href="#2-5-如何如何有规划地-探寻合适超参数的小技巧" class="headerlink" title="2.5. 如何如何有规划地 探寻合适超参数的小技巧"></a>2.5. 如何如何有规划地 探寻合适超参数的小技巧</h4><blockquote>
+<p>pandas vs caviar(鱼子酱)</p>
+</blockquote>
+<blockquote>
+<p>两种模式的选择主要取决于你的运算资源</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/ISPz4wkruCaGXqE.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="3-批量标准化-batch-norm-（针对W）"><a href="#3-批量标准化-batch-norm-（针对W）" class="headerlink" title="3. 批量标准化(batch norm) （针对W）"></a>3. 批量标准化(batch norm) （针对W）</h3><blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qingsunny/p/6528549.html">标准化的介绍</a></p>
+</blockquote>
+<blockquote>
+<p>可以让你的超参搜索变得很简单 让你的神经网络变得更加具有鲁棒性 可以让你的神经网络对于超参数的选择上不再那么敏感 而且可以让你更容易地训练非常深的网络</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/x4ga1epuwMKBEin.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>上图中的标准化公式的分母有错误</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>每一组z都是均值0方差1 但是我们并不希望所有的隐藏单元都是这样的 也许本身它们的分布就有不同 所以我们可以这么做 z tilde = γ * zi * norm + β 这里的γ和β值可以从你的模型中学习</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/HstvKi94h2GrZl1.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="3-1-BN算法在神经网络的工作原理"><a href="#3-1-BN算法在神经网络的工作原理" class="headerlink" title="3.1. BN算法在神经网络的工作原理"></a>3.1. BN算法在神经网络的工作原理</h4><blockquote>
+<p>BN算法和普通的输入层标准化的不同在于引入了gama和beta</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/DZvbGWQcoO68K4l.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="3-2-BN算法有效的原因"><a href="#3-2-BN算法有效的原因" class="headerlink" title="3.2 BN算法有效的原因"></a>3.2 BN算法有效的原因</h4><blockquote>
+<ol>
+<li>我们看到经过归一化的输入特征(用X表示) 它们的均值为0 方差为1 这将大幅加速学习过程 所以与其含有某些在0到1范围内变动的特征 或在1到1000范围内变动的特征 通过归一化所有输入特征X 让它们都拥有相同的变化范围将加速学习 所以 BN算法有效的一个原因是 它同样如此 只不过它应用于隐藏层的值 而不是这里输入特征</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>它产生权重 (w参数) 在深层次网络中，解决了协变量问题</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>所以从第三级隐藏层角度来看 这些隐藏单元值一直在变 所以它受协变量问题影响 所以它受协变量问题影响 这在之前我们谈过 所以BN算法所做的就是 它减少了这些隐藏单元值的 分布的不稳定性</p>
+</blockquote>
+<blockquote>
+<p>BN算法确保的是无论它怎么变 z21和z22的均值和方差将保持不变 所以尽管z21和z22的值变化 它们的均值一直为0 方差一直为1 或者 并不一定是均值0 方差1 但是它们的值由beta2 gamma2控制 这两个参数由神经网络选定 所以可以使均值为0 方差为1 或者 可以是其它任何均值和方差 但是这样做 限制了先前层中参数的更新 对第三层 现在所看到和要学习的值的分布的 影响 对第三层 现在所看到和要学习的值的分布的 影响 所以 BN算法减少输入值变化所产生的问题 它的确使这些值变得稳定 所以神经网络的后层 可以有更加稳固的基础 尽管输入分布变化了一点 它变化的更少 实际是 尽管前几层继续学习 后面层适应前面层变化的力量被减弱 后面层适应前面层变化的力量被减弱 如果我们愿意 BN算法削弱了 前面层参数和后层参数之间的耦合 前面层参数和后层参数之间的耦合 所以它允许网络的每一层独立学习 有一点独立于其它层的意思 所以这将有效提升整个网络学习速度</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/30/L9PnlgQKuYrJv6X.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>它具有轻微的正则化效果</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>因为我们在该min-batch上计算了均值和方差，而不是在整个数据集上计算，所以该均值和方差包含有噪声，因为它是由相对较少的数据集评估得来**<em>（batch越大噪音越小）**</em>，该归一化过程 从zl 到 (带波浪号的)zl， 这个过程也会产生噪声， 因为它是用带有一定噪声的均值和方差来计算的 所以和dropout算法类似， 它会为每个隐藏层的激活函数增加一些噪声， dropout有噪声的原因是 它将隐藏单元以一定概率乘以0， 以一定概率乘以1</p>
+</blockquote>
+<h4 id="3-3-在测试数据上使用BN"><a href="#3-3-在测试数据上使用BN" class="headerlink" title="3.3 在测试数据上使用BN"></a>3.3 在测试数据上使用BN</h4><blockquote>
+<p>训练过程中，(流程： 训练 train ，开发 Dev，测试 test )我们是在每个 mini-batch 使用 Batch Norm，来计算所需要的均值μ和方差σ2。但是在测试的时候，我们需要对每一个测试样本进行预测，无法计算均值和方差。<br>此时，我们需要单独进行估算均值 μ和方差σ2。通常的方法就是在我们训练的过程中，对于训练集的 mini-batch ，使用指数加权平均，当训练结束的时候，得到指数加权平均后的均值 μ 和方差σ2<br>，而这些值直接用于 Batch Norm 公式的计算，用以对测试样本进行预测</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/19/DL4%20-%20Hyperparemeter%20tuning/" data-id="ckgqfij2g000c75452yqka21a" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-DL3 - optimization algorithms" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/17/DL3%20-%20optimization%20algorithms/" class="article-date">
+  <time datetime="2019-08-16T18:40:57.000Z" itemprop="datePublished">2019-08-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/17/DL3%20-%20optimization%20algorithms/">DL3 - 加快神经网络训练速度的优化算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!</p>
+<h2 id="本文所以截图以及文字均来自于：Coursera"><a href="#本文所以截图以及文字均来自于：Coursera" class="headerlink" title="本文所以截图以及文字均来自于：Coursera"></a>本文所以截图以及文字均来自于：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/deep-neural-network/home/week/2">Coursera</a></h2><h3 id="1-小批量梯度下降算法（mini-batch-gradient-descent"><a href="#1-小批量梯度下降算法（mini-batch-gradient-descent" class="headerlink" title="1 小批量梯度下降算法（mini-batch gradient descent)"></a>1 小批量梯度下降算法（mini-batch gradient descent)</h3><blockquote>
+<p>首先将你的训练集拆分成更小的 微小的训练集 即小批量训练集(mini-batch) 比如说每一个微型训练集只有1000个训练样例 也就是说 取x1至x1000作为第一个微训练集 也叫做小批量训练集 然后取接下来的1000个样例 x1001至x2000这1000个样例 依次继续</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/57gxIMFENLkJWv9.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>将mini-batch极端的设置为m，就得到了批量梯度下降</p>
+</blockquote>
+<blockquote>
+<p>极端地设置为1，就得到了随机梯度下降</p>
+</blockquote>
+<blockquote>
+<p>两种方法的区别：批量梯度下降算法可能从这里开始 它的噪声相对小些 每一步相对大些 并且最终可以达到最小值 而相对的 随机梯度下降算法 让我们选一个不同的点 假使从这里开始 这时对于每一次迭代你就在一个样本上做梯度下降 大多数时候你可以达到全局最小值 但是有时候也可能因为某组数据不太好 把你指向一个错误的方向 因此随机梯度算法的噪声会非常大 一般来说它会沿着正确的方向 但是有事也会指向错误的方向 而且随机梯度下降算法 最后也不会收敛到一个点 它一般会在最低点附近摆动 但是不会达到并且停在那里 实际上 mini-batch的大小一般会在这2个极端之间</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/YQXVuR8HgA4lrd3.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="2-指数加权（滑动）平均"><a href="#2-指数加权（滑动）平均" class="headerlink" title="2 指数加权（滑动）平均"></a>2 指数加权（滑动）平均</h3><blockquote>
+<p>beta*V_(t-1)加上 之前使用的是0.1 现在把它换成(1-beta)*theta_t 之前beta=0.9 出于我们之后会讲的某些原因 当你计算这个公式的时候 你可以认为V_t近似于 1/(1-beta)天温度的平均 举例来说 当beta=0.9的时候 你可以认为它是前10天的气温平均值</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/Y1HuTEiq6vUFjPl.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="3-偏差修正"><a href="#3-偏差修正" class="headerlink" title="3 偏差修正"></a>3 偏差修正</h3><blockquote>
+<p>它能够帮助你更好地计算平均值</p>
+</blockquote>
+<blockquote>
+<p>工作原理：用vt/1-βt代替vt（t是下标）</p>
+</blockquote>
+<blockquote>
+<p>在机器学习中 多数的指数加权平均运算 并不会使用偏差修正 因为大多数人更愿意在初始阶段 用一个稍带偏差的值进行运算 不过 如果在初始阶段就开始考虑偏差 指数加权移动均指仍处于预热阶段 偏差修正可以帮你尽早做出更好的估计</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/9IXPFviqufD4YoS.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="4-动量梯度下降算法"><a href="#4-动量梯度下降算法" class="headerlink" title="4 动量梯度下降算法"></a>4 动量梯度下降算法</h3><blockquote>
+<p>它几乎总会比标准的梯度下降算法更快 一言以蔽之 算法的主要思想是 计算梯度的指数加权平均 然后使用这个梯度来更新权重</p>
+</blockquote>
+<blockquote>
+<p>可以减少震荡，原因：如果把这些梯度平均一下 你会发现这些震荡 在纵轴上的平均值趋近于0 所以 在垂直方向上 你会希望减慢速度 正数和负数在计算平均时相互抵消了 平均值接近于0 然而在水平方向上 所有导数都指向水平方向的右边 所以水平方向的平均值仍然较大 因此在数次迭代之后 你会发现动量梯度下降算法的每一步 在垂直方向上的振荡非常小 且在水平方向上运动得更快 这会让你的算法选择更加直接的路径 或者说减弱了前往最小值的路径上的振荡</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/akwGWuSgt32xMIj.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="5-RMSprop-均方根传递（root-mean-square-prop）"><a href="#5-RMSprop-均方根传递（root-mean-square-prop）" class="headerlink" title="5 RMSprop 均方根传递（root mean square prop）"></a>5 RMSprop 均方根传递（root mean square prop）</h3><blockquote>
+<p>你希望减慢b方向的学习 也就是垂直方向 同时加速或至少不减慢水平方向的学习 这就是RMSprop算法要做的</p>
+</blockquote>
+<blockquote>
+<p>现在我们来理解一下它的工作原理 记得在水平方向上 即例子中W的方向上 我们希望学习速率较快 而在垂直方向上 即例子中b的方向上 我们希望降低垂直方向上的振荡 对于S_dW和S_db这两项 我们希望S_dW相对较小 因此这里除以的是一个较小的数 而S_db相对较大 因此这里除以的是一个较大的数 这样就可以减缓垂直方向上的更新</p>
+</blockquote>
+<blockquote>
+<p>另一个收效是 你可以使用更大的学习率alpha 学习得更快 而不用担心在垂直方向上发散 </p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/azu2tUcdsJ9qBn7.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="6-Adam优化算法（自适应矩估计Adaptive-Moment-Estimation）"><a href="#6-Adam优化算法（自适应矩估计Adaptive-Moment-Estimation）" class="headerlink" title="6 Adam优化算法（自适应矩估计Adaptive Moment Estimation）"></a>6 Adam优化算法（自适应矩估计Adaptive Moment Estimation）</h3><blockquote>
+<p>Adam优化算法本质上是将 动量算法和RMSprop结合起来:在动量梯度下降算法抵消部分震荡的前提下，利用了rms梯度下降算法降低震荡</p>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/3LOcsl7n4fFihtW.png"><br>t表示迭代次数</p>
+</blockquote>
+<p>超参数的选择</p>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/cqlDBOVoQ5GRgWa.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="7-学习率衰减-learning-rate-decay"><a href="#7-学习率衰减-learning-rate-decay" class="headerlink" title="7 学习率衰减 learning rate decay"></a>7 学习率衰减 learning rate decay</h3><blockquote>
+<p>如果你想使用学习率衰减 你可以尝试 不同的超参数组合 包括α0 以及这个衰减率的超参数 然后去尝试寻找一个效果好的数值</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/18qR9I4vEFDBTMr.png"></p>
+</blockquote>
+</blockquote>
+<h4 id="7-1-其他学习率衰减的方法"><a href="#7-1-其他学习率衰减的方法" class="headerlink" title="7.1 其他学习率衰减的方法"></a>7.1 其他学习率衰减的方法</h4><blockquote>
+<p>k表示常数</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/tCSQj5FnGyJoNTO.png"></p>
+</blockquote>
+</blockquote>
+<h3 id="8-局部最优点，鞍点"><a href="#8-局部最优点，鞍点" class="headerlink" title="8 局部最优点，鞍点"></a>8 局部最优点，鞍点</h3><blockquote>
+<p>对于一个高维空间的函数 如果梯度为零 则在每个方向上 它可能是凸函数 或者是凹函数 假设在一个 2万维的空间中 如果一个点要成为局部最优 则需要在所有的2万个方向上都像这样 因此这件事发生的概率非常低 大概2的负2万次方 你更有可能遇到的情况是<br />某些方向的曲线像这样向上弯曲 同时另一些方向的曲线则向下弯曲 并非所有曲线都向上弯曲 <strong><em>这就是为什么在高维空间中 你更有可能碰到一个像右图这样的鞍点 而不是局部最优</em></strong></p>
+</blockquote>
+<h4 id="8-1-停滞区"><a href="#8-1-停滞区" class="headerlink" title="8.1 停滞区"></a>8.1 停滞区</h4><blockquote>
+<p>实际上是停滞区(Plateaus) 停滞区指的是 导数长时间接近于零的一段区域 如果你在这里 那么梯度下降会沿着这个曲面向下移动 然而因为梯度为零或接近于零 曲面很平 你会花费很长的时间 缓慢地在停滞区里找到这个点 然后因为左侧或右侧的随机扰动,你的算法终于能够离开这个停滞区 它一直沿着这个很长的坡往下走, 直到抵达此处, 离开这个停滞区</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/08/28/R3zsKiFMrCyvdu2.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>首先 实际上你不太可能陷入糟糕的局部最优点 只要你训练的是一个较大的神经网络 有很多参数 代价函数J定义在一个相对高维的空间上 </p>
+</blockquote>
+<blockquote>
+<p>其次 停滞区是个问题, 它会让学习过程变得相当慢 这也是像动量(Momentum)算法<br />或RmsProp算法 或Adam算法能改善你的学习算法的地方</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/17/DL3%20-%20optimization%20algorithms/" data-id="ckgqfij2f000a7545167v4va7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-DL2 - Improving Deep Neural Networks- Hyperparameter tuning, Regularization and Optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/14/DL2%20-%20Improving%20Deep%20Neural%20Networks-%20Hyperparameter%20tuning,%20Regularization%20and%20Optimization/" class="article-date">
+  <time datetime="2019-08-13T18:40:57.000Z" itemprop="datePublished">2019-08-14</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/14/DL2%20-%20Improving%20Deep%20Neural%20Networks-%20Hyperparameter%20tuning,%20Regularization%20and%20Optimization/">DL2 - 在实际应用中如何使得神经网络高效工作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>!<br>本文所有截图和文字均借鉴于：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/deep-neural-network/lecture/cxG1s/train-dev-test-sets">Coursera</a></p>
+<hr>
+<h3 id="1-如何设置你的训练集-开发集-测试集"><a href="#1-如何设置你的训练集-开发集-测试集" class="headerlink" title="1 如何设置你的训练集/开发集/测试集"></a>1 如何设置你的训练集/开发集/测试集</h3><blockquote>
+<p>在训练一个神经网络时， 你必须做出许多决定， 例如你的神经网络将会有多少层啊 并且每一层中包含多少个隐藏神经元啊， 学习速率是多少啊， 还有每一层你想用什么激活函数啊 当你开始一个新的应用时， 你几乎不可能一次性就正确地猜到上面提及的， 以及未提及的超参数的准确数值 因此在实际应用中 机器学习是一个**<em>高度迭代的过程**</em>。</p>
+</blockquote>
+<blockquote>
+<p>机器学习的应用是相当反复的迭代的过程, 你只需要将这个循环进行许多次, 就有希望能为你的应用中的网络找出好的参数, 所以有一件事能决定你能多快地取得进展, 那就是你进行迭代过程时的效率, 而恰当地将你的数据集分为训练集, 开发集和测试集让你的迭代效率更高</p>
+</blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bqc1qsymj30qe0c0439.jpg"></p>
+</blockquote>
+<h4 id="1-1-比例"><a href="#1-1-比例" class="headerlink" title="1.1 比例"></a>1.1 比例</h4><blockquote>
+<blockquote>
+<p>当样本个数只有100、1000、10000时，被广泛认为的最佳比例是60/20/20%。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>但是在大数据时代，当你有100万个训练样本时，可能只需要1万个用作开发集和测试集就足够了。</p>
+</blockquote>
+</blockquote>
+<h4 id="1-2-确保开发集和测试集中的数据分布相同"><a href="#1-2-确保开发集和测试集中的数据分布相同" class="headerlink" title="1.2 确保开发集和测试集中的数据分布相同"></a>1.2 确保开发集和测试集中的数据分布相同</h4><blockquote>
+<blockquote>
+<p>你需要用开发集对许多不同的模型进行评估, 费尽全力改善模型在开发集上的性能, 如果开发集和测试集的数据分布相同就很方便, 但是因为深度学习算法对训练数据量需求巨大, 我能看到一种趋势是用各种有创意的办法, 比如爬取网页, 来获得比其它途径大得多的训练集, 即使这会带来一些代价, 也就是训练集的数据分布, 与开发集和测试集的数据分布不同, 但你只需要遵守这个经验法则, 你的算法进步速度就会更快</p>
+</blockquote>
+</blockquote>
+<h3 id="2-bias（偏差）和variance（方差）"><a href="#2-bias（偏差）和variance（方差）" class="headerlink" title="2 bias（偏差）和variance（方差）"></a>2 bias（偏差）和variance（方差）</h3><h4 id="2-1-偏差和方差的区别"><a href="#2-1-偏差和方差的区别" class="headerlink" title="2.1 偏差和方差的区别"></a>2.1 偏差和方差的区别</h4><blockquote>
+<p>偏差：预测值或者估计值期望与真实值期望之间的差距。</p>
+</blockquote>
+<blockquote>
+<p>方差：预测结果的分布情况/分布范围/离散程度。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6br5cxk7nj30uc0syaw3.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6br7tnxshj30wk0ea77e.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>偏差：评价对象时单个模型，期望输出和真实标记的差别。</p>
+</blockquote>
+<blockquote>
+<p>方差：评价对象时多个模型，表示多个模型差异程度。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6brdy1ozrj30ta0kaqa7.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>以上图为例：</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<ol>
+<li>左上的模型偏差最大，右下的模型偏差最小；</li>
+</ol>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<ol start="2">
+<li>左上的模型方差最小，右下的模型方差最大；</li>
+</ol>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6brgduproj30ny0loq8p.jpg"></p>
+</blockquote>
+</blockquote>
+<h4 id="2-2-过拟合和欠拟合"><a href="#2-2-过拟合和欠拟合" class="headerlink" title="2.2 过拟合和欠拟合"></a>2.2 过拟合和欠拟合</h4><blockquote>
+<p>高方差：你的训练集误差是1%，而对于开发集误差 为了便于讨论 我们假设是11% 在这个例子里 你的模型对训练集处理得非常好 但是相对来说，开发集处理得就有些不尽如人意 所以这可能是在处理训练集时过拟合了</p>
+</blockquote>
+<blockquote>
+<p>高偏差：假设训练集的误差是15%,假设你的开发集误差是16%, 在这种情况下，我们假设人工识别误差是0% 因为人可以直接看到这些图片，并判断出这是否是一只猫, 所以看上去，这个算法在训练集上的表现并不尽如人意 如果它并未将训练集数据处理得很好 这就是欠拟合。</p>
+</blockquote>
+<h3 id="3-机器学习的基本准则"><a href="#3-机器学习的基本准则" class="headerlink" title="3 机器学习的基本准则"></a>3 机器学习的基本准则</h3><blockquote>
+<p>high bias: <strong><em>bigger network</em></strong>、train longer、更高级的优化算法、更换神经网络结构</p>
+</blockquote>
+<blockquote>
+<p>high variance: <strong><em>more data</em></strong>、正则化？、更适合的神经网络结构</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bt60lnxwj30xk0jqgv6.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>只要你能不断扩大所训练的网络的规模 只要你能不断获得更多数据 虽然这两点都不是永远成立的 但如果这两点是可能的 那扩大网络几乎总是能够 减小偏差而不增大方差 只要你用恰当的方式正则化的话 而获得更多数据几乎总是能够 减小方差而不增大偏差 所以归根结底 有了这两步以后 再加上能够选取不同的网络来训练 以及获取更多数据的能力 我们就有了能够且只单独削减偏差 或者能够并且单独削减方差 同时不会过多影响另一个指标的能力 我认为这就是诸多原因中的一个 它能够解释为何深度学习在监督学习中如此有用</p>
+</blockquote>
+</blockquote>
+<h3 id="4-regularization正则化"><a href="#4-regularization正则化" class="headerlink" title="4 regularization正则化"></a>4 regularization正则化</h3><h4 id="4-1-什么是L2正则化"><a href="#4-1-什么是L2正则化" class="headerlink" title="4.1 什么是L2正则化"></a>4.1 什么是L2正则化</h4><blockquote>
+<p>在神经网络中 你有一个代价函数 它是你所有参数的函数 包括w[1] b[1]到w[L] b[L] 这里大写的L是神经网络的层数 因此 代价函数是m个训练样本上 的损失之和 至于正则化 再加上lambda/2m 乘以所有参数W的范数的平方之和 这里W是你的参数矩阵 这里矩阵范数的平方定义为 对于i和j 对矩阵中每一个元素的平方求和</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bu5wvrsyj310y07k796.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>L2正则化也被称为权重衰减（表现在目标函数/参数更新）</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bua4yxxij312i0bgqas.jpg"></p>
+</blockquote>
+</blockquote>
+<h4 id="4-2-为什么正则化可以防止过拟合（减少方差问题）"><a href="#4-2-为什么正则化可以防止过拟合（减少方差问题）" class="headerlink" title="4.2 为什么正则化可以防止过拟合（减少方差问题）"></a>4.2 为什么正则化可以防止过拟合（减少方差问题）</h4><blockquote>
+<p>如果不加此项，模型必定倾向于最小化损失函数J(θ)<br>，这么一来就很可能发生overfitting。引入该项后，如果模型过于复杂，该项的次数(degree)也更高，引发的惩罚（penalization）值也更大，由此抑制了模型的过度复杂化，λ也被称为惩罚因子。<br>λ过小，则对“防止过拟合”几乎无影响。λ过大，则使损失函数前半部分的权重大大降低，试想如果λ接近无限大，最终的结果是所有的θ都接近0，因此需要选择适当的λ。</p>
+</blockquote>
+<blockquote>
+<p>举一个极端的例子，当lanbda非常大的时候，神经网络的许多神经节点将被弱化，看起来就像一个不容易过拟合的小型网络。</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6buv1opc7j314u0kkwug.jpg"></p>
+</blockquote>
+</blockquote>
+<h4 id="4-3-随机失活正则化（丢弃发dropout）"><a href="#4-3-随机失活正则化（丢弃发dropout）" class="headerlink" title="4.3 随机失活正则化（丢弃发dropout）"></a>4.3 随机失活正则化（丢弃发dropout）</h4><h4 id="4-4-其他防止过拟合的方法"><a href="#4-4-其他防止过拟合的方法" class="headerlink" title="4.4 其他防止过拟合的方法"></a>4.4 其他防止过拟合的方法</h4><blockquote>
+<p>1 数据集扩充：比如水平翻转，随机裁剪、随机扭曲、随机放大来变化图片（廉价的方式）</p>
+<p>2 早终止法：</p>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6bvu5s8x7j310i0fstd8.jpg"></p>
+</blockquote>
+</blockquote>
+<h3 id="5-标准化处理"><a href="#5-标准化处理" class="headerlink" title="5 标准化处理"></a>5 标准化处理</h3><blockquote>
+<p>如果你对左图的那种代价函数使用梯度下降法 那可能必须使用非常小的学习率 因为假如从这里开始 梯度下降法需要经历许多步 反复辗转 才能好不容易终于挪到这个最小值 而如果等值线更趋近于圆形 那无论从何开始 梯度下降法几乎都能直接朝向最小值而去 你可以在梯度下降中采用更长的步长 而无需像左图那样来回摇摆缓慢挪动 当然在实践中 w是一个高维向量 把它画在二维空间中可能无法正确传递出高维中的感觉 但大体上的感觉是你的代价函数会更圆 优化过程更容易进行 因为各种特征的尺度会比较接近</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6c2niz5suj30u20h446a.jpg"></p>
+</blockquote>
+<h3 id="6-梯度-消失-爆发"><a href="#6-梯度-消失-爆发" class="headerlink" title="6 梯度 消失/爆发"></a>6 梯度 消失/爆发</h3><blockquote>
+<p>当训练神经网络时我们会遇到一个问题 尤其是当训练层数非常多的神经网络时 这个问题就是梯度的消失和爆炸 它的意思是当你在训练一个深度神经网络的时候 损失函数的导数或者说斜率 有时会变得非常大 或者非常小甚至是呈指数级减小 这使训练变得很困难</p>
+</blockquote>
+<blockquote>
+<p>针对此问题的**<em>部分**</em>解决方法：虽然不能完全解决它 但帮助很大 该方法就是更好 更细致地随机初始化你的神经网络</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8a5ftsnj31420kmn91.jpg"></p>
+</blockquote>
+</blockquote>
+<h3 id="7-梯度检测"><a href="#7-梯度检测" class="headerlink" title="7 梯度检测"></a>7 梯度检测</h3><blockquote>
+<p>导数的正式定义 就是对于很小的𝜀 计算[f(𝜃+𝜀)-f(𝜃-𝜀)]/(2𝜃) 就是对于很小的𝜀 计算[f(𝜃+𝜀)-f(𝜃-𝜀)]/(2𝜃) </p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8n796vzj30l8056jtf.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>原因：对于一个非零的𝜀值 你可以证明这个近似的误差 在𝜀平方这个阶上 𝜀是个很小的数 如果𝜀是0.01 就像这里 那么𝜀平方就是0.0001 这个大O记号就表示误差就是某个常数乘以这个 这就是我们的近似误差 这个例子中的大O的常数恰好就是1 相比而言 如果我们用这边的另一个公式 误差就在𝜀这个阶上 当𝜀是一个小于1的数时 𝜀就比𝜀平方大很多 这也就是为什么 这个公式不如左边这个公式精确 这也就是为什么我们做梯度检验时采用双侧差值 你计算f(𝜃+𝜀)-f(𝜃-𝜀)再除以2𝜀 而不使用这个不够精确的单侧差值</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6d8q6kkecj314y0lgn9x.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>怎么进行双侧差值梯度检测</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dflrnad1j315m0f4wnc.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>从W1,B1,一直到,WL,bL 要实现梯度检查算法 首先要把你的所有参数 重新拼成一个巨大的参数向量θ 你要把W矩阵转化成一个向量 把所有的W矩阵都转化成向量 然后把他们首尾相接拼在一起 成为一个巨大的参数向量θ 之前代价函数J是所有W和b的函数 经过向量转化后它变成了θ的函数 W和b按照同样的顺序转化后 你也可以把dW[1],dB[1]等等参数都转化成 和θ的维度相同的向量dθ 和之前一样,把dW[1]转化成向量 db[1]已经是向量 把所有的dW矩阵转化成向量 记住dW[1]和W[1]的维度相同 db[1]和b[1]的维度相同 经过相同的矩阵转化和向量拼接之后 你就把所有的微分也转化成 一个参数向量dθ dθ和θ的维度一样</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dfmhgxxgj31580l0k2h.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>在实际中 我取ε为10的负7次方 这样 如果这个式子的结果 小于10的负7次方 那就认为计算正确 它表示你的微分近似是对的 因为(误差)很小 如果该式的结果在10的负5次方的量级的话 我会很仔细地检查一遍 有可能式子也是对的 但我会再三检查这个向量的每个分量 确定没有某个分量很大 如果某个分量很大的话 那么可能你的式子里有错误了 如果左面的式子在10的负3次方的量级的话 我觉得你一定要检查代码 它很可能有错误 它的结果应该远远小于10的负3次方 如果(某个分量)大于10的负3次方 我很担心你的代码有错误</p>
+</blockquote>
+<blockquote>
+<p>梯度检测的使用原则如下:</p>
+</blockquote>
+<blockquote>
+<ol>
+<li>不要在训练中使用梯度检查 而仅仅在调试时</li>
+<li>如果一个算法没有通过梯度检测 你需要检查它的组成 检查每一个组成成分 尝试找出漏洞 我的意思是 如果d(θapprox)与dθ差距很大的话 我会这么做 检查不同的i值 看看哪些 d(θapprox)的值 与dθ的值差距最大</li>
+<li>如果使用了正则化，别忘了你的正则项</li>
+<li>梯度检验不能与随机失活一起使用，因为：因为在每一次的迭代中 随机失活(dropout)将随机消除 隐藏层单元的不同子集 在使用随机失活(dropout) 进行梯度下降的过程中 并不存在一个容易计算的代价函数J 随机失活(dropout)可以被视为 对于代价函数的优化 但是这个代价函数的定义是 在每一次迭代中 对所有 非常大的可消除节点集进行求和 所以这个代价函数是很难计算的 你只需要对代价函数进行抽样 在那些使用随机失活(dropout)的集合中 每次消除不同的随机集合 所以使用梯度检验来检查 包含了随机失活(dropout)的运算是很困难的</li>
+<li>你对于梯度下降的使用是正确的 同时w和b在随机初始化的时候 是很接近0的数 但随着梯度下降的进行 w和b有所增大 也许你的反向传播算法 在w和b接近0的时候是正确的 但是当w和b变大的时候 算法精确度有所下降 所以虽然我不经常使用它 但是你可以尝试的一个方法是 在随机初始化的时候 运行梯度检验 然后训练网络一段时间 那么w和b 将会在0附近摇摆一段时间 即很小的随机初始值 在进行几次训练的迭代后 再运行梯度检验</li>
+</ol>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6dfylr8tbj315a0juk47.jpg"></p>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/14/DL2%20-%20Improving%20Deep%20Neural%20Networks-%20Hyperparameter%20tuning,%20Regularization%20and%20Optimization/" data-id="ckgqfij2c000675453v4odud1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-DL1 - Neural Networks and Deep Learning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/" class="article-date">
+  <time datetime="2019-08-04T18:40:57.000Z" itemprop="datePublished">2019-08-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/deeplearning/">deeplearning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/">DL1 - 什么神经网络和深度网络</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Python on <a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">liaoxuefeng</a>.<br>这是笔者在完成了cousera上的课程：<a target="_blank" rel="noopener" href="https://www.coursera.org/learn/neural-networks-deep-learning/home/week/1">Neural Networks and Deep Learning</a>的前提下，记录下来的笔记，方便自己以后查阅资料，或者与他人分享和交流。</p>
+<hr>
+<h3 id="1-Logistic-Regression-as-a-Neural-Network"><a href="#1-Logistic-Regression-as-a-Neural-Network" class="headerlink" title="1. Logistic Regression as a Neural Network"></a>1. Logistic Regression as a Neural Network</h3><blockquote>
+<p>神经网络是由许多神经元分层级联而成的网络，可以用来拟合各种函数。</p>
+</blockquote>
+<blockquote>
+<p>单个神经元是一个非线性函数，它接收多个输入x，将它们线性组合后再用一个非线性激活函数作用，产生输出值 y。</p>
+</blockquote>
+<h4 id="1-1-单层神经网络"><a href="#1-1-单层神经网络" class="headerlink" title="1.1 单层神经网络"></a>1.1 单层神经网络</h4><blockquote>
+<p>逻辑回归模型可以看成是最简单的神经网络，它只有一个神经元。在逻辑回归中，激活函数是逻辑函数：<a href="https://www.codecogs.com/eqnedit.php?latex=\frac{1}{1&plus;e^{-x}}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\frac{1}{1&plus;e^{-x}}" title="\frac{1}{1+e^{-x}}" /></a></p>
+</blockquote>
+<blockquote>
+<p>线性回归模型采用的损失函数为平方损失函数，而逻辑回归采用的损失函数是交叉熵损失函数。交叉熵损失函数的形式可以用极大似然（可能性）估计算法推导得到。对于多样本的情况，逻辑回归的交叉熵损失函数是关于w和b参数的凸函数，即至多仅有一个极值点，这一优良性质使得它能够很好地被用于w和b的学习。</p>
+</blockquote>
+<blockquote>
+<p>交叉熵损失函数：<a href="https://www.codecogs.com/eqnedit.php?latex=-(y*log(yhat)&plus;(1-y)*log(1-yhat))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?-(y*log(yhat)&plus;(1-y)*log(1-yhat))" title="-(y*log(yhat)+(1-y)*log(1-yhat))" /></a>,其中yhat是指y的预测值。</p>
+</blockquote>
+<h4 id="1-2-梯度下降"><a href="#1-2-梯度下降" class="headerlink" title="1.2 梯度下降"></a>1.2 梯度下降</h4><p><a href="https://www.codecogs.com/eqnedit.php?latex=w:=w-a*\frac{dJ(w,b)}{dw}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?w:=w-a*\frac{dJ(w,b)}{dw}" title="w:=w-a*\frac{dJ(w,b)}{dw}" /></a></p>
+<p><a href="https://www.codecogs.com/eqnedit.php?latex=b:=b-a*\frac{dJ(w,b)}{db}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?b:=b-a*\frac{dJ(w,b)}{db}" title="b:=b-a*\frac{dJ(w,b)}{db}" /></a></p>
+<h4 id="1-3-计算图"><a href="#1-3-计算图" class="headerlink" title="1.3 计算图"></a>1.3 计算图</h4><blockquote>
+<p>对于存在复杂嵌套关系的函数，可以用计算图的可视化方法简化函数值和对各个参数偏导数的计算过程。计算图可以直观呈现函数中各个变量之间的依赖关系，在计算图的帮助下，应用导数计算的链式法则将非常清晰明了。</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/03/ndkyUxZGgpu4TYC.png"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://i.loli.net/2019/09/03/wMLHYUSvxha1mZq.png"></p>
+</blockquote>
+</blockquote>
+<hr>
+<h3 id="2-shallow-neural-network"><a href="#2-shallow-neural-network" class="headerlink" title="2. shallow neural network"></a>2. shallow neural network</h3><p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b7uqaykaj30sq0f4ahi.jpg" alt="双层神经网络"></p>
+<h4 id="2-1-computing-a-neural-network’s-output"><a href="#2-1-computing-a-neural-network’s-output" class="headerlink" title="2.1 computing a neural network’s output"></a>2.1 computing a neural network’s output</h4><p>一个神经网络的的计算，并且输出它的细节，你会发现只是逻辑回归的多次重复。如上图，是一个双层神经网络。</p>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b7yg1yf6j30v80hc7c5.jpg" alt="神经元"></p>
+<p>如图所示，每一个神经元都表示两步</p>
+<blockquote>
+<p>-1 线性计算</p>
+</blockquote>
+<blockquote>
+<p>-2 非线性（激活函数）</p>
+</blockquote>
+<h4 id="2-2-向量化"><a href="#2-2-向量化" class="headerlink" title="2.2 向量化"></a>2.2 向量化</h4><p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b86bb27bj30vi0fsdrz.jpg" alt="正向传播"></p>
+<h4 id="2-3-activation-function"><a href="#2-3-activation-function" class="headerlink" title="2.3 activation function"></a>2.3 activation function</h4><blockquote>
+<p><strong><em>sigmoid</em></strong></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8defjekj30bg052wex.jpg" alt="sigmoid"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>较少使用，除非用在二元分类情境下</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>tanh</em></strong></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8fcox6oj30de05qq3s.jpg" alt="tanh"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><strong>tanh</strong>是<strong>sigmoid</strong>的位移版本，一般表现都比<strong>sigmoid</strong>好，因为<strong>tanh</strong>一种具有居中数据的效果, 因此 数据的平均值接近0而不是0.5。 这实际上使学习下一层更容易一些。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p> sogmoid 函数和 tanh 函数的 一个共同缺点是 如果 z 很大或者很小 那么这个函数的梯度或者导数 或者斜率将会很小 所以如果 z 非常大或者非常小 那么该函数的斜率将最终接近 0 然后会减慢梯度下降的速度</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>ReLu</em></strong>(整流线性单元/线性修正单元)</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8nm69tsj30es05e75g.jpg" alt="relu"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>ReLU的一个缺点是导数等于零， 在 z 是负数的时候。但是在练习中, 有足够的隐藏单元将使 z 大于 0 对于大多数的训练样本来说, 仍旧可以学习得快些.</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p><strong><em>leaky ReLu</em></strong></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6b8vmup0yj30ug0gm0yh.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>leaky ReLu是对ReLu的改进， 当 z 为负数时, 它的导数不再为 0 它只是略微倾斜, 所以称它为 leaky ReLU。</p>
+</blockquote>
+</blockquote>
+<h4 id="2-3-非线性激活函数的作用？"><a href="#2-3-非线性激活函数的作用？" class="headerlink" title="2.3 非线性激活函数的作用？"></a>2.3 非线性激活函数的作用？</h4><blockquote>
+<p>神经网络有许多许多层, 许多隐藏层，结果发现 如果您使用线性激活函数或者, 如果你没有使用激活函数, 那么无论你的神经有多少层 它所做的只是计算一个线性激活函数 这还不如去除所有隐藏层 </p>
+</blockquote>
+<blockquote>
+<p>除非你放一个非线性激活函数在那里, 否则你没有得到 更复杂的函数, 即使你的网络再深也一样 </p>
+</blockquote>
+<blockquote>
+<p>只有一个地方可以使用线性激活函数 g (x) = z 如果你将机器学习用于回归问题</p>
+</blockquote>
+<h4 id="2-4-神经网络中的梯度下降"><a href="#2-4-神经网络中的梯度下降" class="headerlink" title="2.4 神经网络中的梯度下降"></a>2.4 神经网络中的梯度下降</h4><blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6ba2214fgj30pc0d0qa0.jpg"></p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>主要运动到偏导数和链式法则</p>
+</blockquote>
+</blockquote>
+<h4 id="2-5-随机初始化参数"><a href="#2-5-随机初始化参数" class="headerlink" title="2.5 随机初始化参数"></a>2.5 随机初始化参数</h4><blockquote>
+<p>如果你在神经网络中 将所有权重参数矩阵w的值初始化为零 由于两个隐藏单元肩负着相同的计算功能 并且也将同样的影响作用在输出神经元上 经过一次迭代后 依然会得到相同的结果 这两个隐藏神经元依然是“对称”的 同样推导下去 经过两次迭代 三次迭代 以及更多次迭代 无论你将这个神经网络训练多久 这两个隐藏单元仍然在使用同样的功能进行运算</p>
+</blockquote>
+<blockquote>
+<p>w[1]=np.random.randn((2,2))<em>0.01 这样的写法来对这个2</em>2的矩阵进行随机初始化 并乘上一个非常小的数 比如0.01 这样操作后 你已经将权重参数矩阵赋予了非常小的随机初始值 然后对于b来说 b并不会由于初始值为零而产生对称问题 或称之为对称失效问题 所以使用b[i]=np.zeros((2,1))将b矩阵初始值设为零</p>
+</blockquote>
+<blockquote>
+<p>为什么是0.01 为什么我们不把它设置为100或1000？ 主要原因是,我们通常比较喜欢使用 非常非常小的随机初始值 而当你使用tanh或者sigmoid的激活函数时 或者在输出层使用了sigmoid函数 如果步长过大 那么当你要计算激活值的时候 你应该还记得z[1]=w[1]<em>x+b[1] 而a[1]=g[1]</em>(z[1]) 所以 当w非常大的时候 z（的绝对值）也相应的会非常大</p>
+</blockquote>
+<hr>
+<h3 id="3-深度神经网络"><a href="#3-深度神经网络" class="headerlink" title="3.深度神经网络"></a>3.深度神经网络</h3><h4 id="3-1-为什么深度（很多隐含层）神经网络对很多问题确实很有效？"><a href="#3-1-为什么深度（很多隐含层）神经网络对很多问题确实很有效？" class="headerlink" title="3.1 为什么深度（很多隐含层）神经网络对很多问题确实很有效？"></a>3.1 为什么深度（很多隐含层）神经网络对很多问题确实很有效？</h4><p>让我们通过几个例子直观的感受</p>
+<blockquote>
+<blockquote>
+<p><img src="https://tva1.sinaimg.cn/large/006y8mN6gy1g6badshjqsj30uw0f0gvm.jpg"></p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>如果我们搭建一个系统用于 面部识别 或者 面部检测 那么神经网络就可以在此运用 如果我们输入一张面部图片 那么 神经网络的第一层 可以被我们认为是一个 特征检测器 或 边缘检测器 在这个例子中 我正在绘制一个具有 20个隐藏神经元的 神经网络 可能是 在这个图像上的 某种算法 且这20个隐藏神经元通过这些小方块可视化 所以例如 这个 这个微型可视化图 表示一个 隐藏神经元 正在试图找出 在DMH (Depth-MHI-HOG) 中该方向的边缘位置 也许 这个隐藏神经元可能试图 找出这幅图像中的 水平边缘 在哪里 并且当我们在稍后的课程中讨论 卷积网络 时 这个特殊的可视化可能会更有意义 但是 形式上 我们可以认为神经网络的第一层就好比 看一张图片 并尝试找出这张图片的边缘 现在 让我们来找出这张图片的边缘 通过 将像素分组 来形成边缘的方法 然后 可以取消检测边缘 并将边缘组合在一起 以形成面部的一部分 所以例如 我们可能有一个低神经元 试图看看它是否发现了一个眼睛 或者一个不同的神经元 试图找到鼻子的一部分 所以通过把 大量的边缘 放置在一起 我们可以开始检测面部的不同部位 然后 最后 通过将面部的不同部位 如眼睛 鼻子 耳朵或下巴组合在一起 然后 可以尝试识别或检测不同类型的面部 所以直观地 我们可以将神经网络的浅层 看作是简单的检测函数 如 (检测) 边缘 然后 在神经网络的后一层 将它们组合在一起 以便它可以学习 更多和更复杂 的功能</p>
+</blockquote>
+</blockquote>
+<h4 id="3-2超参数"><a href="#3-2超参数" class="headerlink" title="3.2超参数"></a>3.2超参数</h4><blockquote>
+<p>参数：W、 B</p>
+</blockquote>
+<blockquote>
+<p>超参数：隐含层数、每一层的节点数、学习率、迭代次数、激活函数的选择、最小批大小 等</p>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>在神经网络模型中 我们常见的参数是W和b 而在整个学习算法模型中 还有另一些参数 比如学习率α 和梯度下降 算法中的迭代次数 决定了你神经网络模型中的参数 会如何变化 你还需要为学习算法设定其他超参数, 比如隐藏层的层数 即L 还有隐藏神经元的个数 比如n[1] n[2]等等 还有激活函数的选择, 在隐藏层中可以使用ReLu或tanh或sigmoid 或其他激活函数 这些参数都是你需要在学习算法中设定的,它们会影响到参数W和b的最终结果,我们称之为超参数</p>
+</blockquote>
+</blockquote>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/08/05/DL1%20-%20Neural%20Networks%20and%20Deep%20Learning/" data-id="ckgqfij2200007545eogc06un" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-py-study-3" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/05/py-study-3/" class="article-date">
+  <time datetime="2019-04-04T18:40:57.000Z" itemprop="datePublished">2019-04-05</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/05/py-study-3/">python学习笔记(3) - list &amp; tuple</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Python on <a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">liaoxuefeng</a>.</p>
+<hr>
+<h2 id="list-tuple"><a href="#list-tuple" class="headerlink" title="list $ tuple"></a>list $ tuple</h2><h3 id="1-list"><a href="#1-list" class="headerlink" title="1. list"></a>1. list</h3><p><code>c_list = [&#39;a&#39;, &#39;b&#39;, &#39;c &#39;]</code></p>
+<h4 id="1-1-有序集合，可以改动"><a href="#1-1-有序集合，可以改动" class="headerlink" title="1.1 有序集合，可以改动"></a>1.1 有序集合，可以改动</h4><h4 id="1-2-常用函数"><a href="#1-2-常用函数" class="headerlink" title="1.2 常用函数"></a>1.2 常用函数</h4><blockquote>
+<ul>
+<li>len( ) 获得list元素的个数；</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li><code>list</code> 的索引从<code>0</code>开始，可以为负数<code>-1</code>表示最后一个元素，超出索引会报错：<code>IndexError</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>pop( ) 删除索引<code>i</code>位置的元素，默认是<code>-1</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>append( ) 向<code>list</code>末尾添加元素</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>insert(i，str) 指定位置添加/替换元素</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="2-tuple"><a href="#2-tuple" class="headerlink" title="2. tuple"></a>2. tuple</h3><p><code>c_tuple = (&#39;a&#39;, &#39;b&#39;, &#39;c&#39; )</code></p>
+<p><code>d_tuple = (1, )</code></p>
+<h4 id="2-1-一旦初始化，元素不能修改，不能改变。这里的不变是指指向不变"><a href="#2-1-一旦初始化，元素不能修改，不能改变。这里的不变是指指向不变" class="headerlink" title="2.1 一旦初始化，元素不能修改，不能改变。这里的不变是指指向不变"></a>2.1 一旦初始化，元素不能修改，不能改变。这里的不变是指<code>指向不变</code></h4><p><code>指tuple的每个元素指向不变。</code>比如</p>
+<p>输入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t &#x3D; (&#39;a&#39;, &#39;b&#39;, [&#39;A&#39;, &#39;B&#39;])</span><br><span class="line">t[2][0] &#x3D; &#39;c&#39;</span><br><span class="line">t[2][1] &#x3D; &#39;d&#39;</span><br><span class="line">print(t)</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(&#39;a&#39;, &#39;b&#39;, [&#39;c&#39;, &#39;d&#39;])</span><br></pre></td></tr></table></figure>
+
+<p>说明：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t是tuple，但是我们修改是list的元素，并没有修改t的元素的指向。</span><br><span class="line">t[2]依旧指向原来的list</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-2-因为-即可以表示tuple，也可以表示数学中的小括号。"><a href="#2-2-因为-即可以表示tuple，也可以表示数学中的小括号。" class="headerlink" title="2.2 因为( )即可以表示tuple，也可以表示数学中的小括号。"></a>2.2 因为<code>( )</code>即可以表示tuple，也可以表示数学中的小括号。</h4><p>所以为避免歧义，python规定，当tuple只有一个元素时，必须加逗号<code>,</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t &#x3D; (1, )</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/04/05/py-study-3/" data-id="ckgqfij2x001i75451hh47akl" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-py-study-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/04/py-study-2/" class="article-date">
+  <time datetime="2019-04-04T14:59:47.000Z" itemprop="datePublished">2019-04-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/04/py-study-2/">python学习笔记(2) - 字符串和编码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Python on <a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">liaoxuefeng</a>.</p>
+<hr>
+<h3 id="字符串和编码"><a href="#字符串和编码" class="headerlink" title="字符串和编码"></a>字符串和编码</h3><h4 id="1-比特（bit）和字节（byte）"><a href="#1-比特（bit）和字节（byte）" class="headerlink" title="1.比特（bit）和字节（byte）"></a>1.比特（bit）和字节（byte）</h4><p>一个字节就是指0或者1，计算机底层只能识别0和1.</p>
+<p>而最早的计算机在设计时，采用8个bit作为一个字节byte</p>
+<h4 id="2-ASCII编码"><a href="#2-ASCII编码" class="headerlink" title="2.ASCII编码"></a>2.ASCII编码</h4><p>由于计算机是由美国佬发明，所以，最开始只有127个字符被编码进计算机，也就是大小写英文字母、数字、和一些符号，一个字节就够用了。这个编码表就是<code>ASCII</code>编码。</p>
+<h4 id="3-GB2312编码"><a href="#3-GB2312编码" class="headerlink" title="3.GB2312编码"></a>3.GB2312编码</h4><p>但是如果换到中国，一个字节显然不够用，至少要2个字节，而且不能够和<code>ASCII</code>编码冲突，所以制定了<code>GB2312</code>编码。用来编码中文。</p>
+<h4 id="4-Unicode编码"><a href="#4-Unicode编码" class="headerlink" title="4.Unicode编码"></a>4.Unicode编码</h4><p>但是，世界上有上百种语言，比如日本的<code>Shift_JIS</code>编码，韩国的<code>Euc-kr</code>编码。各国有各国的标准，最多只能避免与最早出现的<code>ASCII</code>编码产生冲突。但是其他语言编码之间必定会有冲突。</p>
+<p>因此，<code>Unicode</code>应运而生了。它把所有语言统一到了一套编码里。防止乱码。</p>
+<p><code>Unicode</code>和<code>ASCII</code>之间的区别：<code>ASCII</code>编码是1个字节，<code>Unicode</code>编码是2个字节。</p>
+<h4 id="5-utf-8编码"><a href="#5-utf-8编码" class="headerlink" title="5.utf-8编码"></a>5.utf-8编码</h4><p>但是，新的问题又出现了，如果统一<code>Unicode</code>编码，用<code>Unicode</code>编码要比<code>ASCII</code>编码多用一倍的空间，只用英文的人肯定是不同意的啊</p>
+<p>所以，<code>utf-8</code>编码出世了。<code>utf-8</code>把<code>Unicode</code>字符根据不同的数字大小编码成1-6个字节，常用的英文字母被编码成1个字节，汉字通常是3个字节，很生僻少用的字符用4-6个字节。</p>
+<p>如此，<code>utf-8</code>还有个好处，最原始的<code>ASCII</code>编码可以被看成<code>utf-8</code>编码的一部分。</p>
+<h4 id="6-python中的编码和解码"><a href="#6-python中的编码和解码" class="headerlink" title="6.python中的编码和解码"></a>6.python中的编码和解码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#39;ABC&#39;.encode(&#39;ascii&#39;)</span><br><span class="line">b&#39;ABC&#39;</span><br><span class="line">&gt;&gt;&gt; &#39;中文&#39;.encode(&#39;utf-8&#39;)</span><br><span class="line">b&#39;\xe4\xb8\xad\xe6\x96\x87&#39;</span><br><span class="line">&gt;&gt;&gt; b&#39;ABC&#39;.decode(&#39;ascii&#39;)</span><br><span class="line">&#39;ABC&#39;</span><br><span class="line">&gt;&gt;&gt; b&#39;\xe4\xb8\xad\xe6\x96\x87&#39;.decode(&#39;utf-8&#39;)</span><br><span class="line">&#39;中文&#39;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="7-格式化字符串"><a href="#7-格式化字符串" class="headerlink" title="7.格式化字符串%"></a>7.格式化字符串<code>%</code></h4>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/04/04/py-study-2/" data-id="ckgqfij2v001f75450unuddd5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-py-study-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/04/py-study-1/" class="article-date">
+  <time datetime="2019-04-04T11:59:47.000Z" itemprop="datePublished">2019-04-04</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/python/">python</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/04/py-study-1/">python学习笔记(1) - 数据类型和变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Python on <a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/">liaoxuefeng</a>.</p>
+<hr>
+<h3 id="数据类型和变量"><a href="#数据类型和变量" class="headerlink" title="数据类型和变量"></a>数据类型和变量</h3><h4 id="1-整数"><a href="#1-整数" class="headerlink" title="1.整数"></a>1.整数</h4><p>整数在python是绝对精确，不存在四舍五入（包括除法）</p>
+<p>ps：python中除法有2种，<code>/</code>计算结果是浮点数；<code>//</code>计算结果是整数，因此也被称为地板除</p>
+<hr>
+<h4 id="2-浮点数"><a href="#2-浮点数" class="headerlink" title="2.浮点数"></a>2.浮点数</h4><p>浮点数计算可能会有四舍五入的误差</p>
+<p>很大或者很小的浮点数，需要用科学计数法，<code>eg. 1.2e-5</code></p>
+<hr>
+<h4 id="3-字符串"><a href="#3-字符串" class="headerlink" title="3.字符串"></a>3.字符串</h4><p>3.1 单引号<code>&#39;&#39;</code>和双引号<code>&quot;&quot;</code>都一样</p>
+<p>3.2 转义符\ </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- \n表示换行</span><br><span class="line">- \t表示制表符</span><br><span class="line">- \ 本身也要转义，\\表示&#96;\&#96;</span><br></pre></td></tr></table></figure>
+
+<p>如果喜欢偷懒可以直接用<code>r&#39;&#39;</code>表示’’内部的字符默认不专义</p>
+<p>3.3 分行</p>
+<p>在交互式命令需要输入多行内容时,用<code>&#39;&#39;&#39;</code>，如果是一行分开写用续行符’&#39;</p>
+<p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">print(&#39;&#39;&#39;我要分行记</span><br><span class="line">第二行了&#39;&#39;&#39;)</span><br><span class="line">print(&#39;&#39;&#39;我要分行记\</span><br><span class="line">第二行了&#39;&#39;&#39;)</span><br><span class="line">print(r&#39;&#39;&#39;我要分行记\</span><br><span class="line">第二行了&#39;&#39;&#39;)</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">我要分行记</span><br><span class="line">第二行了</span><br><span class="line">我要分行记第二行了</span><br><span class="line">我要分行记\</span><br><span class="line">第二行了</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="4-布尔值"><a href="#4-布尔值" class="headerlink" title="4.布尔值"></a>4.布尔值</h4><p>4.1取值：<code>true</code>，<code>false</code></p>
+<p>4.2运算符：<code>not</code>, <code>and</code>, <code>or</code></p>
+<hr>
+<h4 id="5-空值"><a href="#5-空值" class="headerlink" title="5.空值"></a>5.空值</h4><p>控制是python里的一个特殊的值，用<code>none</code>表示，不同于<code>0</code></p>
+<hr>
+<h4 id="5-变量"><a href="#5-变量" class="headerlink" title="5.变量"></a>5.变量</h4><p>python是动态语言，因此赋值时，不需要指定数据类型<br>而且，赋值语句的等号不同于数学的等号，比如下面的代码：</p>
+<p><code>a=&#39;ABC&#39;</code></p>
+<p>python解释器干了2件事情：</p>
+<p>1.在内存中创建了一个’ABC’的字符串；</p>
+<p>2.在内存中创建了名为<code>a</code>的变量，并将<code>a</code>指向<code>ABC</code></p>
+<hr>
+<h4 id="6-常量"><a href="#6-常量" class="headerlink" title="6.常量"></a>6.常量</h4><p>python里面没有常量，但是大写的变量是一种习惯上表示常量的用法。</p>
+<hr>
+<h4 id="7-其他数据类型"><a href="#7-其他数据类型" class="headerlink" title="7.其他数据类型"></a>7.其他数据类型</h4><p>7.1 空值</p>
+<p>7.2 list、tuple、dict、set</p>
+<hr>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/04/04/py-study-1/" data-id="ckgqfij2t001a75451nzgcik4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-cousera-ml-1 2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/03/cousera-ml-1%202/" class="article-date">
+  <time datetime="2019-04-03T14:30:18.000Z" itemprop="datePublished">2019-04-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Machine-Learning/">Machine-Learning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/03/cousera-ml-1%202/">ml-什么是机器学习？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Machine Learning on <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/machine-learning/supplement/1O0Bk/unsupervised-learning">Cousera</a>.</p>
+<hr>
+<h3 id="什么是机器学习？（三要素，两分类）"><a href="#什么是机器学习？（三要素，两分类）" class="headerlink" title="什么是机器学习？（三要素，两分类）"></a>什么是机器学习？（三要素，两分类）</h3><p>在Cousera上，吴恩达的ml课程中是这样解释：</p>
+<blockquote>
+<p>Tom Mitchell provides a more modern definition: “A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.”</p>
+</blockquote>
+<p>也就是说：一个计算机程序，根据<strong>任务T</strong>和<strong>绩效评估P</strong>，从<strong>经验E</strong>中学习。其中，程序在T中表现，由P评估，随经验E而改善。</p>
+<p><strong>举例：下棋</strong></p>
+<p>E = 下过很多盘棋的棋手的经验</p>
+<p>T = 下棋的任务</p>
+<p>P = 程序在下一盘棋中，获胜的概率</p>
+<p><strong>分类：</strong></p>
+<p>supervised learning(监督学习）, unsupervised learning（无监督学习）</p>
+<hr>
+<h3 id="Supervised-Learning-监督学习"><a href="#Supervised-Learning-监督学习" class="headerlink" title="Supervised Learning 监督学习"></a>Supervised Learning 监督学习</h3><p>引用课程原话：</p>
+<blockquote>
+<p>Supervised learning problems are categorized into “regression” and “classification” problems. In a regression problem, we are trying to predict results within a continuous output, meaning that we are trying to map input variables to some continuous function. In a classification problem, we are instead trying to predict results in a discrete output. In other words, we are trying to map input variables into discrete categories.</p>
+</blockquote>
+<p>有监督学习分为两种：回归问题和分类问题</p>
+<p><strong>举例：</strong></p>
+<p>回归Regression：给一张人物照片，根据照片判断人物的年龄 <strong>（连续的）</strong></p>
+<p>分类Classification：给一张人物照片，根据照片判断人物的性别 <strong>（离散的）</strong></p>
+<hr>
+<h3 id="Unsupervised-Learning-无监督学习"><a href="#Unsupervised-Learning-无监督学习" class="headerlink" title="Unsupervised Learning 无监督学习"></a>Unsupervised Learning 无监督学习</h3><p>引用课程原文：</p>
+<blockquote>
+<p>Unsupervised learning allows us to approach problems with little or no idea what our results should look like. We can derive structure from data where we don’t necessarily know the effect of the variables.</p>
+</blockquote>
+<blockquote>
+<p>We can derive this structure by clustering the data based on relationships among the variables in the data.</p>
+</blockquote>
+<blockquote>
+<p>With unsupervised learning there is no feedback based on the prediction results.</p>
+</blockquote>
+<p><strong>举例：</strong></p>
+<p>聚类Clustering：收集100000个不同的基因，找一个方法，自动将这些基因分成几类，同一个类别的基因在某种程度上相似或者在其他方面有关联</p>
+<blockquote>
+<p>原文：Take a collection of 1,000,000 different genes, and find a way to automatically group these genes into groups that are somehow similar or related by different variables, such as lifespan, location, roles, and so on.</p>
+</blockquote>
+<p>非聚类Non-clustering：鸡尾酒聚会算法（Cocktail Party Algorithm），下面简单描述这个算法</p>
+<blockquote>
+<p>在鸡尾酒聚会上，有很多声音，包括人声、背景音乐，通过这个算法，可以输出每个个体的声音。总之，就是从嘈杂的环境中找到有条理/有结构的东西。identifying individual voices and music from a mesh of sounds at a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cocktail_party_effect">cocktail party</a></p>
+</blockquote>
+<p>More info: <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/machine-learning/supplement/1O0Bk/unsupervised-learning">Cousera - Machine Learning</a></p>
+<p>转载/引用请注明原文: <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/2019/04/02/cousera-ml-1/">Source</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/04/03/cousera-ml-1%202/" data-id="ckgqfij2o000w75459r068i21" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-cousera-ml-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/03/cousera-ml-1/" class="article-date">
+  <time datetime="2019-04-03T14:30:18.000Z" itemprop="datePublished">2019-04-03</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Machine-Learning/">Machine-Learning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/03/cousera-ml-1/">ml-什么是机器学习？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/">MyBlog</a>! This article was writed to take note my study of Machine Learning on <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/machine-learning/supplement/1O0Bk/unsupervised-learning">Cousera</a>.</p>
+<hr>
+<h3 id="什么是机器学习？（三要素，两分类）"><a href="#什么是机器学习？（三要素，两分类）" class="headerlink" title="什么是机器学习？（三要素，两分类）"></a>什么是机器学习？（三要素，两分类）</h3><p>在Cousera上，吴恩达的ml课程中是这样解释：</p>
+<blockquote>
+<p>Tom Mitchell provides a more modern definition: “A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E.”</p>
+</blockquote>
+<p>也就是说：一个计算机程序，根据<strong>任务T</strong>和<strong>绩效评估P</strong>，从<strong>经验E</strong>中学习。其中，程序在T中表现，由P评估，随经验E而改善。</p>
+<p><strong>举例：下棋</strong></p>
+<p>E = 下过很多盘棋的棋手的经验</p>
+<p>T = 下棋的任务</p>
+<p>P = 程序在下一盘棋中，获胜的概率</p>
+<p><strong>分类：</strong></p>
+<p>supervised learning(监督学习）, unsupervised learning（无监督学习）</p>
+<hr>
+<h3 id="Supervised-Learning-监督学习"><a href="#Supervised-Learning-监督学习" class="headerlink" title="Supervised Learning 监督学习"></a>Supervised Learning 监督学习</h3><p>引用课程原话：</p>
+<blockquote>
+<p>Supervised learning problems are categorized into “regression” and “classification” problems. In a regression problem, we are trying to predict results within a continuous output, meaning that we are trying to map input variables to some continuous function. In a classification problem, we are instead trying to predict results in a discrete output. In other words, we are trying to map input variables into discrete categories.</p>
+</blockquote>
+<p>有监督学习分为两种：回归问题和分类问题</p>
+<p><strong>举例：</strong></p>
+<p>回归Regression：给一张人物照片，根据照片判断人物的年龄 <strong>（连续的）</strong></p>
+<p>分类Classification：给一张人物照片，根据照片判断人物的性别 <strong>（离散的）</strong></p>
+<hr>
+<h3 id="Unsupervised-Learning-无监督学习"><a href="#Unsupervised-Learning-无监督学习" class="headerlink" title="Unsupervised Learning 无监督学习"></a>Unsupervised Learning 无监督学习</h3><p>引用课程原文：</p>
+<blockquote>
+<p>Unsupervised learning allows us to approach problems with little or no idea what our results should look like. We can derive structure from data where we don’t necessarily know the effect of the variables.</p>
+</blockquote>
+<blockquote>
+<p>We can derive this structure by clustering the data based on relationships among the variables in the data.</p>
+</blockquote>
+<blockquote>
+<p>With unsupervised learning there is no feedback based on the prediction results.</p>
+</blockquote>
+<p><strong>举例：</strong></p>
+<p>聚类Clustering：收集100000个不同的基因，找一个方法，自动将这些基因分成几类，同一个类别的基因在某种程度上相似或者在其他方面有关联</p>
+<blockquote>
+<p>原文：Take a collection of 1,000,000 different genes, and find a way to automatically group these genes into groups that are somehow similar or related by different variables, such as lifespan, location, roles, and so on.</p>
+</blockquote>
+<p>非聚类Non-clustering：鸡尾酒聚会算法（Cocktail Party Algorithm），下面简单描述这个算法</p>
+<blockquote>
+<p>在鸡尾酒聚会上，有很多声音，包括人声、背景音乐，通过这个算法，可以输出每个个体的声音。总之，就是从嘈杂的环境中找到有条理/有结构的东西。identifying individual voices and music from a mesh of sounds at a <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cocktail_party_effect">cocktail party</a></p>
+</blockquote>
+<p>More info: <a target="_blank" rel="noopener" href="https://www.coursera.org/learn/machine-learning/supplement/1O0Bk/unsupervised-learning">Cousera - Machine Learning</a></p>
+<p>转载/引用请注明原文: <a target="_blank" rel="noopener" href="https://five-second-curry-stick.github.io/2019/04/02/cousera-ml-1/">Source</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2019/04/03/cousera-ml-1/" data-id="ckgqfij2p000z75451222747d" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Machine-Learning/">Machine-Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/deeplearning/">deeplearning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/">数值优化</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/">数学之美</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/cousera/" rel="tag">cousera</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/deeplearning/" rel="tag">deeplearning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/" rel="tag">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" rel="tag">数值优化</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" rel="tag">数学之美</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" rel="tag">文献理解</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/cousera/" style="font-size: 15px;">cousera</a> <a href="/tags/deeplearning/" style="font-size: 20px;">deeplearning</a> <a href="/tags/python/" style="font-size: 12.5px;">python</a> <a href="/tags/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%96/" style="font-size: 12.5px;">数值优化</a> <a href="/tags/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E/" style="font-size: 17.5px;">数学之美</a> <a href="/tags/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A3/" style="font-size: 10px;">文献理解</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/10/">十月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/09/">九月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/08/">八月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">四月 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/10/09/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%964%20-%20%E7%BA%BF%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95%E7%9A%84%E6%94%B6%E6%95%9B%E6%80%A7%E5%92%8C%E6%94%B6%E6%95%9B%E9%80%9F%E5%BA%A6/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/10/05/%E4%B8%8D%E5%AE%8C%E6%95%B4/%E6%96%87%E7%8C%AE%E7%90%86%E8%A7%A31%20-%20LCF/">文献理解 - LCF</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/26/%E6%95%B0%E5%AD%A6%E4%B9%8B%E7%BE%8E16%20-%20%E4%BF%A1%E6%81%AF%E6%8C%87%E7%BA%B9/">数学之美16 - 信息指纹及其应用</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/25/DL12%20-%20CNN%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/">DL12 - CNN基础知识</a>
+          </li>
+        
+          <li>
+            <a href="/2019/09/22/%E6%95%B0%E5%80%BC%E4%BC%98%E5%8C%963%20-%20%E7%BA%BF%E6%80%A7%E6%90%9C%E7%B4%A2%E6%96%B9%E6%B3%95/">数值优化3 - 线搜索方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2020 Jianhao Yang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
